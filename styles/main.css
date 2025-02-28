@@ -1,0 +1,17 @@
+:root{
+    --header--color:#244065;
+    --bg--color: whitesmoke;
+}
+body{
+    background-color: var(--bg--color);
+}
+
+.link{
+    text-decoration: none;
+}
+
+footer{
+    
+    background-color: white;
+}
+

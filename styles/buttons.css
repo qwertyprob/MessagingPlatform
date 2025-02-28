@@ -1,0 +1,81 @@
+.btn-no-bg {
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    transition: background-color 0.2s ease-in-out;
+    border-radius: 5px; 
+}
+
+.btn-no-bg:hover, 
+.btn-no-bg:focus {
+    background-color: rgba(255, 255, 255, 0.1); 
+    font-size: 1.05em;
+    transition: font-size 0.3s ease-in-out;
+    color: white;
+    
+
+}
+
+.btn-no-bg:active {
+    background-color: rgba(255, 255, 255, 0.3); 
+    transition: background-color 0.05s ease-in-out; 
+    color: white;
+
+}
+
+/*dropdown custom */
+
+.dropdown-item {
+    color: inherit;
+    transition: background-color 0.2s ease-in-out;
+    background-color: var(--bg--color);
+}
+
+.dropdown-item:hover, 
+.dropdown-item:focus, 
+.dropdown-item:active {
+    background-color: rgba(128, 128, 128, 0.2) !important;
+    font-size: 1.05em;
+    transition: font-size 0.3s ease-in-out;
+    color: inherit;
+}
+
+btn-no-bg-black{
+    background-color: transparent;
+    border: none;
+    color: black;
+    padding: 5px 10px;
+    transition: background-color 0.2s ease-in-out;
+    border-radius: 5px; 
+
+}
+.btn-no-bg-black:hover, 
+.btn-no-bg-black:focus {
+    background-color: rgba(192, 165, 165, 0.1); 
+    font-size: 1.05em;
+    transition: font-size 0.3s ease-in-out;
+    color: black;
+
+}
+
+.btn-no-bg-black:active {
+    background-color: #d6d6d6;
+    transition: background-color 0.05s ease-in-out; 
+    color: black;
+    
+
+}
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    
+}
+
+.nav-item.dropdown:hover .nav-link {
+        background-color: #d6d6d6;
+        border-radius: 5px;
+        font-size: 1.05em;
+        transition: font-size 0.3s ease-in-out;
+        transition: background-color 0.3s ease-in-out;
+}
+
