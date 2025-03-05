@@ -50,7 +50,13 @@
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/icons/settings.svg" width="20" class="me-2"> Settings</a></li>
                                 <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/icons/lock.svg" width="20" class="me-2"> Lock Screen</a></li>
-                                <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/icons/exit.svg" width="20" class="me-2"> Exit</a></li>
+<li>
+    <form method="post" action="/Account/Logout" style="display: inline;">
+        <button type="submit" class="dropdown-item d-flex align-items-center" style="background: none; border: none;">
+            <img src="~/img/icons/exit.svg" width="20" class="me-2"> Exit
+        </button>
+    </form>
+</li>
                             </ul>
                         </div>
                     </div>
