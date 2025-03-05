@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using MessagingProject.Abstractions;
 using Microsoft.AspNetCore.Authentication;
+using System.Net.Http.Headers;
 
 namespace MessagingProject.Services
 {
@@ -47,19 +48,25 @@ namespace MessagingProject.Services
 
             public async Task SignInUserAsync(AuthResponseModel authResponse)
             {
-                var claims = new[]
+                var claims = new List<Claim>
                 {
-            new Claim(ClaimTypes.Name, authResponse.User.Email),
-            new Claim(ClaimTypes.Surname, authResponse.User.LastName),
-            new Claim("Token", authResponse.Token),
-        };
+                    new Claim("FirstName", authResponse.User.FirstName),
+                    new Claim("Surname", authResponse.User.LastName),
+                    new Claim(ClaimTypes.Email, authResponse.User.Email),
+                    new Claim("Token", authResponse.Token)
+                };
 
-                var claimsIdentity = new ClaimsIdentity(claims, "login");
-                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                var identity = new ClaimsIdentity(claims, "login");
+                var principal = new ClaimsPrincipal(identity);
 
                 // Авторизуем пользователя
-                await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+                await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
             }
+
+            
+
+
+
         }
 
 

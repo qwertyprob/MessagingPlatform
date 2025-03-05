@@ -1,4 +1,9 @@
-﻿
+﻿@{
+    var claims = User.Claims;
+    var firstname = claims.FirstOrDefault(c => c.Type == "FirstName")?.Value;
+    var lastname = claims.FirstOrDefault(c => c.Type == "Surname")?.Value;
+    
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,30 +38,42 @@
 
                     <div class="d-flex justify-content-between w-100 d-md-none">
                         <div class="dropdown">
-                            <a class="btn btn-no-bg dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Languages
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/lang/ru.png" width="20" class="me-2"> Русский</a></li>
-                                <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/lang/eng.png" width="20" class="me-2"> English</a></li>
-                                <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/lang/ro.webp" width="20" class="me-2"> Romana</a></li>
+                            <button class="btn btn-no-bg dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="~/img/lang/ru.png" width="20" class="me-2" id="selectedLangImage"> Русский
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="#" onclick="changeLanguage('ru', '~/img/lang/ru.png', 'Русский')">
+                                        <img src="~/img/lang/ru.png" width="20" class="me-2"> Русский
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="#" onclick="changeLanguage('en', '~/img/lang/eng.png', 'English')">
+                                        <img src="~/img/lang/eng.png" width="20" class="me-2"> English
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="#" onclick="changeLanguage('ro', '~/img/lang/ro.webp', 'Romana')">
+                                        <img src="~/img/lang/ro.webp" width="20" class="me-2"> Romana
+                                    </a>
+                                </li>
                             </ul>
                         </div>
 
                         <div class="dropdown">
                             <a class="btn btn-no-bg dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                First name Last name
+                                @lastname @firstname
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/icons/settings.svg" width="20" class="me-2"> Settings</a></li>
                                 <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/icons/lock.svg" width="20" class="me-2"> Lock Screen</a></li>
-<li>
-    <form method="post" action="/Account/Logout" style="display: inline;">
-        <button type="submit" class="dropdown-item d-flex align-items-center" style="background: none; border: none;">
-            <img src="~/img/icons/exit.svg" width="20" class="me-2"> Exit
-        </button>
-    </form>
-</li>
+                            <li>
+                                <form method="post" action="/Account/Logout" style="display: inline;">
+                                    <button type="submit" class="dropdown-item d-flex align-items-center" style="background: none; border: none;">
+                                        <img src="~/img/icons/exit.svg" width="20" class="me-2"> Exit
+                                    </button>
+                                </form>
+                            </li>
                             </ul>
                         </div>
                     </div>
@@ -75,12 +92,12 @@
 
                         <div class="dropdown">
                             <a class="btn btn-no-bg dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                First name Last name
+                                @lastname @firstname
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/icons/settings.svg" width="20" class="me-2"> Settings</a></li>
                                 <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/icons/lock.svg" width="20" class="me-2"> Lock Screen</a></li>
-                                <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/icons/exit.svg" width="20" class="me-2"> Exit</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center" href="/Logout"><img src="~/img/icons/exit.svg" width="20" class="me-2"> Exit</a></li>
                             </ul>
                         </div>
                     </div>

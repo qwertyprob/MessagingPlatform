@@ -6,6 +6,7 @@ namespace MessagingProject.Abstractions
     {
         Task<AuthResponseModel> AuthenticateUserAsync(LoginViewModel model);
         Task SignInUserAsync(AuthResponseModel authResponse);
+        
     }
 
 }

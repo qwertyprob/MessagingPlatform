@@ -28,6 +28,7 @@ namespace MessagingProject
             builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             //HttpClientFactory 
 

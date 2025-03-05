@@ -13,22 +13,23 @@ namespace MessagingProject.Controllers
 
     public class AuthController : Controller
     {
-        private readonly IHttpClientFactory _client;
         private readonly IAuthService _authService;
+        private readonly IUserService _userService;
 
-        public AuthController(IHttpClientFactory client, IAuthService auth)
+        public AuthController(IAuthService auth, IUserService userService)
         {
-            _client = client;
             _authService = auth;
-
+            _userService = userService;
         }
         [Route("/Login")]
         public IActionResult Index()
         {
-
+            
             return View();
         }
-        [HttpPost]
+        
+        [HttpGet]
+        [Route("/Logout")]
         public async Task<IActionResult> Logout()
         {
             try
@@ -48,23 +49,25 @@ namespace MessagingProject.Controllers
         [Route("/Get")]
         public IActionResult GetClaimsResult()
         {
-            using (var client = new HttpClient())
+            try
             {
                 var claims = User.Claims;
-                var token = claims.SingleOrDefault(x => x.Type == "Token").Value;
-                client.BaseAddress= new Uri("https://dev.edi.md/ISAuthService/json/GetProfileInfo");
-                var response = client.GetAsync(client.BaseAddress + $"?Token={token}").Result;
-                if (response.IsSuccessStatusCode)
+                var token = claims.FirstOrDefault(c => c.Type == "Token")?.Value;
+                var userInfo = _userService.GetProfileInfo(token);
+
+                if (userInfo.IsCompletedSuccessfully)
                 {
-                    var content = response.Content.ReadAsStringAsync().Result;
-                    var user = JsonConvert.DeserializeObject<AuthResponseModel>(content);
-                    return Ok(user);
+                    return Ok(userInfo.Result);
                 }
-                return BadRequest("Invalid token.");
+
+                return BadRequest("User info not found.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
         [HttpPost]
-        [Route("/LoginUser")]
         public async Task<IActionResult> LoginUser([FromForm] LoginViewModel model)
         {
             try
