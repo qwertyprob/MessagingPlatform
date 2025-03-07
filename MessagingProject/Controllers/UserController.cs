@@ -22,10 +22,20 @@ namespace MessagingProject.Controllers
         {
             try
             {
-                var token = _userService.GetToken().Result;
+                var token = _userService.GetToken();
                 var user = _userService.GetProfileInfo(token).Result;
 
-                return Ok(user);
+                //В высоком регистре
+                var userDictionary = new Dictionary<string, string>
+                {
+                    { "Company", user.Company },
+                    { "Email", user.Email },
+                    { "FullName", user.FullName },
+                    { "UiLanguage", user.UiLanguage.ToString() },
+                    { "Password", user.Password },
+                    { "Token", user.Token }
+                };
+                return Ok(userDictionary);
 
             }
             catch (Exception ex)
@@ -33,26 +43,6 @@ namespace MessagingProject.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet]
-        [Route("/User")]
-        public async Task<IActionResult> User()
-        {
-            try
-            {
-                var token = _userService.GetToken().Result;
-                var user = _userService.GetProfileInfo(token).Result;
-
-                string list = user.FullName;
-
-
-                return Json(new Dictionary<string, string> { {"FullName", list } });
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
+        
     }
 }

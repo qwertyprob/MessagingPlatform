@@ -1,28 +1,34 @@
-:root{
-    --header--color:#244065;
+:root {
+    --header--color: #244065;
     --bg--color: whitesmoke;
 }
-body{
 
+body, html {
     background-color: var(--bg--color);
+    height: 100%;
+    margin: 0; 
+    display: flex;
+    flex-direction: column; 
 }
 
 
-.link{
-    text-decoration: none;
+.container {
+    flex: 1;
+    
+    
 }
-
-
 
 footer {
     background-color: white;
-    
-  
+    margin-top: auto; 
+    padding: 20px; 
 }
+
     footer * {
-        
         box-shadow: none !important;
         background-image: none !important;
     }
 
-
+.link {
+    text-decoration: none;
+}

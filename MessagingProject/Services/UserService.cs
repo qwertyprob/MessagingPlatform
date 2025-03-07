@@ -16,27 +16,29 @@ namespace MessagingProject.Services
 
         }
 
-        public async Task<UserClaimsInfoResponse> GetProfileInfo(string token)
+        public Task<UserClaimsInfoResponse> GetProfileInfo(string token)
         {
 
             var user = _httpContext.User;
             var claims = user.Claims;
+            var FirstName = claims.FirstOrDefault(c => c.Type == "FirstName")?.Value;
+            var LastName = claims.FirstOrDefault(c => c.Type == "Surname")?.Value;
+
             var userInfo = new UserClaimsInfoResponse
             {
                 Company = claims.FirstOrDefault(c => c.Type == "Company")?.Value,
                 Email = claims.FirstOrDefault(c => c.Type == "Email")?.Value,
-                FirstName = claims.FirstOrDefault(c => c.Type == "FirstName")?.Value,
-                LastName = claims.FirstOrDefault(c => c.Type == "Surname")?.Value,
-                UiLanguage = 0,
+                FullName = $"{FirstName} {LastName}",
+                UiLanguage = claims.FirstOrDefault(c => c.Type == "UiLanguage")?.Value,
                 Password = claims.FirstOrDefault(c => c.Type == "Password")?.Value,
                 Token = token
 
             };
 
-            return userInfo;
+            return Task.FromResult(userInfo);
         }
 
-        public async Task<string> GetToken()
+        public string GetToken()
         {
 
             var user = _httpContext.User;
@@ -56,7 +58,7 @@ namespace MessagingProject.Services
 
         public async Task<bool> IsAuthenticated(string token)
         {
-            var profileInfo = await GetProfileInfo(token);
+            var profileInfo =  await GetProfileInfo(token);
 
             return profileInfo != null && !string.IsNullOrEmpty(profileInfo.Token);
         }
