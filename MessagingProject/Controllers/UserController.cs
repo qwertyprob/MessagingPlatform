@@ -15,6 +15,7 @@ namespace MessagingProject.Controllers
             _userService = userService;
             _httpClient = httpClient;
 
+
         }
         [HttpGet]
         [Route("/GetUserByClaims")]
@@ -36,6 +37,8 @@ namespace MessagingProject.Controllers
                     { "Token", user.Token }
                 };
 
+                
+
                 return Ok(userDictionary);
 
             }
@@ -45,5 +48,6 @@ namespace MessagingProject.Controllers
             }
         }
         
+
     }
 }

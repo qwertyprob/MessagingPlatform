@@ -1,5 +1,7 @@
 ﻿using MessagingProject.Abstractions;
 using MessagingProject.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Newtonsoft.Json;
 using System.Security.Claims;
 
@@ -19,7 +21,6 @@ namespace MessagingProject.Services
 
         public Task<UserClaimsInfoResponse> GetProfileInfo(string token)
         {
-
             var user = _httpContext.User;
             var claims = user.Claims;
             var FirstName = claims.FirstOrDefault(c => c.Type == "FirstName")?.Value;
@@ -29,40 +30,42 @@ namespace MessagingProject.Services
             {
                 Company = claims.FirstOrDefault(c => c.Type == "Company")?.Value,
                 Email = claims.FirstOrDefault(c => c.Type == "Email")?.Value,
-                FullName = $"{FirstName} {LastName}",
+                FullName = $"{LastName} {FirstName}",
                 UiLanguage = claims.FirstOrDefault(c => c.Type == "UiLanguage")?.Value,
                 Password = claims.FirstOrDefault(c => c.Type == "Password")?.Value,
                 Token = token
-
             };
+
             userInfo.UiLanguage = SetLanguage(userInfo.UiLanguage);
+            UpdateUiLanguageClaims(userInfo.UiLanguage);
 
-
-
-
+            // Возвращаем обновленные данные пользователя
             return Task.FromResult(userInfo);
         }
+
         private string SetLanguage(string uiLanguage)
         {
             switch (uiLanguage)
             {
                 case "1":
-                    uiLanguage = "ro";  
+                    uiLanguage = "ro";
                     break;
-
                 case "2":
-                    uiLanguage = "ru";  
+                    uiLanguage = "ru";
                     break;
-
                 case "0":
-                    uiLanguage = "en";  
+                    uiLanguage = "en";
                     break;
-
                 default:
-                    uiLanguage = "en";  
+                    uiLanguage = "en";
                     break;
             }
 
+            return uiLanguage;
+        }
+
+        private async void UpdateUiLanguageClaims(string uiLanguage)
+        {
             var user = _httpContext.User;
             var claims = user.Claims.ToList();
 
@@ -74,13 +77,16 @@ namespace MessagingProject.Services
 
             claims.Add(new Claim("UiLanguage", uiLanguage));
 
-            var identity = new ClaimsIdentity(claims, "custom"); // "custom" — тип аутентификации
+            var identity = new ClaimsIdentity(claims, "login");
             var newUser = new ClaimsPrincipal(identity);
 
             _httpContext.User = newUser;
 
-            return uiLanguage;
+            // Обновляем куки с актуальными данными
+            await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, newUser);
         }
+
+
 
         public string GetToken()
         {
@@ -99,6 +105,8 @@ namespace MessagingProject.Services
             return null;
 
         }
+
+        
 
         public async Task<bool> IsAuthenticated(string token)
         {

@@ -3,7 +3,9 @@
     var firstname = claims.FirstOrDefault(c => c.Type == "FirstName")?.Value;
     var lastname = claims.FirstOrDefault(c => c.Type == "Surname")?.Value;
     var uiLanguage = claims.FirstOrDefault(c => c.Type == "UiLanguage")?.Value;
-    
+
+   
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -68,11 +70,7 @@
                                 <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/icons/settings.svg" width="20" class="me-2"> Settings</a></li>
                                 <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/icons/lock.svg" width="20" class="me-2"> Lock Screen</a></li>
                                 <li>
-                                    <form method="post" action="/Account/Logout" style="display: inline;">
-                                        <button type="submit" class="dropdown-item d-flex align-items-center" style="background: none; border: none;">
-                                            <img src="~/img/icons/exit.svg" width="20" class="me-2"> Exit
-                                        </button>
-                                    </form>
+                                <li><a class="dropdown-item d-flex align-items-center" href="/Logout"><img src="~/img/icons/exit.svg" width="20" class="me-2"> Exit</a></li>
                                 </li>
                             </ul>
                         </div>
@@ -80,8 +78,8 @@
 
                     <div class="d-none d-md-flex flex-row gap-2">
                         <div class="dropdown">
-                            <a class="btn btn-no-bg dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                @uiLanguage
+                            <a class="btn btn-no-bg dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">@uiLanguage
+                                
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/lang/ru.png" width="20" class="me-2"> Русский</a></li>
@@ -95,7 +93,7 @@
                                 @lastname @firstname
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/icons/settings.svg" width="20" class="me-2"> Settings</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center" href="/ProfileInfo"><img src="~/img/icons/settings.svg" width="20" class="me-2"> Settings</a></li>
                                 <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/icons/lock.svg" width="20" class="me-2"> Lock Screen</a></li>
                                 <li><a class="dropdown-item d-flex align-items-center" href="/Logout"><img src="~/img/icons/exit.svg" width="20" class="me-2"> Exit</a></li>
                             </ul>
@@ -155,6 +153,7 @@
     </nav>
 
 
+    
 
 
 
@@ -188,6 +187,8 @@
             setInterval(checkToken, 30000);
             GetClaimsInfo();
         });
+
+        
     </script>
 
 </body>

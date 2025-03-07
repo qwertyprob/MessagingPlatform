@@ -30,7 +30,9 @@ namespace MessagingProject.Models
         public string PhoneNumber { get; set; }
 
         [JsonProperty("UiLanguage")]
-        public  int UiLanguage { get; set; }
-    }
+        public int UiLanguage { get; set; }
 
-}
+    }
+}  
+
+

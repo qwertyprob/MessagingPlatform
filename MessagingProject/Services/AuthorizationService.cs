@@ -16,11 +16,13 @@ namespace MessagingProject.Services
         public class AuthService : IAuthService
         {
             private readonly HttpClient _client;
+            private readonly IUserService _userService;
             private readonly HttpContext _httpContext;
 
-            public AuthService(HttpClient client,IHttpContextAccessor context)
+            public AuthService(HttpClient client,IHttpContextAccessor context,IUserService userService)
             {
                 _client = client;
+                _userService = userService;
                 _client.BaseAddress = new Uri("https://dev.edi.md/ISAuthService/json/AuthorizeUser");
                 _httpContext = context.HttpContext;
             }
@@ -66,10 +68,7 @@ namespace MessagingProject.Services
                 {
                     claims.Add(new Claim("Token", authResponse.Token));
                 }
-                else
-                {
-                    claims.Add(new Claim("Token", authResponse.Token));
-                }
+                
 
                 var identity = new ClaimsIdentity(claims, "login");
                 var principal = new ClaimsPrincipal(identity);
@@ -78,34 +77,8 @@ namespace MessagingProject.Services
             }
 
 
-            private async Task RefreshToken(string token)
-            {
-                var urlRefreshToken = "https://dev.edi.md/ISAuthService/json/RefreshToken";
-
-                // Отправляем запрос на обновление токена
-                var response = await _client.GetAsync($"{urlRefreshToken}?Token={token}");
-                var content = await response.Content.ReadAsStringAsync();
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var refreshToken = JsonConvert.DeserializeObject<AuthResponseModel>(content).Token;
-
-                    var claims = new List<Claim>(_httpContext.User.Claims)
-                    {
-                        new Claim("Token", refreshToken)  // Обновляем токен
-                    };
-
-                    var identity = new ClaimsIdentity(claims, "login");
-
-                    var principal = new ClaimsPrincipal(identity);
-
-                    await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-                }
-                else
-                {
-                    throw new UnauthorizedAccessException("Unable to refresh token.");
-                }
-            }
+            
+            
 
 
 

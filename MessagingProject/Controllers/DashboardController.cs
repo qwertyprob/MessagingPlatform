@@ -22,12 +22,11 @@ namespace MessagingProject.Controllers
         {
             ViewData["Title"] = "Главная";
 
-            //var tokenClaim = User.Claims.SingleOrDefault(x => x.Type == "Token")?.Value;
+            var userClaims = User.Claims;
 
-            //if (string.IsNullOrEmpty(tokenClaim) || !await _userService.IsAuthenticated(tokenClaim))
-            //{
-            //    return RedirectToAction("Logout", "Auth");
-            //}
+            var uiLanguage = userClaims.FirstOrDefault(c => c.Type == "UiLanguage")?.Value;
+
+            ViewData["UiLanguage"] = uiLanguage;
 
             return View();
         }
