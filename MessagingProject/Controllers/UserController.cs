@@ -35,6 +35,7 @@ namespace MessagingProject.Controllers
                     { "Password", user.Password },
                     { "Token", user.Token }
                 };
+
                 return Ok(userDictionary);
 
             }

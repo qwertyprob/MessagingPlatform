@@ -1,6 +1,7 @@
 ﻿using MessagingProject.Abstractions;
 using MessagingProject.Models;
 using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace MessagingProject.Services
 {
@@ -34,8 +35,51 @@ namespace MessagingProject.Services
                 Token = token
 
             };
+            userInfo.UiLanguage = SetLanguage(userInfo.UiLanguage);
+
+
+
 
             return Task.FromResult(userInfo);
+        }
+        private string SetLanguage(string uiLanguage)
+        {
+            switch (uiLanguage)
+            {
+                case "1":
+                    uiLanguage = "ro";  
+                    break;
+
+                case "2":
+                    uiLanguage = "ru";  
+                    break;
+
+                case "0":
+                    uiLanguage = "en";  
+                    break;
+
+                default:
+                    uiLanguage = "en";  
+                    break;
+            }
+
+            var user = _httpContext.User;
+            var claims = user.Claims.ToList();
+
+            var uiLanguageClaim = claims.FirstOrDefault(c => c.Type == "UiLanguage");
+            if (uiLanguageClaim != null)
+            {
+                claims.Remove(uiLanguageClaim);
+            }
+
+            claims.Add(new Claim("UiLanguage", uiLanguage));
+
+            var identity = new ClaimsIdentity(claims, "custom"); // "custom" — тип аутентификации
+            var newUser = new ClaimsPrincipal(identity);
+
+            _httpContext.User = newUser;
+
+            return uiLanguage;
         }
 
         public string GetToken()

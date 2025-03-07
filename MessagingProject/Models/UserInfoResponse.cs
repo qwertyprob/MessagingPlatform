@@ -11,10 +11,5 @@ namespace MessagingProject.Models
         public string UiLanguage { get; set; }
         public string Token { get; set; }
     }
-    public enum UiLanguage
-    {
-        English = 1,
-        Russian = 2,
-        Romanian = 3
-    }
+    
 }
