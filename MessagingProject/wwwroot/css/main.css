@@ -19,5 +19,10 @@ footer {
     
   
 }
+    footer * {
+        
+        box-shadow: none !important;
+        background-image: none !important;
+    }
 
 

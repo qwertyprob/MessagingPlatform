@@ -1,5 +1,7 @@
 using MessagingProject.Abstractions;
 using MessagingProject.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
 using static MessagingProject.Services.AuthorizationService;
@@ -21,7 +23,9 @@ namespace MessagingProject
                                 options.LogoutPath = "/Logout";
                                 options.Cookie.HttpOnly = true;
                                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+
                             });
+
 
 
             builder.Services.AddAuthorization();
@@ -51,7 +55,9 @@ namespace MessagingProject
             app.UseStaticFiles();
 
             app.UseRouting();
+            
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
@@ -64,18 +70,8 @@ namespace MessagingProject
                 pattern: "{controller=Contacts}/{action=ContactLists}"
             );
 
+
             
-
-
-
-
-
-
-
-
-
-
-
 
 
             app.Run();
