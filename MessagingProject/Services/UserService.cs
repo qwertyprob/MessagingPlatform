@@ -7,24 +7,51 @@ namespace MessagingProject.Services
     public class UserService : IUserService
     {
         private readonly HttpClient _client;
-        public UserService(HttpClient client)
+        private readonly HttpContext _httpContext;
+        public UserService(HttpClient client,IHttpContextAccessor httpContext)
         {
             _client = client;
+            _client.BaseAddress = new Uri("https://dev.edi.md/ISAuthService/json/GetProfileInfo");
+            _httpContext = httpContext.HttpContext;
 
         }
 
-        public async Task<AuthResponseModel> GetProfileInfo(string token)
+        public async Task<UserClaimsInfoResponse> GetProfileInfo(string token)
         {
 
-            _client.BaseAddress = new Uri("https://dev.edi.md/ISAuthService/json/GetProfileInfo");
-            var response = _client.GetAsync(_client.BaseAddress + $"?Token={token}").Result;
-
-            if (response.IsSuccessStatusCode)
+            var user = _httpContext.User;
+            var claims = user.Claims;
+            var userInfo = new UserClaimsInfoResponse
             {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<AuthResponseModel>(content);
+                Company = claims.FirstOrDefault(c => c.Type == "Company")?.Value,
+                Email = claims.FirstOrDefault(c => c.Type == "Email")?.Value,
+                FirstName = claims.FirstOrDefault(c => c.Type == "FirstName")?.Value,
+                LastName = claims.FirstOrDefault(c => c.Type == "Surname")?.Value,
+                UiLanguage = 0,
+                Password = claims.FirstOrDefault(c => c.Type == "Password")?.Value,
+                Token = token
+
+            };
+
+            return userInfo;
+        }
+
+        public async Task<string> GetToken()
+        {
+
+            var user = _httpContext.User;
+            var claims = user.Claims;
+
+            var token = claims.FirstOrDefault(c => c.Type == "Token")?.Value;
+
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                return token;
             }
+
             return null;
+
         }
 
         public async Task<bool> IsAuthenticated(string token)

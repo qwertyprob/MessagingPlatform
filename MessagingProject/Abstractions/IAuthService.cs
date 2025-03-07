@@ -1,11 +1,12 @@
 ﻿using MessagingProject.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MessagingProject.Abstractions
 {
     public interface IAuthService
     {
         Task<AuthResponseModel> AuthenticateUserAsync(LoginViewModel model);
-        Task SignInUserAsync(AuthResponseModel authResponse);
+        Task SignInUserAsync(AuthResponseModel authResponse, [FromForm] LoginViewModel model);
         
     }
 

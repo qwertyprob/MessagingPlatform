@@ -45,28 +45,7 @@ namespace MessagingProject.Controllers
         }
 
 
-        [HttpGet]
-        [Route("/Get")]
-        public IActionResult GetClaimsResult()
-        {
-            try
-            {
-                var claims = User.Claims;
-                var token = claims.FirstOrDefault(c => c.Type == "Token")?.Value;
-                var userInfo = _userService.GetProfileInfo(token);
-
-                if (userInfo.IsCompletedSuccessfully)
-                {
-                    return Ok(userInfo.Result);
-                }
-
-                return BadRequest("User info not found.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
+        
         [HttpPost]
         public async Task<IActionResult> LoginUser([FromForm] LoginViewModel model)
         {
@@ -74,7 +53,7 @@ namespace MessagingProject.Controllers
             {
                 var authResponse = await _authService.AuthenticateUserAsync(model);
 
-                await _authService.SignInUserAsync(authResponse);
+                await _authService.SignInUserAsync(authResponse, model);
 
                 return Redirect("/");
             }

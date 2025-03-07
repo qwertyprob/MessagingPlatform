@@ -3,7 +3,7 @@
 // Функция для проверки токена
 function checkToken() {
     $.ajax({
-        url: "/Get",
+        url: "/GetUserByClaims",
         type: "GET",
         success: function (response) {
             if (!response.isValid) {
@@ -12,6 +12,17 @@ function checkToken() {
         },
         error: function () {
             window.location.href = "/Login";
+        }
+    });
+}
+
+function GetClaimsInfo() {
+    $.ajax({
+        url: "/GetUserByClaims",
+        type: "GET",
+        success: function (response) {
+
+            $('#response-container').html(response.result);
         }
     });
 }

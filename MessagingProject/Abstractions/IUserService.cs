@@ -4,7 +4,8 @@ namespace MessagingProject.Abstractions
 {
     public interface IUserService
     {
-        Task<AuthResponseModel> GetProfileInfo(string token);
+        Task<UserClaimsInfoResponse> GetProfileInfo(string token);
+        Task<string> GetToken();
         Task<bool> IsAuthenticated(string token);
     }
 }
