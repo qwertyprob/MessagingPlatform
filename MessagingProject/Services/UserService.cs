@@ -108,7 +108,7 @@ namespace MessagingProject.Services
                 return token;
             }
 
-            return null;
+            return string.Empty;
 
         }
 

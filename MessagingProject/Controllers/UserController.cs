@@ -22,7 +22,7 @@ namespace MessagingProject.Controllers
         }
         [HttpGet]
         [Route("/GetUserByClaims")]
-        public  async Task<IActionResult> GetClaimsResult()
+        public  Task<IActionResult> GetClaimsResult()
         {
             try
             {
@@ -42,14 +42,16 @@ namespace MessagingProject.Controllers
 
                 
 
-                return Ok(userDictionary);
+                return Task.FromResult<IActionResult>(Ok(userDictionary));
 
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return Task.FromResult<IActionResult>(StatusCode(500, $"Internal server error: {ex.Message}"));
             }
         }
+
+
         [AllowAnonymous]
         public IActionResult ChangeLanguage(string language)
         {

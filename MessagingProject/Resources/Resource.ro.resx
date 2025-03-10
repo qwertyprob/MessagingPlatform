@@ -174,4 +174,7 @@
   <data name="Exit" xml:space="preserve">
     <value>Deconectare</value>
   </data>
+  <data name="Errror" xml:space="preserve">
+    <value>Eroare</value>
+  </data>
 </root>

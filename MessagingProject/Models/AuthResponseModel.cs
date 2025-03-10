@@ -5,10 +5,10 @@ namespace MessagingProject.Models
     public class AuthResponseModel
     {
         [JsonProperty("Token")]
-        public string Token { get; set; }
+        public required string Token { get; set; }
         [JsonProperty("ErrorMessage")]
-        public string ErrorMessage { get; set; }
+        public required string ErrorMessage { get; set; }
         [JsonProperty("User")]
-        public UserResponse User { get; set; }
+        public required UserResponse User { get; set; }
     }
 }

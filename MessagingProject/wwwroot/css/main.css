@@ -40,3 +40,19 @@ a, li, ul {
     border: none !important;
     color: var(--header--color) !important;
 }
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+#timer {
+    font-weight: bold;
+    color: red;
+    animation: fade-out 1s infinite alternate;
+}

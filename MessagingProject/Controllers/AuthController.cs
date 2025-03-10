@@ -74,6 +74,7 @@ namespace MessagingProject.Controllers
         [Route("/AuthRecoverPassword")]
         public IActionResult AuthRecoverPassword()
         {
+           
             return View();
         }
         [HttpPost]
@@ -81,20 +82,25 @@ namespace MessagingProject.Controllers
         {
             try
             {
+              
                 var authResponse = await _authService.ResetPassword(email);
+
                 return Redirect("/");
+
             }
             catch (UnauthorizedAccessException)
             {
-                return Unauthorized("Invalid credentials or token.");
+                ViewBag.ErrorMessage = "Invalid credentials or token.";
+                return Redirect("/");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                ViewBag.ErrorMessage = $"$\"Internal server error: {ex.Message}\"";
+                return Redirect("/");
             }
 
-            return BadRequest(email);
-        }
+            
+         }
 
         
     }

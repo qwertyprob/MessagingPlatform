@@ -61,7 +61,7 @@ namespace MessagingProject.Services
                     new Claim("Token", authResponse.Token),
                     new Claim("UiLanguage", authResponse?.User?.UiLanguage.ToString() ?? "0"),
                     new Claim("Password", model.Password),
-                    new Claim("FullName", $"{authResponse.User.FirstName} {authResponse.User.LastName}")
+                    new Claim("FullName", $"{authResponse?.User.FirstName} {authResponse?.User.LastName}")
                 };
 
                 var currentTokenClaim = _httpContext.User.Claims.FirstOrDefault(c => c.Type == "Token");
@@ -83,6 +83,7 @@ namespace MessagingProject.Services
             {
                 if (string.IsNullOrEmpty(email))
                 {
+                   
                     throw new ArgumentException("Email cannot be null or empty", nameof(email));
                 }
                 var requestData = new { Email = email }; // Создаем объект

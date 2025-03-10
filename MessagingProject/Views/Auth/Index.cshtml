@@ -4,18 +4,16 @@
 @{
     ViewData["Title"] = "Login";
     Layout = "_AuthLayout";
-}
 
+}
 
 <div class="container">
     <div class="row">
 
         <div class="col-md-12 my-4">
             <h2>@MessagingProject.Resources.Resource.Login</h2>
-
-
-
             <form asp-action="LoginUser">
+
                 <div class="form-group my-2">
                     <label>@MessagingProject.Resources.Resource.Email</label>
                     <input type="email" name="Email" class="form-control" asp-for="Email" />
@@ -61,5 +59,4 @@
         </div>
     </div>
 </div>
-
 

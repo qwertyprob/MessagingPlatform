@@ -3,34 +3,34 @@ using System;
 
 namespace MessagingProject.Models
 {
-    public class UserResponse
+    public class  UserResponse
     {
         [JsonProperty("Company")]
-        public string Company { get; set; }
+        public required string Company { get; set; }
 
         [JsonProperty("CreateDate")]
-        public DateTime CreateDate { get; set; }
+        public required DateTime CreateDate { get; set; }
 
         [JsonProperty("ID")]
-        public int ID { get; set; }
+        public required int ID { get; set; }
 
         [JsonProperty("Email")]
-        public string Email { get; set; }
+        public required string Email { get; set; }
 
         [JsonProperty("FirstName")]
-        public string FirstName { get; set; }
+        public required string FirstName { get; set; }
 
         [JsonProperty("LastName")]
-        public string LastName { get; set; }
+        public required string LastName { get; set; }
 
         [JsonProperty("LastAuthorize")]
-        public DateTime LastAuthorize { get; set; }
+        public required DateTime LastAuthorize { get; set; }
 
         [JsonProperty("PhoneNumber")]
-        public string PhoneNumber { get; set; }
+        public required string PhoneNumber { get; set; }
 
         [JsonProperty("UiLanguage")]
-        public int UiLanguage { get; set; }
+        public required int UiLanguage { get; set; }
 
     }
 }  
