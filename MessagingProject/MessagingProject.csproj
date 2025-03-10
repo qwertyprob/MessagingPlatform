@@ -11,12 +11,34 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\Resource.ru.Designer.cs">
+      <DependentUpon>Resource.ru.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Resources\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Resource.ru.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CustomToolNamespace>MessagingProject.Resources</CustomToolNamespace>
+      <LastGenOutput>Resource - Copy.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Resource.resx">
       <CustomToolNamespace>MessagingProject.Resources</CustomToolNamespace>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Resource.ru.resx">
       <CustomToolNamespace>MessagingProject.Resources</CustomToolNamespace>
+      <LastGenOutput>Resource.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
