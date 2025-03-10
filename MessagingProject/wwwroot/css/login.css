@@ -19,7 +19,7 @@
 
 body {
     background-color: #d5e2f9;
-    font-family: 'IBM-Light', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'IBM-Light', Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
 footer * {
@@ -85,7 +85,7 @@ h2 {
     }
 
 a:hover {
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
     color: #244070 !important;
 }
 a.label{
@@ -99,8 +99,14 @@ a.label{
 
 
 
-label,input,li {
+label, input, li {
     color: #244065 !important;
+    font-size:1.2em !important;
+}
+
+a, li, ul {
+    font-weight: 600 !important;
+    border: none !important;
 }
 
 

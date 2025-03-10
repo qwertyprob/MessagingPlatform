@@ -132,4 +132,46 @@
   <data name="Send" xml:space="preserve">
     <value>Send</value>
   </data>
+  <data name="SendRequest" xml:space="preserve">
+    <value>Send Request</value>
+  </data>
+  <data name="Resetpassword" xml:space="preserve">
+    <value>Reset password</value>
+  </data>
+  <data name="EmailRequset" xml:space="preserve">
+    <value>Please enter email address used for your registration</value>
+  </data>
+  <data name="Contats" xml:space="preserve">
+    <value>Contact List</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="SMS" xml:space="preserve">
+    <value>SMS</value>
+  </data>
+  <data name="CreateSMSNewsLetter" xml:space="preserve">
+    <value>Create SMS NewsLetter</value>
+  </data>
+  <data name="SMSNewsLetter" xml:space="preserve">
+    <value>SMS NewsLetter</value>
+  </data>
+  <data name="CreateEmailNewsLetter" xml:space="preserve">
+    <value>Create Email NewsLetter</value>
+  </data>
+  <data name="EmailNewsletter" xml:space="preserve">
+    <value>Email Newsletter</value>
+  </data>
+  <data name="EmailTemplateList" xml:space="preserve">
+    <value>Template list</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="LockScreen" xml:space="preserve">
+    <value>Lock Screen</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
 </root>

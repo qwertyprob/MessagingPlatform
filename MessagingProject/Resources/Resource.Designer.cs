@@ -61,6 +61,42 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contact List.
+        /// </summary>
+        public static string Contats {
+            get {
+                return ResourceManager.GetString("Contats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Email NewsLetter.
+        /// </summary>
+        public static string CreateEmailNewsLetter {
+            get {
+                return ResourceManager.GetString("CreateEmailNewsLetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create SMS NewsLetter.
+        /// </summary>
+        public static string CreateSMSNewsLetter {
+            get {
+                return ResourceManager.GetString("CreateSMSNewsLetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dashboard.
+        /// </summary>
+        public static string Dashboard {
+            get {
+                return ResourceManager.GetString("Dashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email adress.
         /// </summary>
         public static string Email {
@@ -70,11 +106,56 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email Newsletter.
+        /// </summary>
+        public static string EmailNewsletter {
+            get {
+                return ResourceManager.GetString("EmailNewsletter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter email address used for your registration.
+        /// </summary>
+        public static string EmailRequset {
+            get {
+                return ResourceManager.GetString("EmailRequset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Template list.
+        /// </summary>
+        public static string EmailTemplateList {
+            get {
+                return ResourceManager.GetString("EmailTemplateList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        public static string Exit {
+            get {
+                return ResourceManager.GetString("Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forgot password?.
         /// </summary>
         public static string Forgot {
             get {
                 return ResourceManager.GetString("Forgot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lock Screen.
+        /// </summary>
+        public static string LockScreen {
+            get {
+                return ResourceManager.GetString("LockScreen", resourceCulture);
             }
         }
         
@@ -97,11 +178,56 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset password.
+        /// </summary>
+        public static string Resetpassword {
+            get {
+                return ResourceManager.GetString("Resetpassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send.
         /// </summary>
         public static string Send {
             get {
                 return ResourceManager.GetString("Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send Request.
+        /// </summary>
+        public static string SendRequest {
+            get {
+                return ResourceManager.GetString("SendRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SMS.
+        /// </summary>
+        public static string SMS {
+            get {
+                return ResourceManager.GetString("SMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SMS NewsLetter.
+        /// </summary>
+        public static string SMSNewsLetter {
+            get {
+                return ResourceManager.GetString("SMSNewsLetter", resourceCulture);
             }
         }
     }

@@ -132,4 +132,46 @@
   <data name="Send" xml:space="preserve">
     <value>Conectare</value>
   </data>
+  <data name="SendRequest" xml:space="preserve">
+    <value>Trimitere</value>
+  </data>
+  <data name="Resetpassword" xml:space="preserve">
+    <value>Schimbaţi parola</value>
+  </data>
+  <data name="EmailRequset" xml:space="preserve">
+    <value>Vă rugăm să introduceți adresa de e-mail folosită pentru înregistrare</value>
+  </data>
+  <data name="Contats" xml:space="preserve">
+    <value>Contacte</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Tablou de bord</value>
+  </data>
+  <data name="SMS" xml:space="preserve">
+    <value>SMS</value>
+  </data>
+  <data name="CreateSMSNewsLetter" xml:space="preserve">
+    <value>Creează Newsletter SMS</value>
+  </data>
+  <data name="SMSNewsLetter" xml:space="preserve">
+    <value>SMS NewsLetter</value>
+  </data>
+  <data name="CreateEmailNewsLetter" xml:space="preserve">
+    <value>Creează Newsletter Email</value>
+  </data>
+  <data name="EmailNewsletter" xml:space="preserve">
+    <value>Email Newsletter</value>
+  </data>
+  <data name="EmailTemplateList" xml:space="preserve">
+    <value>Listă de șabloane</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Setări</value>
+  </data>
+  <data name="LockScreen" xml:space="preserve">
+    <value>Ecran de blocare</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Deconectare</value>
+  </data>
 </root>
