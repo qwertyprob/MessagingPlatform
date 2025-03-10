@@ -53,17 +53,16 @@ namespace MessagingProject.Controllers
         [AllowAnonymous]
         public IActionResult ChangeLanguage(string language)
         {
-            if (!string.IsNullOrEmpty(language))
+            try
             {
-                Response.Cookies.Append("Language", language, new CookieOptions
-                {
-                    Expires = DateTime.UtcNow.AddYears(1)
-                });
-
-                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(language);
-                Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
+                _userService.ChangeUILanguage(language);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
 
+            //redirect
             var referer = Request.GetTypedHeaders().Referer?.ToString() ?? "/";
             return Redirect(referer);
         }

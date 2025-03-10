@@ -57,7 +57,7 @@ namespace MessagingProject
 
             app.UseRouting();
 
-
+            //Globalization
             app.Use(async (context, next) =>
             {
                 string cookie = string.Empty;

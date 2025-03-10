@@ -8,6 +8,7 @@ using MessagingProject.Abstractions;
 using Microsoft.AspNetCore.Authentication;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace MessagingProject.Services
 {
@@ -23,7 +24,7 @@ namespace MessagingProject.Services
             {
                 _client = client;
                 _userService = userService;
-                _client.BaseAddress = new Uri("https://dev.edi.md/ISAuthService/json/AuthorizeUser");
+                _client.BaseAddress = new Uri("https://dev.edi.md/ISAuthService/json/");
                 _httpContext = context.HttpContext;
             }
             
@@ -31,7 +32,7 @@ namespace MessagingProject.Services
             {
                 var requestContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
-                var response = await _client.PostAsync(_client.BaseAddress, requestContent);
+                var response = await _client.PostAsync("AuthorizeUser", requestContent);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -77,8 +78,36 @@ namespace MessagingProject.Services
             }
 
 
-            
-            
+
+            public async Task<ErrorResponse> ResetPassword(string email)
+            {
+                if (string.IsNullOrEmpty(email))
+                {
+                    throw new ArgumentException("Email cannot be null or empty", nameof(email));
+                }
+                var requestData = new { Email = email }; // Создаем объект
+                var requestContent = new StringContent(JsonConvert.SerializeObject(requestData), Encoding.UTF8, "application/json");
+
+                var response = await _client.PostAsync("ResetPassword", requestContent);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Server error: {response.StatusCode}. Details: {errorMessage}");
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+
+                var responseContent = JsonConvert.DeserializeObject<ErrorResponse>(content);
+
+                if (responseContent == null || string.IsNullOrEmpty(responseContent.ErrorMessage))
+                {
+                    throw new UnauthorizedAccessException("Invalid response content or missing error message.");
+                }
+
+                return responseContent;
+            }
+
 
 
 

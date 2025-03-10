@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Newtonsoft.Json;
 using System.Security.Claims;
+using System.Globalization;
 
 namespace MessagingProject.Services
 {
@@ -50,6 +51,23 @@ namespace MessagingProject.Services
             
 
             return uiLanguage??"en";
+        }
+
+        public Task ChangeUILanguage(string language)
+        {
+           if(!string.IsNullOrEmpty(language))
+           {
+                _httpContext.Response.Cookies.Append("Language", language, new CookieOptions
+                {
+                    Expires = DateTime.UtcNow.AddYears(1)
+                });
+
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(language);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
+           }
+
+
+            return Task.CompletedTask;
         }
 
         private async void UpdateUiLanguageClaims(string uiLanguage)

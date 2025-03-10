@@ -76,6 +76,25 @@ namespace MessagingProject.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(string email)
+        {
+            try
+            {
+                var authResponse = await _authService.ResetPassword(email);
+                return Redirect("/");
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Unauthorized("Invalid credentials or token.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+
+            return BadRequest(email);
+        }
 
         
     }
