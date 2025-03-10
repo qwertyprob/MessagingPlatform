@@ -17,7 +17,6 @@
     var claims = User.Claims;
     var firstname = claims.FirstOrDefault(c => c.Type == "FirstName")?.Value;
     var lastname = claims.FirstOrDefault(c => c.Type == "Surname")?.Value;
-    var uiLanguage = claims.FirstOrDefault(c => c.Type == "UiLanguage")?.Value.ToUpper();
 }
 
 <body style="background-color:whitesmoke">
@@ -34,25 +33,25 @@
 
                     <div class="d-flex justify-content-between w-100 d-md-none">
                         <div class="dropdown">
-                            <button class="btn btn-no-bg dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="~/img/lang/ru.png" width="20" class="me-2" id="selectedLangImage"> Русский
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center" href="#" onclick="changeLanguage('ru', '~/img/lang/ru.png', 'Русский')">
-                                        <img src="~/img/lang/ru.png" width="20" class="me-2"> Русский
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center" href="#" onclick="changeLanguage('en', '~/img/lang/eng.png', 'English')">
-                                        <img src="~/img/lang/eng.png" width="20" class="me-2"> English
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center" href="#" onclick="changeLanguage('ro', '~/img/lang/ro.webp', 'Romana')">
-                                        <img src="~/img/lang/ro.webp" width="20" class="me-2"> Romana
-                                    </a>
-                                </li>
+                            <a class="btn btn-no-bg dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                @if (Thread.CurrentThread.CurrentCulture.ToString() == "en")
+                                {
+                                <span>EN</span>
+
+                                }
+                                else if(Thread.CurrentThread.CurrentCulture.ToString() == "ru")
+                                {
+                                <span>RU</span>
+                                }
+                                else{
+                                <span>RO</span>
+
+                                }
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="ru"><img src="~/img/lang/ru.png" width="20" class="me-2"> Русский</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="en"><img src="~/img/lang/eng.png" width="20" class="me-2"> English</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="ro"><img src="~/img/lang/ro.webp" width="20" class="me-2"> Romana</a></li>
                             </ul>
                         </div>
 
@@ -70,13 +69,26 @@
 
                     <div class="d-none d-md-flex flex-row gap-2">
                         <div class="dropdown">
-                            <a class="btn btn-no-bg dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">@uiLanguage
-                                
+                            <a class="btn btn-no-bg dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                @if (Thread.CurrentThread.CurrentCulture.ToString() == "en")
+                                {
+                                    <span>EN</span>
+
+                                }
+                                else if (Thread.CurrentThread.CurrentCulture.ToString() == "ru")
+                                {
+                                    <span>RU</span>
+                                }
+                                else
+                                {
+                                    <span>RO</span>
+
+                                }
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/lang/ru.png" width="20" class="me-2"> Русский</a></li>
-                                <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/lang/eng.png" width="20" class="me-2"> English</a></li>
-                                <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/lang/ro.webp" width="20" class="me-2"> Romana</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="ru"><img src="~/img/lang/ru.png" width="20" class="me-2"> Русский</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="en"><img src="~/img/lang/eng.png" width="20" class="me-2"> English</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="ro"><img src="~/img/lang/ro.webp" width="20" class="me-2"> Romana</a></li>
                             </ul>
                         </div>
 

@@ -1,13 +1,10 @@
-﻿using MessagingProject.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using MessagingProject.Abstractions;
+using MessagingProject.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Security.Claims;
-using System.Text;
-using MessagingProject.Abstractions;
-using System.Net;
+using System.Globalization;
 using System.Resources;
 
 namespace MessagingProject.Controllers
@@ -79,5 +76,7 @@ namespace MessagingProject.Controllers
         {
             return View();
         }
+
+        
     }
 }

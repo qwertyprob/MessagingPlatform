@@ -4,9 +4,6 @@
 @{
     ViewData["Title"] = "Login";
     Layout = "_AuthLayout";
-    var claims = User.Claims.ToList();
-
-    var uiLanguage = claims.FirstOrDefault(c => c.Type == "UiLanguage")?.Value.ToUpper();
 }
 
 
@@ -15,9 +12,9 @@
 
         <div class="col-md-12 my-4">
             <h2>@MessagingProject.Resources.Resource.Login</h2>
-                
 
-            
+
+
             <form asp-action="LoginUser">
                 <div class="form-group my-2">
                     <label>@MessagingProject.Resources.Resource.Email</label>
@@ -30,19 +27,31 @@
                 </div>
 
                 <div class="form-group my-3">
-                    <button type="submit" name="submit" class="btn btn-primary w-100">Send</button>
+                    <button type="submit" name="submit" class="btn btn-primary w-100">@MessagingProject.Resources.Resource.Send</button>
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center w-100">
                     <div class="col-6"><p class="d-block m-0"><a href="/AuthRecoverPassword" class="text-decoration-none label">@MessagingProject.Resources.Resource.Forgot</a></p></div>
                     <div class="dropdown">
                         <a class="btn btn-no-bg dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            EN
+                            @if (Thread.CurrentThread.CurrentCulture.ToString() == "en")
+                            {
+                                <span>EN</span>
+                                
+                            }
+                            else if(Thread.CurrentThread.CurrentCulture.ToString() == "ru")
+                            {
+                                <span>RU</span>
+                            }
+                            else{
+                            <span>RO</span>
+
+                            }
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/lang/ru.png" width="20" class="me-2"> Русский</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/lang/eng.png" width="20" class="me-2"> English</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="~/img/lang/ro.webp" width="20" class="me-2"> Romana</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="ru"><img src="~/img/lang/ru.png" width="20" class="me-2"> Русский</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="en"><img src="~/img/lang/eng.png" width="20" class="me-2"> English</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="ro"><img src="~/img/lang/ro.webp" width="20" class="me-2"> Romana</a></li>
                         </ul>
                     </div>
                 </div>

@@ -36,32 +36,20 @@ namespace MessagingProject.Services
                 Token = token
             };
 
-            userInfo.UiLanguage = SetLanguage(userInfo.UiLanguage);
+            userInfo.UiLanguage = SetLanguage();
             UpdateUiLanguageClaims(userInfo.UiLanguage);
 
             // Возвращаем обновленные данные пользователя
             return Task.FromResult(userInfo);
         }
 
-        private string SetLanguage(string uiLanguage)
+        private string SetLanguage()
         {
-            switch (uiLanguage)
-            {
-                case "1":
-                    uiLanguage = "ro";
-                    break;
-                case "2":
-                    uiLanguage = "ru";
-                    break;
-                case "0":
-                    uiLanguage = "en";
-                    break;
-                default:
-                    uiLanguage = "en";
-                    break;
-            }
+            var uiLanguage = _httpContext.Request.Cookies["Language"];
+            
+            
 
-            return uiLanguage;
+            return uiLanguage??"en";
         }
 
         private async void UpdateUiLanguageClaims(string uiLanguage)
