@@ -19,8 +19,7 @@
 
 body {
     background-color: #d5e2f9;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #343a40;
+    font-family: 'IBM-Light', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 footer * {
@@ -43,7 +42,9 @@ footer * {
 
 h2 {
     text-align: center;
-    color: #20294a;
+    color: #5b73e8 !important;
+    font-size: 2em;
+    font-weight: bold;
 }
 
 .form-group input {
@@ -52,6 +53,7 @@ h2 {
     border: 1px solid #ced4da;
     box-shadow: none;
     transition: all 0.3s ease;
+    color: #244065 !important;
 }
 
     .form-group input:focus {
@@ -64,8 +66,42 @@ h2 {
     border-color: lightblue;
     border-radius: 5px;
     padding: 10px 20px;
+    color : white !important;
+    font-weight: bold!important;
 }
 
-    .btn-primary:hover {
-        background-color: #20294a;
+.btn-no-bg {
+    color: #244065 !important;
+}
+    .btn-no-bg:hover
+    {
+        color: #244070 !important;
+        transition: all 0.3s ease;
+        
     }
+    .btn-no-bg:focus,
+    .btn-no-bg:active {
+        color: #244070 !important;
+    }
+
+a:hover {
+    transition: all 0.3s ease;
+    color: #244070 !important;
+}
+a.label{
+    color:grey;
+}
+
+
+.btn-primary:hover {
+    background-color: #20294a;
+}
+
+
+
+label,input,li {
+    color: #244065 !important;
+}
+
+
+

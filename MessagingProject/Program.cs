@@ -21,13 +21,14 @@ namespace MessagingProject
                             {
                                 options.LoginPath = "/Login";
                                 options.LogoutPath = "/Logout";
+                                options.AccessDeniedPath = "/Login";
                                 options.Cookie.HttpOnly = true;
                                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 
                             });
 
 
-
+            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
             builder.Services.AddAuthorization();
             builder.Services.AddHttpContextAccessor();
 

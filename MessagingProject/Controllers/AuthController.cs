@@ -7,24 +7,29 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text;
 using MessagingProject.Abstractions;
+using System.Net;
+using System.Resources;
 
 namespace MessagingProject.Controllers
 {
-
+    [AllowAnonymous]
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
         private readonly IUserService _userService;
+        private readonly ResourceManager _resourceManager;
 
         public AuthController(IAuthService auth, IUserService userService)
         {
             _authService = auth;
             _userService = userService;
+            _resourceManager = new ResourceManager("MessagingProject.Resources.Resource", typeof(AuthController).Assembly);
         }
         [Route("/Login")]
         public IActionResult Index()
         {
             
+            ViewData["Login"] = _resourceManager.GetString("Вход");
             return View();
         }
         
@@ -34,7 +39,10 @@ namespace MessagingProject.Controllers
         {
             try
             {
+                
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+                HttpContext.Response.Cookies.Delete(".AspNetCore.Antiforgery");
 
                 return RedirectToAction("Index", "Auth"); 
             }
