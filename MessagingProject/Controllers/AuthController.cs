@@ -19,6 +19,7 @@ namespace MessagingProject.Controllers
         private readonly IAuthService _authService;
         private readonly IUserService _userService;
         private readonly IValidator<LoginViewModel> _validator;
+        
         public AuthController(IAuthService auth, IUserService userService,IValidator<LoginViewModel> validator)
         {
             _validator = validator;
@@ -95,8 +96,14 @@ namespace MessagingProject.Controllers
         {
             try
             {
-              
-                var authResponse = await _authService.ResetPassword(email);
+                
+                if (string.IsNullOrEmpty(email) || !email.Contains("@"))
+                {
+                    var error = MessagingProject.Resources.ValidateResource.InvalidPassword;
+                    return View("AuthRecoverPassword", error);
+                }
+
+                var resetPassword = await _authService.ResetPassword(email);
 
                 return Redirect("/");
 

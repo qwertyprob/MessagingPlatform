@@ -123,6 +123,9 @@
   <data name="Invalid" xml:space="preserve">
     <value>Невереный пароль или логин</value>
   </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>Введите email</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Введите пароль</value>
   </data>
