@@ -1,9 +1,13 @@
-﻿using MessagingProject.Abstractions;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using MessagingProject.Abstractions;
 using MessagingProject.Models;
+using MessagingProject.Validators;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Resources;
 
@@ -14,21 +18,14 @@ namespace MessagingProject.Controllers
     {
         private readonly IAuthService _authService;
         private readonly IUserService _userService;
-        private readonly ResourceManager _resourceManager;
-
-        public AuthController(IAuthService auth, IUserService userService)
+        private readonly IValidator<LoginViewModel> _validator;
+        public AuthController(IAuthService auth, IUserService userService,IValidator<LoginViewModel> validator)
         {
+            _validator = validator;
             _authService = auth;
             _userService = userService;
-            _resourceManager = new ResourceManager("MessagingProject.Resources.Resource", typeof(AuthController).Assembly);
         }
-        [Route("/Login")]
-        public IActionResult Index()
-        {
-            
-            ViewData["Login"] = _resourceManager.GetString("Вход");
-            return View();
-        }
+        
         
         [HttpGet]
         [Route("/Logout")]
@@ -49,18 +46,31 @@ namespace MessagingProject.Controllers
             }
         }
 
+        [Route("/Login")]
+        public IActionResult Index()
+        {
 
-        
+            return View();
+        }
+
         [HttpPost]
+        [Route("/Login")]
         public async Task<IActionResult> LoginUser([FromForm] LoginViewModel model)
         {
             try
             {
-                var authResponse = await _authService.AuthenticateUserAsync(model);
+                var validationResult = await _validator.ValidateAsync(model);
+                if (validationResult.IsValid)
+                {
+                    var authResponse = await _authService.AuthenticateUserAsync(model);
+                    await _authService.SignInUserAsync(authResponse, model);
+                    return Redirect("/");
 
-                await _authService.SignInUserAsync(authResponse, model);
+                }
 
-                return Redirect("/");
+               validationResult.AddToModelState(this.ModelState);
+
+                return View("Index", model);
             }
             catch (UnauthorizedAccessException)
             {

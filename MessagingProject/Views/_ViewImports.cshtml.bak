@@ -1,0 +1,5 @@
+﻿@using MessagingProject
+@using MessagingProject.Models
+@using MessagingProject.Abstractions
+[assembly: ResourceLocation("Resources)]
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

@@ -1,5 +1,8 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MessagingProject.Abstractions;
 using MessagingProject.Services;
+using MessagingProject.Validators;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.FileSystemGlobbing.Internal;
@@ -14,7 +17,15 @@ namespace MessagingProject
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(options =>
+            {
+                options.ModelMetadataDetailsProviders.Clear(); 
+
+            })
+                .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+
+            //Validation
+            builder.Services.AddValidatorsFromAssemblyContaining<LoginModelValidator>();
 
             builder.Services.AddAuthentication("Cookies")
                             .AddCookie("Cookies", options =>
@@ -63,13 +74,13 @@ namespace MessagingProject
                 string cookie = string.Empty;
                 if(context.Request.Cookies.TryGetValue("Language",out cookie))
                 {
-                    System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(cookie);
-                    System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(cookie);
+                    Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(cookie);
+                    Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(cookie);
                 }
                 else
                 {
-                    System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en");
-                    System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
+                    Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en");
+                    Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
                 }
 
 

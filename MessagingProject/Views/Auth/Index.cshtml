@@ -6,6 +6,21 @@
     Layout = "_AuthLayout";
 
 }
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <strong>Debug Errors:</strong>
+        <ul>
+            @foreach (var entry in ViewData.ModelState)
+            {
+                @foreach (var error in entry.Value.Errors)
+                {
+                    <li>@entry.Key - @error.ErrorMessage</li>
+                }
+            }
+        </ul>
+    </div>
+}
 
 <div class="container">
     <div class="row">
@@ -17,11 +32,15 @@
                 <div class="form-group my-2">
                     <label>@MessagingProject.Resources.Resource.Email</label>
                     <input type="email" name="Email" class="form-control" asp-for="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                    
                 </div>
 
                 <div class="form-group my-2">
                     <label>@MessagingProject.Resources.Resource.Password</label>
                     <input type="password" name="Password" class="form-control" asp-for="Password">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+
                 </div>
 
                 <div class="form-group my-3">
@@ -31,19 +50,20 @@
                 <div class="d-flex justify-content-between align-items-center w-100">
                     <div class="dropdown">
                         <a class="btn btn-no-bg dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            @if (Thread.CurrentThread.CurrentCulture.ToString() == "en")
+                           
+                            @switch (Thread.CurrentThread.CurrentCulture.ToString())
                             {
-                                <span>EN</span>
-                                
+                                case "en":
+                                    <span>EN</span>
+                                    break;
+                                case "ru":
+                                    <span>RU</span>
+                                    break;
+                                case "ro":
+                                    <span>RO</span>
+                                    break;
                             }
-                            else if(Thread.CurrentThread.CurrentCulture.ToString() == "ru")
-                            {
-                                <span>RU</span>
-                            }
-                            else{
-                            <span>RO</span>
 
-                            }
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="ru"><img src="~/img/lang/ru.png" width="20" class="me-2"> Русский</a></li>
