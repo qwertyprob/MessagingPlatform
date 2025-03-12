@@ -120,7 +120,10 @@
   <data name="Email" xml:space="preserve">
     <value>E-mailul este necesar</value>
   </data>
+  <data name="Invalid" xml:space="preserve">
+    <value>Parolă sau e-mail incorectă</value>
+  </data>
   <data name="Password" xml:space="preserve">
-    <value>Password este necesar</value>
+    <value>Parolă este necesară</value>
   </data>
 </root>

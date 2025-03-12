@@ -6,6 +6,29 @@
     Layout = "_AuthLayout";
 
 }
+@* @if (!ViewData.ModelState.IsValid)
+{
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="errorModalLabel" style="color:red; font-weight:600;">@MessagingProject.Resources.Resource.Errror</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex flex-column justify-content-center">
+                    <div class="d-flex justify-content-center">
+                        <img src="~/img/icons/errorMessage.png" asp-append-version="true" style="width:80%;" />
+                    </div>
+                    <h1 class="text-center">
+                        @ViewData.ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage;
+                    </h1>
+                    <p class="text-center mt-2">Closing in <span id="timer">5</span> seconds...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+} *@
+
 <div class="container">
     <div class="row">
 

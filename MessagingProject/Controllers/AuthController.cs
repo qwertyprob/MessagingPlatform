@@ -71,10 +71,13 @@ namespace MessagingProject.Controllers
                validationResult.AddToModelState(this.ModelState);
 
                 return View("Index", model);
+
+
             }
             catch (UnauthorizedAccessException)
             {
-                return Unauthorized("Invalid credentials or token.");
+                ViewData.ModelState.AddModelError("Email", MessagingProject.Resources.ValidateResource.Invalid);
+                return View("Index", model);
             }
             catch (Exception ex)
             {
