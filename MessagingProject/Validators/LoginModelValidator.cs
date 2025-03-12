@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MessagingProject.Models;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace MessagingProject.Validators
 {
@@ -8,11 +9,14 @@ namespace MessagingProject.Validators
         public LoginModelValidator()
         {
             RuleFor(x => x.Email)
-                .NotEmpty()
+                .NotEmpty().WithMessage(MessagingProject.Resources.ValidateResource.Email)
+                .NotNull().WithMessage(MessagingProject.Resources.ValidateResource.Email)
+                .EmailAddress().WithMessage(MessagingProject.Resources.ValidateResource.Email)
                 .WithMessage(MessagingProject.Resources.ValidateResource.Email);
 
             RuleFor(x => x.Password)
-                .NotEmpty()
+                .NotEmpty().WithMessage(MessagingProject.Resources.ValidateResource.Password)
+                .NotNull()
                 .WithMessage(MessagingProject.Resources.ValidateResource.Password);
         }
 

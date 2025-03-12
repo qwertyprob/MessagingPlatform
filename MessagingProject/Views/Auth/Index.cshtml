@@ -6,22 +6,6 @@
     Layout = "_AuthLayout";
 
 }
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="alert alert-danger">
-        <strong>Debug Errors:</strong>
-        <ul>
-            @foreach (var entry in ViewData.ModelState)
-            {
-                @foreach (var error in entry.Value.Errors)
-                {
-                    <li>@entry.Key - @error.ErrorMessage</li>
-                }
-            }
-        </ul>
-    </div>
-}
-
 <div class="container">
     <div class="row">
 
