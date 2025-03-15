@@ -1,4 +1,5 @@
 ﻿using MessagingProject.Models;
+using MessagingProject.Models.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MessagingProject.Abstractions

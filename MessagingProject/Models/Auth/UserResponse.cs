@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace MessagingProject.Models
+namespace MessagingProject.Models.Auth
 {
     public class  UserResponse
     {

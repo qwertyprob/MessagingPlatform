@@ -20,7 +20,7 @@ body, html {
 }
 
 footer {
-    background-color: white;
+    background-color: none;
     margin-top: auto; 
     padding: 20px; 
 }
@@ -56,3 +56,30 @@ a, li, ul {
     color: red;
     animation: fade-out 1s infinite alternate;
 }
+
+
+.dx-license {
+    display: none !important;
+}
+.dx-datagrid-rowsview .dx-row:not(.dx-header-row):hover {
+    background-color: #f0f0f0 !important;
+    transition: background-color 0.2s ease-in-out;
+}
+
+
+.dx-datagrid-rowsview .dx-row:nth-child(odd) {
+    background-color: #ffffff !important;
+}
+
+
+.dx-datagrid-rowsview .dx-row:nth-child(even) {
+    background-color: #f9f9f9 !important;
+}
+
+
+
+.dx-datagrid .dx-header-row .dx-sort {
+    color: black; 
+}
+
+

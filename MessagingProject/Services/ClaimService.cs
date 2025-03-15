@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using MessagingProject.Models;
+using MessagingProject.Models.Auth;
 
 namespace MessagingProject.Services
 {

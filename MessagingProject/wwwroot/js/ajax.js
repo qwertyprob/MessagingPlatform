@@ -16,8 +16,6 @@ function checkToken() {
     });
 }
 
-function PostAuthData()
-
 function GetClaimsInfo() {
     $.ajax({
         url: "/GetUserByClaims",

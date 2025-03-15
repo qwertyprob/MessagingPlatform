@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MessagingProject.Models
+namespace MessagingProject.Models.Auth
 {
     public class AuthResponseModel
     {

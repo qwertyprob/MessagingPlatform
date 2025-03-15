@@ -1,10 +1,10 @@
 ﻿using MessagingProject.Abstractions;
-using MessagingProject.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Globalization;
+using MessagingProject.Models.Auth;
 
 namespace MessagingProject.Services
 {
@@ -29,11 +29,11 @@ namespace MessagingProject.Services
 
             var userInfo = new UserClaimsInfoResponse
             {
-                Company = claims.FirstOrDefault(c => c.Type == "Company")?.Value,
-                Email = claims.FirstOrDefault(c => c.Type == "Email")?.Value,
+                Company = claims.FirstOrDefault(c => c.Type == "Company")?.Value ?? string.Empty,
+                Email = claims.FirstOrDefault(c => c.Type == "Email")?.Value ?? string.Empty,
                 FullName = $"{LastName} {FirstName}",
-                UiLanguage = claims.FirstOrDefault(c => c.Type == "UiLanguage")?.Value,
-                Password = claims.FirstOrDefault(c => c.Type == "Password")?.Value,
+                UiLanguage = claims.FirstOrDefault(c => c.Type == "UiLanguage")?.Value ?? string.Empty,
+                Password = claims.FirstOrDefault(c => c.Type == "Password")?.Value ?? string.Empty,
                 Token = token
             };
 
@@ -47,9 +47,6 @@ namespace MessagingProject.Services
         private string SetLanguage()
         {
             var uiLanguage = _httpContext.Request.Cookies["Language"];
-            
-            
-
             return uiLanguage??"en";
         }
 
@@ -61,7 +58,6 @@ namespace MessagingProject.Services
                 {
                     Expires = DateTime.UtcNow.AddYears(1)
                 });
-
                 Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(language);
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
            }
@@ -112,7 +108,20 @@ namespace MessagingProject.Services
 
         }
 
-        
+        public string[] UserLoginPassword()
+        {
+            var user = _httpContext.User;
+            var claims = user.Claims;
+
+            var password = claims.FirstOrDefault(c => c.Type == "Password")?.Value;
+            var email = claims.FirstOrDefault(c => c.Type == "Email")?.Value;
+
+            var array = new string[]{ email, password };
+
+
+            return array;
+
+        }
 
         public async Task<bool> IsAuthenticated(string token)
         {

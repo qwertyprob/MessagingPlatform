@@ -1,6 +1,5 @@
-﻿
+﻿@using MessagingProject.Models.Auth
 @model LoginViewModel
-
 @{
     ViewData["Title"] = "Login";
     Layout = "_AuthLayout";
@@ -27,37 +26,30 @@
             </div>
         </div>
     </div>
-} *@
+} 
+*@
 
 <div class="container">
     <div class="row">
-
         <div class="col-md-12">
             <h2>@MessagingProject.Resources.Resource.Login</h2>
             <form asp-action="LoginUser">
-
                 <div class="form-group my-2">
                     <label>@MessagingProject.Resources.Resource.Email</label>
                     <input type="email" name="Email" class="form-control" asp-for="Email" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                    
+                    <span asp-validation-for="Email" class="text-danger"></span>    
                 </div>
-
                 <div class="form-group my-2">
                     <label>@MessagingProject.Resources.Resource.Password</label>
                     <input type="password" name="Password" class="form-control" asp-for="Password">
                     <span asp-validation-for="Password" class="text-danger"></span>
-
                 </div>
-
                 <div class="form-group my-3">
                     <button type="submit" name="submit" class="btn btn-primary w-100">@MessagingProject.Resources.Resource.Send</button>
                 </div>
-
                 <div class="d-flex justify-content-between align-items-center w-100">
                     <div class="dropdown">
-                        <a class="btn btn-no-bg dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                           
+                        <a class="btn btn-no-bg dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">     
                             @switch (Thread.CurrentThread.CurrentCulture.ToString())
                             {
                                 case "en":
@@ -70,7 +62,6 @@
                                     <span>RO</span>
                                     break;
                             }
-
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="ru"><img src="~/img/lang/ru.png" width="20" class="me-2"> Русский</a></li>
@@ -79,9 +70,7 @@
                         </ul>
                     </div>
                     <p class="d-block m-0"><a href="/AuthRecoverPassword" class="text-decoration-none label">@MessagingProject.Resources.Resource.Forgot</a></p>
-
                 </div>
-
             </form>
         </div>
     </div>

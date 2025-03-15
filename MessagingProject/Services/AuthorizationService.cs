@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
+using MessagingProject.Models.Auth;
 
 namespace MessagingProject.Services
 {
@@ -17,17 +18,13 @@ namespace MessagingProject.Services
         public class AuthService : IAuthService
         {
             private readonly HttpClient _client;
-            private readonly IUserService _userService;
             private readonly HttpContext _httpContext;
-
-            public AuthService(HttpClient client,IHttpContextAccessor context,IUserService userService)
+            public AuthService(HttpClient client,IHttpContextAccessor context)
             {
                 _client = client;
-                _userService = userService;
                 _client.BaseAddress = new Uri("https://dev.edi.md/ISAuthService/json/");
                 _httpContext = context.HttpContext;
             }
-            
             public async Task<AuthResponseModel> AuthenticateUserAsync(LoginViewModel model)
             {
                 var requestContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
@@ -47,9 +44,10 @@ namespace MessagingProject.Services
                     throw new UnauthorizedAccessException("Invalid token.");
                 }
 
+                _client.Dispose();
+
                 return authResponse;
             }
-
             public async Task SignInUserAsync(AuthResponseModel authResponse, [FromForm] LoginViewModel model)
             {
                 var claims = new List<Claim>
@@ -76,9 +74,6 @@ namespace MessagingProject.Services
 
                 await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
             }
-
-
-
             public async Task<ErrorResponse> ResetPassword(string email)
             {
                 if (string.IsNullOrEmpty(email))
@@ -105,18 +100,10 @@ namespace MessagingProject.Services
                 {
                     throw new UnauthorizedAccessException("Invalid response content or missing error message.");
                 }
-
+                _client.Dispose();
                 return responseContent;
             }
 
-
-
-
-
-
-
         }
-
-
     }
 }

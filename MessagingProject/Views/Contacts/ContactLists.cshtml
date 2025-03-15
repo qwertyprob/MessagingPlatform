@@ -1,11 +1,80 @@
-﻿@{
+﻿
+@{
     Layout= "_Layout";
 }
 
-<div class="container-fluid py-5 md-py-0">
+<div class="container-fluid py-0 md-py-0">
     <div class="row justify-content-center">
-        <div class="col-12 col-md-10 p-4 bg-white rounded shadow-sm">
-            <h2>Contact List</h2>
+        <div class="col-12 col-md-10 p-0" style="background:none;border:0px;">
+            <h2 class="text-start"><pre> Contact list</pre></h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 py-4 bg-white rounded shadow-sm">
+                @(
+                    Html.DevExtreme().DataGrid()
+                    .DataSource(ds => ds.Mvc()
+                    .Controller("Contacts")
+                    .LoadAction("GetContactLists")
+                    )
+
+                    .Columns(columns =>
+                    {
+                        columns.Add().DataField("Id").Visible(false);
+                        columns.Add().DataField("Name").Caption("Name");
+                        columns.Add().DataField("Emails").Caption("Email");
+                        columns.Add().DataField("Phones").Caption("Phones");
+                        columns.Add().DataField("ParsedDate").Caption("Date");
+
+                        columns.Add().Type(GridCommandColumnType.Buttons)
+                        .Buttons(b =>
+                        {
+                            b.Add().Name(GridColumnButtonName.Edit).Icon("edit");
+                            b.Add().Name(GridColumnButtonName.Delete).Icon("trash");
+
+                        }).Caption("Actions");
+                    })
+
+
+
+                    .Paging(p => p.PageSize(10))
+                    .FilterRow(f => f.Visible(true))
+                    .SearchPanel(s => s.Visible(true))
+                    .GroupPanel(g => g.Visible(true))
+                    .Sorting(s => s.Mode(GridSortingMode.Multiple))
+                    .Editing(editing =>
+                    {
+                        editing.Mode(GridEditMode.Row);
+                        editing.AllowAdding(true);
+                        editing.AllowDeleting(true);
+                        editing.AllowUpdating(true);
+                    })
+                    .OnRowClick("onRowClick")
+                    )
+
+
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+     var collapsed = false;
+    function contentReady(e) {
+        if(!collapsed) {
+            collapsed = true;
+            e.component.expandRow(["EnviroCare"]);
+        }
+    }
+
+    function customizeTooltip(pointsInfo) {
+        return { text: parseInt(pointsInfo.originalValue) + "%" };
+    }
+
+        function onRowClick(e) {
+        const id = e.data.Id; 
+        window.location.href = `/Contacts/SingleList/${id}`; 
+    }
+
+
+</script>
+            

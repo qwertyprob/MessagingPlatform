@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using MessagingProject.Abstractions;
-using MessagingProject.Models;
+using MessagingProject.Models.Auth;
 using MessagingProject.Validators;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Net.WebSockets;
 using System.Resources;
+using static DevExpress.Data.Helpers.FindSearchRichParser;
 
-namespace MessagingProject.Controllers
+namespace MessagingProject.Controllers.Authorization
 {
     [AllowAnonymous]
     public class AuthController : Controller
@@ -19,22 +21,19 @@ namespace MessagingProject.Controllers
         private readonly IAuthService _authService;
         private readonly IUserService _userService;
         private readonly IValidator<LoginViewModel> _validator;
-        
         public AuthController(IAuthService auth, IUserService userService,IValidator<LoginViewModel> validator)
         {
             _validator = validator;
             _authService = auth;
             _userService = userService;
         }
-        
-        
+
         [HttpGet]
         [Route("/Logout")]
         public async Task<IActionResult> Logout()
         {
             try
-            {
-                
+            {  
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
                 HttpContext.Response.Cookies.Delete(".AspNetCore.Antiforgery");
@@ -50,7 +49,7 @@ namespace MessagingProject.Controllers
         [Route("/Login")]
         public IActionResult Index()
         {
-
+            
             return View();
         }
 
@@ -69,7 +68,7 @@ namespace MessagingProject.Controllers
 
                 }
 
-               validationResult.AddToModelState(this.ModelState);
+               validationResult.AddToModelState(ModelState);
 
                 return View("Index", model);
 
@@ -77,7 +76,8 @@ namespace MessagingProject.Controllers
             }
             catch (UnauthorizedAccessException)
             {
-                ViewData.ModelState.AddModelError("Email", MessagingProject.Resources.ValidateResource.Invalid);
+                var errorMessage = $"* {Resources.ValidateResource.Invalid}";
+                ViewData.ModelState.AddModelError("Email", errorMessage);
                 return View("Index", model);
             }
             catch (Exception ex)
@@ -99,7 +99,7 @@ namespace MessagingProject.Controllers
                 
                 if (string.IsNullOrEmpty(email) || !email.Contains("@"))
                 {
-                    var error = MessagingProject.Resources.ValidateResource.InvalidPassword;
+                    var error = "* " + Resources.ValidateResource.InvalidPassword;
                     return View("AuthRecoverPassword", error);
                 }
 
@@ -110,7 +110,6 @@ namespace MessagingProject.Controllers
             }
             catch (UnauthorizedAccessException)
             {
-                ViewBag.ErrorMessage = "Invalid credentials or token.";
                 return Redirect("/");
             }
             catch (Exception ex)

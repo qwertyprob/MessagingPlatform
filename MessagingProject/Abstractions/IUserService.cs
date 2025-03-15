@@ -1,4 +1,4 @@
-﻿using MessagingProject.Models;
+﻿using MessagingProject.Models.Auth;
 
 namespace MessagingProject.Abstractions
 {
@@ -8,5 +8,6 @@ namespace MessagingProject.Abstractions
         string GetToken();
         Task<bool> IsAuthenticated(string token);
         Task ChangeUILanguage(string language);
+        string[] UserLoginPassword();
     }
 }

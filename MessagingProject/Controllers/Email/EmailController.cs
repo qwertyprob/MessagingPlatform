@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MessagingProject.Controllers
+namespace MessagingProject.Controllers.Email
 {
-    [Authorize]
+
     public class EmailController : Controller
     {
         [Route("Email/MailingList")]

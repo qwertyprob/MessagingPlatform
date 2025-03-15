@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MessagingProject.Abstractions;
+using MessagingProject.DIContainer;
 using MessagingProject.Services;
 using MessagingProject.Validators;
 using Microsoft.AspNetCore.Authentication;
@@ -19,41 +20,25 @@ namespace MessagingProject
 
             builder.Services.AddControllersWithViews(options =>
             {
+                //Clear all system exceptions instead of fluent validation
                 options.ModelMetadataDetailsProviders.Clear(); 
 
             })
-                .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+                   .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
-            //Validation
-            builder.Services.AddValidatorsFromAssemblyContaining<LoginModelValidator>();
+            //Validation Container
+            builder.Services.AddValditaion();
 
-            builder.Services.AddAuthentication("Cookies")
-                            .AddCookie("Cookies", options =>
-                            {
-                                options.LoginPath = "/Login";
-                                options.LogoutPath = "/Logout";
-                                options.AccessDeniedPath = "/Login";
-                                options.Cookie.HttpOnly = true;
-                                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            //Auth Service Container
+            builder.Services.AddAuthServices();
 
-                            });
-
+            //Contact Service Container
+            builder.Services.AddContactServices();
 
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
-            builder.Services.AddAuthorization();
-            builder.Services.AddHttpContextAccessor();
-
-            builder.Services.AddScoped<IAuthService, AuthService>();
-            builder.Services.AddScoped<IUserService, UserService>();
 
             //HttpClientFactory 
-
-            builder.Services.AddHttpClient("AuthLogin", client =>
-            {
-                client.BaseAddress = new Uri("https://dev.edi.md/ISAuthService/json/AuthorizeUser");
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            });
-
+            builder.Services.AddHttpServices();
 
             var app = builder.Build();
 
@@ -65,6 +50,7 @@ namespace MessagingProject
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            
 
             app.UseRouting();
 
@@ -87,11 +73,10 @@ namespace MessagingProject
                 await next.Invoke();
             });
 
-
-
             app.UseAuthentication();
             app.UseAuthorization();
 
+            //Routing
             app.MapControllerRoute(
                 name: "MainPage",
                 pattern: "{controller=Dashboard}/{action=Index}/{id?}"
@@ -102,8 +87,13 @@ namespace MessagingProject
                 pattern: "{controller=Contacts}/{action=ContactLists}"
             );
 
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers().RequireAuthorization();
+            });
 
-            
+
+
 
 
             app.Run();
