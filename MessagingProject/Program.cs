@@ -34,8 +34,12 @@ namespace MessagingProject
 
             //Contact Service Container
             builder.Services.AddContactServices();
+            //Decrypt Service Container
+            builder.Services.AddDecryptServices();
 
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+
 
             //HttpClientFactory 
             builder.Services.AddHttpServices();

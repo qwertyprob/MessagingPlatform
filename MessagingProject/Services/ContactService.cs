@@ -10,12 +10,13 @@ namespace MessagingProject.Services
     {
         private readonly HttpClient _client;
         private readonly IUserService _userService;
+        private readonly IDecryptor _decryptor;
 
-        public ContactService(HttpClient client, IUserService userService)
+        public ContactService(HttpClient client, IUserService userService, IDecryptor decryptor)
         {
             _client = client;
             _client.BaseAddress = new Uri("https://dev.edi.md/MailService/");
-
+            _decryptor = decryptor;
             _userService = userService;
             
 
@@ -62,7 +63,7 @@ namespace MessagingProject.Services
 
             if (responseModel is not null && !string.IsNullOrEmpty(responseModel.ContactData.HashedContactData))
             {
-                var decodedUsersString = DecodeHashedContactData(responseModel.ContactData.HashedContactData);
+                var decodedUsersString = _decryptor.DecodeHashedData(responseModel.ContactData.HashedContactData);
                
                 var listOfContacts = JsonConvert.DeserializeObject<IEnumerable<SingleContactModel>>(decodedUsersString);
                
@@ -73,11 +74,7 @@ namespace MessagingProject.Services
             return Enumerable.Empty<SingleContactModel>();
         }
 
-        private string DecodeHashedContactData(string hashedUsers)
-        {
-            var jsonString = Encoding.UTF8.GetString(Convert.FromBase64String(hashedUsers));
-            return jsonString;
-        }
+       
 
 
 
