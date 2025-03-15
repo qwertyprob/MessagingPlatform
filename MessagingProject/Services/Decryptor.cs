@@ -7,8 +7,7 @@ namespace MessagingProject.Services
     {
         public string DecodeHashedData(string hashedData)
         {
-            var data = Encoding.UTF8.GetString(Convert.FromBase64String(hashedData));
-            return data;
+            return Encoding.UTF8.GetString(Convert.FromBase64String(hashedData));
         }
     }
 }
