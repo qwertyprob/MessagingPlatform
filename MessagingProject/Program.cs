@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
-using static MessagingProject.Services.AuthorizationService;
 
 namespace MessagingProject
 {

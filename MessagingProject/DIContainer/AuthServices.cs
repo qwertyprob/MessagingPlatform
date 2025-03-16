@@ -1,7 +1,6 @@
 ﻿using MessagingProject.Abstractions;
 using MessagingProject.Services;
 using System.Runtime.CompilerServices;
-using static MessagingProject.Services.AuthorizationService;
 
 namespace MessagingProject.DIContainer
 {

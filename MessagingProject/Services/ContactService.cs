@@ -15,7 +15,6 @@ namespace MessagingProject.Services
         public ContactService(HttpClient client, IUserService userService, IDecryptor decryptor)
         {
             _client = client;
-            _client.BaseAddress = new Uri("https://dev.edi.md/MailService/");
             _decryptor = decryptor;
             _userService = userService;
             

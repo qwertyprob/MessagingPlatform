@@ -1,7 +1,6 @@
 ﻿using MessagingProject.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Newtonsoft.Json;
-using static MessagingProject.Services.AuthorizationService;
 using System.Security.Claims;
 using System.Text;
 using MessagingProject.Abstractions;
@@ -13,8 +12,6 @@ using MessagingProject.Models.Auth;
 
 namespace MessagingProject.Services
 {
-    public class AuthorizationService
-    {
         public class AuthService : IAuthService
         {
             private readonly HttpClient _client;
@@ -22,11 +19,11 @@ namespace MessagingProject.Services
             public AuthService(HttpClient client,IHttpContextAccessor context)
             {
                 _client = client;
-                _client.BaseAddress = new Uri("https://dev.edi.md/ISAuthService/json/");
                 _httpContext = context.HttpContext;
             }
             public async Task<AuthResponseModel> AuthenticateUserAsync(LoginViewModel model)
             {
+            Console.WriteLine(_client.BaseAddress);
                 var requestContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
                 var response = await _client.PostAsync("AuthorizeUser", requestContent);
@@ -105,5 +102,4 @@ namespace MessagingProject.Services
             }
 
         }
-    }
 }

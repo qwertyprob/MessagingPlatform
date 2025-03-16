@@ -1,4 +1,7 @@
-﻿namespace MessagingProject.DIContainer
+﻿using MessagingProject.Abstractions;
+using MessagingProject.Services;
+
+namespace MessagingProject.DIContainer
 {
     public static class HttpServices
     {
@@ -7,10 +10,29 @@
             //HttpContext
             services.AddHttpContextAccessor();
 
-            services.AddHttpClient("AuthLogin", client =>
+            //Auth
+            services.AddHttpClient<IAuthService, AuthService>(options =>
             {
-                client.BaseAddress = new Uri("https://dev.edi.md/ISAuthService/json/AuthorizeUser");
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
+#if DEBUG
+                options.BaseAddress = new Uri("https://dev.edi.md/ISAuthService/json/");
+#endif
+#if RELEASE
+                options.BaseAddress = new Uri("https://dev.edi.md/ISAuthService/json/");
+#endif
+                options.DefaultRequestHeaders.Add("Accept", "application/json");
+            });
+
+            //Contact
+            services.AddHttpClient<IContactService, ContactService>(options =>
+            {
+#if DEBUG
+                options.BaseAddress = new Uri("https://dev.edi.md/MailService/");
+#endif
+#if RELEASE
+                options.BaseAddress = new Uri("https://dev.edi.md/MailService/");
+#endif
+
+                options.DefaultRequestHeaders.Add("Accept", "application/json");
             });
         }
     }
