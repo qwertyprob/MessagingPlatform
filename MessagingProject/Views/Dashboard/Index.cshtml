@@ -9,50 +9,49 @@
         <div class="col-lg-5 col-md-8 col-sm-12 p-4 bg-white rounded shadow-sm mx-3 mb-4">
             <h2 style="font-weight:600;">@MessagingProject.Resources.Resource.SMS</h2>
             <span style="font-size:25px;">@MessagingProject.Resources.Resource.Month</span>
-            @(  Html.DevExtreme().Chart()
-                                .Rotated(true)
-                                .ID("chartContainerMonthSMS")
-                                .DataSource(ds => ds.Mvc()
-                                .Controller("Dashboard")
-                                .LoadAction("GetByMonthInfoSMS")
-                                )
-                                .ValueAxis(axis =>
-                                {
-                                    axis.Add().Label(l => l.Visible(false)); 
-                                })
-                                .ArgumentAxis(axis =>
-                                {
-                                    axis.Label(l => l.Visible(true)); 
-                                })
-                                .Series(s => s.Add()
-                                .Type(SeriesType.Bar)
-                                .ArgumentField("Category")
-                                .ValueField("Value")
-                                .Label(l => l
-                                .Visible(true)
-                                .BackgroundColor("#ff6347")
-                                .CustomizeText("function(info) { return info.valueText; }")
-                                .Font(f => f.Color("white").Weight(700))
-                                )
-                                )
-                                .CustomizePoint(@<text>
+            @(Html.DevExtreme().Chart()
+                .Rotated(true)
+                .ID("chartContainerMonthSMS")
+                .DataSource(ds => ds.Mvc()
+                .Controller("Dashboard")
+                .LoadAction("GetByMonthInfoSMS")
+                )
+                .ValueAxis(axis =>
+                {
+                    axis.Add().Label(l => l.Visible(false));
+                })
+                .ArgumentAxis(axis =>
+                {
+                    axis.Label(l => l.Visible(true));
+                })
+                .Series(s => s.Add()
+                .Type(SeriesType.Bar)
+                .ArgumentField("Category")
+                .ValueField("Value")
+                .Label(l => l
+                .Visible(true)
+                .BackgroundColor("#ff6347")
+                .CustomizeText("function(info) { return info.valueText; }")
+                .Font(f => f.Color("white").Weight(700))
+                )
+                )
+                .CustomizePoint(@<text>
                 function(pointInfo) {
                 return { color: pointInfo.data.Color };
                 }
             </text>)
-                                .Legend(legend => legend.Visible(false))
-                                .Export(export => export
-                                .Enabled(true)
-                                .Formats(new List<DevExtreme.AspNet.Mvc.ExportFormat>
+                .Legend(legend => legend.Visible(false))
+                .Export(export => export
+                .Enabled(true)
+                .Formats(new List<DevExtreme.AspNet.Mvc.ExportFormat>
             {
             DevExtreme.AspNet.Mvc.ExportFormat.JPEG,
             DevExtreme.AspNet.Mvc.ExportFormat.PNG,
             DevExtreme.AspNet.Mvc.ExportFormat.PDF,
             DevExtreme.AspNet.Mvc.ExportFormat.SVG
             })
-                                )
-                                )
-
+                )
+                )
         </div>
 
         <div class="col-lg-5 col-md-8 col-sm-12 p-4 bg-white rounded shadow-sm mx-3 mb-4">
@@ -65,6 +64,14 @@
                                 .Controller("Dashboard")
                                 .LoadAction("GetByMonthInfo")
                                 )
+                                .ValueAxis(axis =>
+                                {
+                                    axis.Add().Label(l => l.Visible(false));
+                                })
+                                .ArgumentAxis(axis =>
+                                {
+                                    axis.Label(l => l.Visible(true));
+                                })
                                 .Series(s => s.Add()
                                 .Type(SeriesType.Bar)
                                 .ArgumentField("Category")
@@ -85,11 +92,11 @@
                                 .Export(export => export
                                 .Enabled(true)
                                 .Formats(new List<DevExtreme.AspNet.Mvc.ExportFormat>
-            {
-            DevExtreme.AspNet.Mvc.ExportFormat.JPEG,
-            DevExtreme.AspNet.Mvc.ExportFormat.PNG,
-            DevExtreme.AspNet.Mvc.ExportFormat.PDF,
-            DevExtreme.AspNet.Mvc.ExportFormat.SVG
+            {                       
+                                    DevExtreme.AspNet.Mvc.ExportFormat.JPEG,
+                                    DevExtreme.AspNet.Mvc.ExportFormat.PNG,
+                                    DevExtreme.AspNet.Mvc.ExportFormat.PDF,
+                                    DevExtreme.AspNet.Mvc.ExportFormat.SVG
             })
                                 )
                                 )
@@ -124,8 +131,8 @@
                             .ArgumentField("Category")
                             .ValueField("Value")
                             .Type(SeriesType.Bar)
-                            .Name(MessagingProject.Resources.Resource.Week)
-                            .Color("#66CDAA")
+                            .Name(MessagingProject.Resources.Resource.SMS)
+                            .Color("#82cddb")
                             .Label(l => l
                             .Visible(true)
                             .BackgroundColor("#ff6347")
@@ -162,7 +169,7 @@
                         .ArgumentField("Category")
                         .ValueField("Value")
                         .Type(SeriesType.Bar)
-                        .Name(MessagingProject.Resources.Resource.Week)
+                        .Name(MessagingProject.Resources.Resource.Email)
                         .Color("#66CDAA")
                     .Label(l => l
                     .Visible(true)

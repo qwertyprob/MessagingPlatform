@@ -100,14 +100,12 @@ namespace MessagingProject.Controllers.Dashboard
                 // Mapping for color
                 var chartData = new[]
                 {
-                    new { Category = MessagingProject.Resources.Resource.ThisMonth, Value = responseInfo.SentThisMonth, Color = "#4169e1" },
-                    new { Category = MessagingProject.Resources.Resource.IncomeThisMonth, Value = responseInfo.IncomeThisMonth, Color = "#4682b4" },
-                    new { Category = MessagingProject.Resources.Resource.Waiting, Value = responseInfo.WaitingForSend, Color = "#ffa500" },
-                    new { Category = MessagingProject.Resources.Resource.Failed, Value = responseInfo.FailedDelivery, Color = "#ffb8c6" },
-                    new { Category = MessagingProject.Resources.Resource.Rejected, Value = responseInfo.Rejected, Color = "#e9967a" }
+                new { Category = MessagingProject.Resources.Resource.ThisMonth, Value = responseInfo.SentThisMonth, Color = "#6A5ACD" },  
+                new { Category = MessagingProject.Resources.Resource.IncomeThisMonth, Value = responseInfo.IncomeThisMonth, Color = "#20B2AA" }, 
+                new { Category = MessagingProject.Resources.Resource.Waiting, Value = responseInfo.WaitingForSend, Color = "#FFD700" },  
+                new { Category = MessagingProject.Resources.Resource.Failed, Value = responseInfo.FailedDelivery, Color = "#FF4500" },  
+                new { Category = MessagingProject.Resources.Resource.Rejected, Value = responseInfo.Rejected, Color = "#708090" }  
                 };
-
-
                 return Json(chartData);
             }
             catch (Exception ex)
@@ -126,8 +124,8 @@ namespace MessagingProject.Controllers.Dashboard
                 // Mapping for color
                 var chartData = new[]
                 {
-                    new { Category = MessagingProject.Resources.Resource.SentToday, Value = responseInfo.SentToday, Color = "#4169e1" },
-                    new { Category = MessagingProject.Resources.Resource.SentThisWeek, Value = responseInfo.SentThisWeek, Color = "#4682b4" },
+                    new { Category = MessagingProject.Resources.Resource.SentToday, Value = responseInfo.SentToday },
+                    new { Category = MessagingProject.Resources.Resource.SentThisWeek, Value = responseInfo.SentThisWeek },
 
                 };
 
