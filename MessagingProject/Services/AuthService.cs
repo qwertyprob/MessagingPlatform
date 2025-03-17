@@ -59,6 +59,8 @@ namespace MessagingProject.Services
                     new Claim("FullName", $"{authResponse?.User.FirstName} {authResponse?.User.LastName}")
                 };
 
+                
+
                 var currentTokenClaim = _httpContext.User.Claims.FirstOrDefault(c => c.Type == "Token");
                 if (currentTokenClaim != null)
                 {

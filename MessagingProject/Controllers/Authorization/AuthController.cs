@@ -117,7 +117,6 @@ namespace MessagingProject.Controllers.Authorization
                 ViewBag.ErrorMessage = $"$\"Internal server error: {ex.Message}\"";
                 return Redirect("/");
             }
-
             
          }
 

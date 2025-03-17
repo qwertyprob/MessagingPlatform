@@ -177,4 +177,37 @@
   <data name="Errror" xml:space="preserve">
     <value>Eroare</value>
   </data>
+  <data name="Month" xml:space="preserve">
+    <value>Luna aceasta</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>în săptămână această </value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>Respins</value>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>Trimiterea eșuată</value>
+  </data>
+  <data name="Waiting" xml:space="preserve">
+    <value>Aștept trimiterea</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>Trimis această lună</value>
+  </data>
+  <data name="IncomeThisMonth" xml:space="preserve">
+    <value>Primit lună această </value>
+  </data>
+  <data name="ReadThisMonth" xml:space="preserve">
+    <value>Citit această lună</value>
+  </data>
+  <data name="SentToday" xml:space="preserve">
+    <value>Trimis astăzi</value>
+  </data>
+  <data name="IncomeThisWeek" xml:space="preserve">
+    <value>Primit săptămână această  </value>
+  </data>
+  <data name="SentThisWeek" xml:space="preserve">
+    <value>Trimis săptămâna această</value>
+  </data>
 </root>

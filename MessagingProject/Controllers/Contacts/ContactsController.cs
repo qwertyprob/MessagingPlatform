@@ -46,14 +46,20 @@ namespace MessagingProject.Controllers.Contacts
         [HttpGet]
         public async Task<IActionResult> GetContactLists()
         {
-           
+            try
+            {
                 var token = _userService.GetToken();
                 var response = await _contactService.GetContactLists(token);
-
                 return Ok(response.ContactsLists);
 
-            
+            }
+            catch (UnauthorizedAccessException exe) { Console.WriteLine(exe.Message);}
 
+            catch (Exception ex) { Console.WriteLine(ex.Message);}
+
+
+            
+            return BadRequest();
             
 
         }

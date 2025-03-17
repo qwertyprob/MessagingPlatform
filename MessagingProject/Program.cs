@@ -41,7 +41,7 @@ namespace MessagingProject
 
 
             //HttpClientFactory 
-            builder.Services.AddHttpServices();
+            builder.Services.AddHttpServices(builder.Configuration);
 
             var app = builder.Build();
 

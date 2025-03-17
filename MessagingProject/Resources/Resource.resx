@@ -177,4 +177,37 @@
   <data name="Errror" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="Month" xml:space="preserve">
+    <value>This month</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>This week</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>Rejected</value>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>Failed delivery</value>
+  </data>
+  <data name="Waiting" xml:space="preserve">
+    <value>Waiting for send</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>Read Sent This Month</value>
+  </data>
+  <data name="IncomeThisMonth" xml:space="preserve">
+    <value>Income This Month</value>
+  </data>
+  <data name="ReadThisMonth" xml:space="preserve">
+    <value>Read This Month</value>
+  </data>
+  <data name="SentToday" xml:space="preserve">
+    <value>Sent Today</value>
+  </data>
+  <data name="IncomeThisWeek" xml:space="preserve">
+    <value>Income This Week</value>
+  </data>
+  <data name="SentThisWeek" xml:space="preserve">
+    <value>Sent This Week</value>
+  </data>
 </root>

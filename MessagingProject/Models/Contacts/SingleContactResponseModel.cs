@@ -12,16 +12,10 @@ namespace MessagingProject.Models.Contacts
         [JsonProperty("contactsList")]
         public required ContactData ContactData { get; set; }
     }
-
     public class ContactData
     {
         [JsonProperty("contactsData")]
         public required string HashedContactData { get; set; }
     }
-
-
-
-
-
 
 }

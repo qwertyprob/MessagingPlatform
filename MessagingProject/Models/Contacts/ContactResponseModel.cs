@@ -2,13 +2,9 @@
 
 namespace MessagingProject.Models.Contacts
 {
-    public class ContactResponseModel
+    public class ContactResponseModel : BaseResponseModel
     {
-        [JsonProperty("errorMessage")]
-        public required string ErrorMessage { get; set; }
-
-        [JsonProperty("errorCode")]
-        public required int ErrorCode { get; set; }
+        
 
         [JsonProperty("contactsLists")]
         public List<ContactModel> ContactsLists { get; set; }

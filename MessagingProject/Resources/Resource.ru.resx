@@ -177,4 +177,37 @@
   <data name="Errror" xml:space="preserve">
     <value>Ошибка</value>
   </data>
+  <data name="Month" xml:space="preserve">
+    <value>В этом месяце</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>На этой неделе</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>Отклонено</value>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>Не удалось отправить</value>
+  </data>
+  <data name="Waiting" xml:space="preserve">
+    <value>Ожидают отправки </value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>Отправлено в этом месяце</value>
+  </data>
+  <data name="IncomeThisMonth" xml:space="preserve">
+    <value>Принято в этом месяце</value>
+  </data>
+  <data name="ReadThisMonth" xml:space="preserve">
+    <value>Прочитано в этом месяце</value>
+  </data>
+  <data name="SentToday" xml:space="preserve">
+    <value>Отправлено сегодня</value>
+  </data>
+  <data name="IncomeThisWeek" xml:space="preserve">
+    <value>Принято на этой неделе </value>
+  </data>
+  <data name="SentThisWeek" xml:space="preserve">
+    <value>Отправлено на этой неделе</value>
+  </data>
 </root>

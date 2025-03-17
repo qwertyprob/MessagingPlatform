@@ -10,16 +10,12 @@ namespace MessagingProject.Services
 {
     public class UserService : IUserService
     {
-        private readonly HttpClient _client;
+
         private readonly HttpContext _httpContext;
-        public UserService(HttpClient client,IHttpContextAccessor httpContext)
+        public UserService(IHttpContextAccessor httpContext)
         {
-            _client = client;
-            _client.BaseAddress = new Uri("https://dev.edi.md/ISAuthService/json/GetProfileInfo");
             _httpContext = httpContext.HttpContext;
-
         }
-
         public Task<UserClaimsInfoResponse> GetProfileInfo(string token)
         {
             var user = _httpContext.User;
@@ -43,13 +39,11 @@ namespace MessagingProject.Services
             // Возвращаем обновленные данные пользователя
             return Task.FromResult(userInfo);
         }
-
         private string SetLanguage()
         {
             var uiLanguage = _httpContext.Request.Cookies["Language"];
             return uiLanguage??"en";
         }
-
         public Task ChangeUILanguage(string language)
         {
            if(!string.IsNullOrEmpty(language))
@@ -65,7 +59,6 @@ namespace MessagingProject.Services
 
             return Task.CompletedTask;
         }
-
         private async void UpdateUiLanguageClaims(string uiLanguage)
         {
             var user = _httpContext.User;
@@ -87,9 +80,6 @@ namespace MessagingProject.Services
             // Обновляем куки с актуальными данными
             await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, newUser);
         }
-
-
-
         public string GetToken()
         {
 
@@ -107,7 +97,6 @@ namespace MessagingProject.Services
             return string.Empty;
 
         }
-
         public string[] UserLoginPassword()
         {
             var user = _httpContext.User;
@@ -122,7 +111,6 @@ namespace MessagingProject.Services
             return array;
 
         }
-
         public async Task<bool> IsAuthenticated(string token)
         {
             var profileInfo =  await GetProfileInfo(token);
