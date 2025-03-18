@@ -1,0 +1,47 @@
+﻿<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center mt-2 ms-auto" id="navbarNav">
+            <ul class="navbar-nav align-items-center">
+                <li class="nav-item d-flex align-items-center me-2">
+                    <a class="nav-link btn-no-bg-black" href="/">
+                        <img src="~/img/icons/home.png" width="20" class="mb-1" alt="Home">
+                        @MessagingProject.Resources.Resource.Dashboard
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown me-4 sm-me-6">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown2" role="button" data-bs-toggle="dropdown">
+                        <img src="~/img/icons/sms.png" width="20" class="mb-1" alt="SMS">
+                        @MessagingProject.Resources.Resource.SMS
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/SMS/CreateSms">@MessagingProject.Resources.Resource.CreateSMSNewsLetter</a></li>
+                        <li><a class="dropdown-item" href="/SMS/SmsNewsLetters">@MessagingProject.Resources.Resource.SMSNewsLetter</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown me-4">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown3" role="button" data-bs-toggle="dropdown">
+                        <img src="~/img/icons/email.png" width="20" class="mb-1" alt="Email">
+                        E-mail
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/Email/SendEmail">@MessagingProject.Resources.Resource.CreateEmailNewsLetter</a></li>
+                        <li><a class="dropdown-item" href="/Email/MailingList">@MessagingProject.Resources.Resource.EmailNewsletter</a></li>
+                        <li><a class="dropdown-item" href="/Email/TemplateList">@MessagingProject.Resources.Resource.EmailTemplateList</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item me-4">
+                    <a class="nav-link btn-no-bg-black" href="/Contacts/ContactLists">
+                        <img src="~/img/icons/list.png" width="20" class="mb-1" alt="Contact List">
+                        @MessagingProject.Resources.Resource.Contats
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

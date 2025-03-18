@@ -1,0 +1,102 @@
+﻿@{
+    var claims = User.Claims;
+    var firstname = claims.FirstOrDefault(c => c.Type == "FirstName")?.Value;
+    var lastname = claims.FirstOrDefault(c => c.Type == "Surname")?.Value;
+}
+
+<header>
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-3 col-md-4 d-none d-md-block ">
+                <a href="/">
+                    <img class="w-75 w-md-75 h-auto" src="~/img/logo/logo_email-white.png" alt="Logo">
+                </a>
+            </div>
+            <div class="col-12 col-md-8 d-flex flex-column justify-content-between align-items-start align-items-md-end mb-2">
+                <span class="fw-bold text-white m-1">INTELECTSOFT</span>
+
+                <div class="d-flex justify-content-between w-100 d-md-none">
+                    <div class="dropdown">
+                        <a class="btn btn-no-bg dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @switch (Thread.CurrentThread.CurrentCulture.ToString())
+                            {
+                                case "en":
+                                    <span>EN</span>
+                                    break;
+
+                                case "ru":
+                                    <span>RU</span>
+                                    break;
+
+                                case "ro":
+                                    <span>RO</span>
+                                    break;
+
+                                default:
+                                    <span>EN</span>
+                                    break;
+                            }
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="ru"><img src="~/img/lang/ru.png" width="20" class="me-2"> Русский</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="en"><img src="~/img/lang/eng.png" width="20" class="me-2"> English</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="ro"><img src="~/img/lang/ro.webp" width="20" class="me-2"> Romana</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown">
+                        <a class="btn btn-no-bg dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @lastname @firstname
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item d-flex align-items-center justify-content-start" href="/ProfileInfo"><img src="~/img/icons/settings.png" width="20" class="me-2">@MessagingProject.Resources.Resource.Settings</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center justify-content-start" href="#"><img src="~/img/icons/lock.png" width="20" class="me-2">@MessagingProject.Resources.Resource.LockScreen</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center justify-content-start " href="/Logout"><img src="~/img/icons/exit.png" width="20" class="me-2">@MessagingProject.Resources.Resource.Exit</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="d-none d-md-flex flex-row gap-2">
+                    <div class="dropdown">
+                        <a class="btn btn-no-bg dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @switch (Thread.CurrentThread.CurrentCulture.ToString())
+                            {
+                                case "en":
+                                    <span>EN</span>
+                                    break;
+
+                                case "ru":
+                                    <span>RU</span>
+                                    break;
+
+                                case "ro":
+                                    <span>RO</span>
+                                    break;
+
+                                default:
+                                    <span>EN</span>
+                                    break;
+                            }
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="ru"><img src="~/img/lang/ru.png" width="20" class="me-2"> Русский</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="en"><img src="~/img/lang/eng.png" width="20" class="me-2"> English</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="ChangeLanguage" asp-route-language="ro"><img src="~/img/lang/ro.webp" width="20" class="me-2"> Romana</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown">
+                        <a class="btn btn-no-bg dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @lastname @firstname
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item d-flex align-items-center justify-content-start" href="/ProfileInfo"><img src="~/img/icons/settings.png" width="20" class="me-2">@MessagingProject.Resources.Resource.Settings</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center justify-content-start" href="#"><img src="~/img/icons/lock.png" width="20" class="me-2">@MessagingProject.Resources.Resource.LockScreen</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center justify-content-start " href="/Logout"><img src="~/img/icons/exit.png" width="20" class="me-2">@MessagingProject.Resources.Resource.Exit</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
