@@ -120,6 +120,12 @@ btn-no-bg-black{
         width: 100%;
     }
 }
+@media (max-width: 768px) { 
+    .btn-responsive {
+        width: 100% !important;
+    }
+}
+
     
     
 

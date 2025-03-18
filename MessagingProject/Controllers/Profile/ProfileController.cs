@@ -17,7 +17,13 @@ namespace MessagingProject.Controllers.Profile
             return View();
         }
         [Route("/Profile")]
-        public IActionResult ProfileInfo() 
+        public IActionResult ProfileInfo()
+        {
+            return View();
+        }
+
+        [Route("/ScreenLock")]
+        public IActionResult ScreenLock()
         {
             return View();
         }

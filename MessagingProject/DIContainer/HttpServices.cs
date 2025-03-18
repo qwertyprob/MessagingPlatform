@@ -10,7 +10,7 @@ namespace MessagingProject.DIContainer
         {
             //HttpContext
             services.AddHttpContextAccessor();
-
+            //HttpFactory
             //Auth
             services.AddHttpClient<IAuthService, AuthService>(options =>
             {
@@ -22,7 +22,6 @@ namespace MessagingProject.DIContainer
 #endif
                 options.DefaultRequestHeaders.Add("Accept", "application/json");
             });
-
             //Contact
             services.AddHttpClient<IContactService, ContactService>(options =>
             {

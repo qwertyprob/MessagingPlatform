@@ -38,8 +38,6 @@ namespace MessagingProject
 
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-
-
             //HttpClientFactory 
             builder.Services.AddHttpServices(builder.Configuration);
 
@@ -53,8 +51,6 @@ namespace MessagingProject
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
-
             app.UseRouting();
 
             //Globalization
@@ -71,7 +67,6 @@ namespace MessagingProject
                     Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en");
                     Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
                 }
-
 
                 await next.Invoke();
             });
@@ -94,10 +89,6 @@ namespace MessagingProject
             {
                 endpoints?.MapControllers().RequireAuthorization();
             });
-
-
-
-
 
             app.Run();
         }
