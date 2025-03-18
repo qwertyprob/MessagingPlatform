@@ -80,3 +80,46 @@ btn-no-bg-black{
     
 }
 
+.btn-primary {
+    width:10em !important;
+    background-color: #244065 !important;
+    border-color: #244065 !important;
+}
+
+    .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+        background-color: #3278b2 !important;
+        border-color: none !important;
+    }
+
+.btn-success {
+    width: 10em !important;
+    background-color: #32b286 !important;
+    border-color: #32b286 !important;
+}
+
+    .btn-success:hover, .btn-success:focus, .btn-success:active {
+        background-color: #6bd1ad !important;
+        border-color: none;
+    }
+
+.btn-icon img {
+    width: 16px;
+}
+
+@media (max-width: 768px) {
+    .row {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .col-6 {
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+    
+    
+

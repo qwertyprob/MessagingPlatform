@@ -9,9 +9,10 @@
 
     @RenderBody()
 
-    
     @await Html.PartialAsync("_AuthFooter")
+
     @await Html.PartialAsync("_AuthJs")
+
     @await RenderSectionAsync("Scripts", required: false)
 
     @await Html.PartialAsync("_AuthScripts")

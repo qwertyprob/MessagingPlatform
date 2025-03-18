@@ -5,17 +5,17 @@
     @await Html.PartialAsync("_TitleMeta")
     @await Html.PartialAsync("_HeadJs")
     @await Html.PartialAsync("_HeadCss")
+    @RenderSection("ExternalDependencies", required: false)
+
 </head>
 
-<body style="background-color:whitesmoke">
+<body>
 
     @await Html.PartialAsync("_Header")
 
     @await Html.PartialAsync("_NavBar")
 
-
     @RenderBody()
-
 
     @await Html.PartialAsync("_Footer")
 

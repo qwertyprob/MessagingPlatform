@@ -1,0 +1,69 @@
+﻿.settings-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+
+body {
+    color: #007bff;
+}
+   
+
+.section-title {
+    font-size: 1.4em;
+    font-weight:600;
+    margin-bottom: 20px;
+}
+
+.form-control {
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.btn-success {
+    padding: 10px 20px;
+    font-size: 1.1em;
+}
+.settings-menu .nav-link {
+    color: #333;
+    font-size: 1.1em;
+    padding: 10px 15px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+    .settings-menu .nav-link.active {
+        color: #007bff;
+        border-bottom: 2px solid #007bff;
+    }
+
+    .settings-menu .nav-link:hover {
+        background-color: lightgray; 
+        font-size: 1.15em; 
+        color: #007bff;
+        border-bottom: 2px solid #007bff;
+        transition: all 0.3s ease-in-out;
+    }
+
+@media (max-width: 768px) {
+    .settings-title {
+        text-align: center;
+    }
+
+    .settings-menu {
+        text-align: center;
+    }
+
+        .settings-menu .nav-link {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+    .col-md-9 {
+        margin-top: 20px;
+    }
+}
+.btn-success{
+    height:2em !important;
+    width:5em !important;
+}

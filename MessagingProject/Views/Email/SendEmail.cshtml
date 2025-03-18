@@ -1,4 +1,65 @@
 ﻿
 @{
+    Layout = "_Layout";
 }
-<h1>Send Email</h1>
+<div class="container-fluid py-0 md-py-0">
+    <div class="row mx-5 px-5">
+        <div class="col-12 col-md-10 p-0" style="background:none;border:0px;">
+            <h1 style="font-weight:600;">Create NewsLetter</h1>
+        </div>
+
+        <!-- Форма -->
+        <div class="col-6 bg-white p-4">
+            <form>
+                <!-- Newsletter Title -->
+                <div class="mb-3">
+                    <label class="form-label">Newsletter Title</label>
+                    <input type="text" class="form-control" value="Created on 03-18-2025" readonly>
+                </div>
+
+                <!-- Template Title -->
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Template Title">
+                </div>
+
+                <!-- Subject -->
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Subject">
+                </div>
+
+                <!-- Contact List Title -->
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Contact List Title">
+                </div>
+
+                <!-- Checkboxes -->
+                <div class="mb-3 d-flex align-items-center flex-wrap">
+                    <input class="form-check-input me-2" type="checkbox" id="sendNow">
+                    <label class="form-check-label me-4" for="sendNow">Send Now</label>
+
+                    <input class="form-check-input me-2" type="checkbox" id="enableReplies">
+                    <label class="form-check-label me-4" for="enableReplies">Enable Replies</label>
+
+                    <input class="form-check-input me-2" type="checkbox" id="enableSignature">
+                    <label class="form-check-label" for="enableSignature">Enable Signature</label>
+                </div>
+
+                <p class="text-danger">* To receive replies, check "Enable Replies"</p>
+
+                <!-- Buttons -->
+                <div class="d-flex gap-3 justify-content-between flex-wrap">
+                    <button type="submit" class="btn btn-success btn-icon d-flex align-items-center justify-content-center">
+                        <img src="~/img/icons/send.svg" alt="Send Icon" width="20"> Send
+                    </button>
+                    <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center gap-2">
+                        <img src="~/img/icons/save.svg" alt="Save Icon" width="20">
+                        <span>Save</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Пустая колонка -->
+        <div class="col-6"></div>
+    </div>
+</div>
