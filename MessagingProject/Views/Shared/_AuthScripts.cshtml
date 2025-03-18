@@ -1,0 +1,15 @@
+﻿<script>
+    $(document).ready(function () {
+        if (typeof GetClaimsInfo === 'function') {
+            GetClaimsInfo();
+        } else {
+            console.error("Метод GetClaimsInfo не найден!");
+        }
+    });
+
+        document.addEventListener("DOMContentLoaded", function () {
+        showErrorModal();
+    });
+
+
+</script>
