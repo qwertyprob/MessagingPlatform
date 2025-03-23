@@ -50,16 +50,17 @@ namespace MessagingProject.Services
         public async Task SignInUserAsync(AuthResponseModel authResponse, [FromForm] LoginViewModel model)
         {
             var claims = new List<Claim>
-                {
-                    new Claim("FirstName", authResponse.User.FirstName),
-                    new Claim("Surname", authResponse.User.LastName),
-                    new Claim("Email", model.Email),
-                    new Claim("Company", authResponse.User.Company),
-                    new Claim("Token", authResponse.Token),
-                    new Claim("UiLanguage", authResponse?.User?.UiLanguage.ToString() ?? "0"),
-                    new Claim("Password", model.Password),
-                    new Claim("FullName", $"{authResponse?.User.FirstName} {authResponse?.User.LastName}")
-                };
+            {
+                new Claim("FirstName", authResponse.User.FirstName),
+                new Claim("Surname", authResponse.User.LastName),
+                new Claim("Email", model.Email),
+                new Claim("Company", authResponse.User.Company),
+                new Claim("Token", authResponse.Token),
+                new Claim("UiLanguage", authResponse?.User?.UiLanguage.ToString() ?? "0"),
+                new Claim("Password", model.Password),
+                new Claim("FullName", $"{authResponse?.User.FirstName} {authResponse?.User.LastName}"),
+                new Claim("Phone", string.Empty)
+            };
 
 
 
@@ -79,7 +80,7 @@ namespace MessagingProject.Services
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.None,
-                
+
             });
 
         }
@@ -134,7 +135,7 @@ namespace MessagingProject.Services
 
             return newToken;
         }
-        
+
         public async Task<HttpResponseMessage> SendWithRefreshAsync(Func<Task<HttpResponseMessage>> requestFunc)
         {
             var response = await requestFunc(); // Make Request

@@ -27,7 +27,12 @@ namespace MessagingProject.Controllers.Contacts
         public async Task<IActionResult> SingleListQuery(int id)
         {
             var token = _userService.GetToken();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine(token);
+            
             var response = await _contactService.GetContactList(token, id);
+
+            foreach (var contact in response) { Console.WriteLine(contact.Email); }
 
             return Json(new { data = response }); 
         }

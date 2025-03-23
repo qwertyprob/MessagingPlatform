@@ -13,7 +13,6 @@ namespace MessagingProject.DIContainer
                             {
                                 options.LoginPath = "/Login";
                                 options.LogoutPath = "/Logout";
-                                options.AccessDeniedPath = "/Login";
                                 options.Cookie.HttpOnly = true;
                                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 

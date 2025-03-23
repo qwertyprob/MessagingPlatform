@@ -2,7 +2,7 @@
 <div class="col-md-3 col-12 bg-white">
     <ul class="nav flex-column settings-menu py-2 ">
         <li class="nav-item">
-            <a class="nav-link active" href="/Profile">Edit Profile</a>
+            <a class="nav-link" href="/Profile">Edit Profile</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/ChangePassword">Change Password</a>
@@ -12,3 +12,19 @@
         </li>
     </ul>
 </div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let links = document.querySelectorAll(".settings-menu .nav-link");
+        let currentUrl = window.location.pathname;
+
+        links.forEach(link => {
+            if (link.getAttribute("href") === currentUrl) {
+                link.classList.add("active");
+            } else {
+                link.classList.remove("active");
+            }
+        });
+    });
+</script>
