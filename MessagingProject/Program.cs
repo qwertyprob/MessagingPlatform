@@ -85,10 +85,7 @@ namespace MessagingProject
                 pattern: "{controller=Contacts}/{action=ContactLists}"
             );
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints?.MapControllers().RequireAuthorization();
-            });
+            
 
             app.Run();
         }

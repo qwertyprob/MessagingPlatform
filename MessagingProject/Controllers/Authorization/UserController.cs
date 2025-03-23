@@ -19,47 +19,47 @@ namespace MessagingProject.Controllers.Authorization
 
 
         }
-        //[HttpGet]
-        //[Route("/GetUserByClaims")]
-        //public async Task<IActionResult> GetClaimsResult()
-        //{
-        //    var token = _userService.GetToken();
-        //    var user = await _userService.GetProfileInfo(token);
-
-        //    var userDictionary = new Dictionary<string, string>
-        //{
-        //    { "Company", user.Company },
-        //    { "Email", user.Email },
-        //    { "FullName", user.FullName },
-        //    { "Password", user.Password },
-        //    { "Language", user.UiLanguage.ToString() },
-        //    { "Token", user.Token }
-        //};
-
-        //    return Ok(userDictionary);
-        //}
         [HttpGet]
-        [Route("GetUserByClaims")]
+        [Route("/GetUserByClaims")]
         public async Task<IActionResult> GetClaimsResult()
         {
             var token = _userService.GetToken();
             var user = await _userService.GetProfileInfo(token);
 
-            var userList = new List<object>
-    {
-        new
+            var userDictionary = new Dictionary<string, string>
         {
-            user.Company,
-            user.Email,
-            user.FullName,
-            UiLanguage = user.UiLanguage.ToString(),
-            user.Password,
-            user.Token
-        }
-    };
+            { "Company", user.Company },
+            { "Email", user.Email },
+            { "FullName", user.FullName },
+            { "Password", user.Password },
+            { "Language", user.UiLanguage.ToString() },
+            { "Token", user.Token }
+        };
 
-            return Ok(userList);
+            return Ok(userDictionary);
         }
+        //    [HttpGet]
+        //    [Route("GetUserByClaims")]
+        //    public async Task<IActionResult> GetClaimsResult()
+        //    {
+        //        var token = _userService.GetToken();
+        //        var user = await _userService.GetProfileInfo(token);
+
+        //        var userList = new List<object>
+        //{
+        //    new
+        //    {
+        //        user.Company,
+        //        user.Email,
+        //        user.FullName,
+        //        UiLanguage = user.UiLanguage.ToString(),
+        //        user.Password,
+        //        user.Token
+        //    }
+        //};
+
+        //        return Ok(userList);
+        //    }
 
 
 

@@ -8,14 +8,15 @@ using System.Diagnostics;
 namespace MessagingProject.Controllers.Dashboard
 {
 
-    public class DashboardController : Controller
+    public class DashboardController : BaseController
     {
         private readonly ILogger<DashboardController> _logger;
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
         private readonly ISMSService _smsService;
 
-        public DashboardController(ILogger<DashboardController> logger, IUserService userService, IEmailService emailService, ISMSService smsService)
+        public DashboardController(ILogger<DashboardController> logger,
+            IUserService userService, IEmailService emailService, ISMSService smsService, IAuthService auth):base(auth)
         {
             _logger = logger;
             _userService = userService;

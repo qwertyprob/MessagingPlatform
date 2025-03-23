@@ -34,9 +34,7 @@ namespace MessagingProject.Services
             };
 
             userInfo.UiLanguage = SetLanguage();
-            UpdateUiLanguageClaims(userInfo.UiLanguage);
 
-            // Возвращаем обновленные данные пользователя
             return Task.FromResult(userInfo);
         }
         private string SetLanguage()
@@ -59,27 +57,7 @@ namespace MessagingProject.Services
 
             return Task.CompletedTask;
         }
-        private async void UpdateUiLanguageClaims(string uiLanguage)
-        {
-            var user = _httpContext.User;
-            var claims = user.Claims.ToList();
-
-            var uiLanguageClaim = claims.FirstOrDefault(c => c.Type == "UiLanguage");
-            if (uiLanguageClaim != null)
-            {
-                claims.Remove(uiLanguageClaim);
-            }
-
-            claims.Add(new Claim("UiLanguage", uiLanguage));
-
-            var identity = new ClaimsIdentity(claims, "login");
-            var newUser = new ClaimsPrincipal(identity);
-
-            _httpContext.User = newUser;
-
-            // Обновляем куки с актуальными данными
-            await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, newUser);
-        }
+        
         public string GetToken()
         {
 
@@ -97,26 +75,8 @@ namespace MessagingProject.Services
             return string.Empty;
 
         }
-        public string[] UserLoginPassword()
-        {
-            var user = _httpContext.User;
-            var claims = user.Claims;
-
-            var password = claims.FirstOrDefault(c => c.Type == "Password")?.Value;
-            var email = claims.FirstOrDefault(c => c.Type == "Email")?.Value;
-
-            var array = new string[]{ email, password };
-
-
-            return array;
-
-        }
-        public async Task<bool> IsAuthenticated(string token)
-        {
-            var profileInfo =  await GetProfileInfo(token);
-
-            return profileInfo != null && !string.IsNullOrEmpty(profileInfo.Token);
-        }
+       
+        
 
     }
 }

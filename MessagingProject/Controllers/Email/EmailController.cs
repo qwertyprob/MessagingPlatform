@@ -1,11 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MessagingProject.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MessagingProject.Controllers.Email
 {
 
-    public class EmailController : Controller
+    public class EmailController : BaseController
     {
+        public EmailController(IAuthService auth):base(auth)
+        {
+            
+        }
         [Route("Email/MailingList")]
         public IActionResult MailingList()
         {

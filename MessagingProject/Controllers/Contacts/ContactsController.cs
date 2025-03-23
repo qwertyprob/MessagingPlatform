@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace MessagingProject.Controllers.Contacts
 {
 
-    public class ContactsController : Controller
+    public class ContactsController : BaseController
     {
         private readonly IUserService _userService;
         private readonly IContactService _contactService;
 
-        public ContactsController(IUserService userService, IContactService contactService)
+        public ContactsController(IUserService userService, IContactService contactService,IAuthService auth):base(auth)
         {
             _userService = userService;
             _contactService = contactService;

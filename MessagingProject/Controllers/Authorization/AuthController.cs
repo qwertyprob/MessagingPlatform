@@ -37,6 +37,7 @@ namespace MessagingProject.Controllers.Authorization
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
                 HttpContext.Response.Cookies.Delete(".AspNetCore.Antiforgery");
+                HttpContext.Response.Cookies.Delete("AccessToken");
 
                 return RedirectToAction("Index", "Auth"); 
             }
