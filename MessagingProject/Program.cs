@@ -70,7 +70,7 @@ namespace MessagingProject
 
                 await next.Invoke();
             });
-
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
 

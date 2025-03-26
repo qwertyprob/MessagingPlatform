@@ -43,7 +43,8 @@ namespace MessagingProject.Controllers.Dashboard
         {
             try
             {
-                var responseInfo = await _emailService.GetByMonthInfo();
+                var token = _userService.GetToken();
+                var responseInfo = await _emailService.GetByMonthInfo(token);
 
                 // Mapping for color
                 var chartData = new[]
@@ -69,7 +70,8 @@ namespace MessagingProject.Controllers.Dashboard
         {
             try
             {
-                var responseInfo = await _emailService.GetByWeekInfo();
+                var token = _userService.GetToken();
+                var responseInfo = await _emailService.GetByWeekInfo(token);
 
                 // Mapping for color
                 var chartData = new[]

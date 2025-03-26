@@ -4,7 +4,7 @@ namespace MessagingProject.Abstractions
 {
     public interface IEmailService
     {
-        Task<GetByMonthInfoResponseModel> GetByMonthInfo();
-        Task<GetByWeekInfoResponseModel> GetByWeekInfo();
+        Task<GetByMonthInfoResponseModel> GetByMonthInfo(string token);
+        Task<GetByWeekInfoResponseModel> GetByWeekInfo(string token);
     }
 }

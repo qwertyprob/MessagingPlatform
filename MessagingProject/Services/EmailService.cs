@@ -1,6 +1,7 @@
 ﻿using MessagingProject.Abstractions;
 using MessagingProject.Models;
 using Newtonsoft.Json;
+using static DevExpress.Data.Helpers.FindSearchRichParser;
 
 namespace MessagingProject.Services
 {
@@ -13,9 +14,9 @@ namespace MessagingProject.Services
             _client = client;
         }
 
-        public async Task<GetByMonthInfoResponseModel> GetByMonthInfo()
+        public async Task<GetByMonthInfoResponseModel> GetByMonthInfo(string token)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"GetInfo");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"GetInfoCompany?Token={token}&CampaignOnly=true");
 
             var response = await _client.SendAsync(request);
 
@@ -33,9 +34,9 @@ namespace MessagingProject.Services
 
         }
 
-        public async Task<GetByWeekInfoResponseModel> GetByWeekInfo()
+        public async Task<GetByWeekInfoResponseModel> GetByWeekInfo(string token)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"GetInfo");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"GetInfoCompany?Token={token}&CampaignOnly=true");
             var response = await _client.SendAsync(request);
 
             var content = await response.Content.ReadAsStringAsync();

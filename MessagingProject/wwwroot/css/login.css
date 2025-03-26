@@ -111,4 +111,16 @@ a, li, ul {
 
 
 
-
+.circle {
+    width: 2em;
+    height: 2em;
+    background-color: grey;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3.2em;
+    font-weight:bold;
+    color: white;
+    text-transform: uppercase;
+}

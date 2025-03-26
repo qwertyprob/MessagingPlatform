@@ -8,6 +8,7 @@ namespace MessagingProject.DIContainer
     {
         public static void AddAuthServices(this IServiceCollection services)
         {
+            services.AddSession();
             services.AddAuthentication("Cookies")
                             .AddCookie("Cookies", options =>
                             {
@@ -15,8 +16,9 @@ namespace MessagingProject.DIContainer
                                 options.LogoutPath = "/Logout";
                                 options.Cookie.HttpOnly = true;
                                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-
-
+                                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                                //options.ExpireTimeSpan = TimeSpan.FromSeconds(5);
+                                options.SlidingExpiration = true;
                             });
 
             services.AddAuthorization();

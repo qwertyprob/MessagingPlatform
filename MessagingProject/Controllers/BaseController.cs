@@ -52,7 +52,7 @@ namespace MessagingProject.Controllers
                     var principal = new ClaimsPrincipal(identity);
                     await HttpContext.SignInAsync("Cookies", principal);
                     Console.ForegroundColor = ConsoleColor.Magenta;
-                    Console.WriteLine("Refreshed");
+                    Console.WriteLine("\tRefreshed");
                 }
             }
             catch

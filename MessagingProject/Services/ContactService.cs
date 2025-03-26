@@ -20,7 +20,6 @@ namespace MessagingProject.Services
             _client = client;
             _decryptor = decryptor;
             _userService = userService;
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("X-Auth-Token", _userService.GetToken());
 
         }
 

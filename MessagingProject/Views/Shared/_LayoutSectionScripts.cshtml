@@ -1,10 +1,30 @@
 ﻿<script>
     $(document).ready(function () {
-        GetClaimsInfo();
+        GetClaimsInfo(); 
 
+        (function () {
+            let inactivityTime = 5 * 60 * 1000; // 5 minutes
+            let timer;
+
+            function redirectToLockScreen() {
+                window.location.href = "/ScreenLock";
+            }
+
+            function resetTimer() {
+                clearTimeout(timer);
+                timer = setTimeout(redirectToLockScreen, inactivityTime);
+            }
+
+            function setupInactivityTimer() {
+                ["mousemove", "keydown", "click", "scroll", "touchstart"].forEach(event => {
+                    document.addEventListener(event, resetTimer);
+                });
+
+                resetTimer();
+            }
+
+            setupInactivityTimer(); 
+            setInterval(() => document.querySelectorAll('.dx-license').forEach(el => el.remove()), 100);
+        })();
     });
-        setInterval(() => {
-        document.querySelectorAll('.dx-license').forEach(el => el.remove());
-    }, 100);
-
 </script>

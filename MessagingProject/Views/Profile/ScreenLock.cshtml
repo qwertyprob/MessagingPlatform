@@ -3,25 +3,37 @@
 @{
     Layout = "_AuthLayout";
     ViewData["Title"] = "Lock Screen";
+
+    var claims = ViewBag.Claims;
+
+    var lastName = claims.ContainsKey("LastName") && !string.IsNullOrEmpty(claims["LastName"]) ? claims["LastName"].Substring(0, 1) : string.Empty;
+    var firstName = claims.ContainsKey("FirstName") && !string.IsNullOrEmpty(claims["FirstName"]) ? claims["FirstName"].Substring(0, 1) : string.Empty;
+
+    var firstTwoLetters = $"{lastName}{firstName}";
+
+
+
 }
 
 <div class="container p-5">
     <div class="row px-4">
         <div class="col-md-12 ms-1 me-1 px-3 sm:mx-2">
-            <h2>@MessagingProject.Resources.Resource.Login</h2>
-            <form asp-action="LoginUser">
-                <div class="form-group my-2">
-                    <label>@MessagingProject.Resources.Resource.Email</label>
-                    <input type="email" name="Email" class="form-control" asp-for="Email" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
+            <h2>Экран блокировки</h2>
+            <span>Введите ваш пароль чтобы восстановить доступ</span>
+            <div class="col-12 d-flex flex-column justify-content-center align-items-center py-1">
+            <div class="circle">@firstTwoLetters</div>
+                <span style="font-size:1.3em; color:dimgrey">@claims["LastName"] @claims["FirstName"] </span>
+            </div>
+            <form asp-action="LoginUser" >
+                <input type="hidden" name="Email" class="form-control" value="@ViewBag.Email" asp-for="Email" />
+                
                 <div class="form-group my-2">
                     <label>@MessagingProject.Resources.Resource.Password</label>
                     <input type="password" name="Password" class="form-control" asp-for="Password">
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group my-3">
-                    <button type="submit" name="submit" class="btn btn-primary" style="width:100% !important">@MessagingProject.Resources.Resource.Send</button>
+                    <button type="submit" name="submit" class="btn btn-primary" style="width:100% !important">Разблокировать</button>
                 </div>
                 <div class="d-flex justify-content-between align-items-center w-100">
                     <div class="dropdown">
@@ -47,7 +59,16 @@
                     </div>
                     <p class="d-block m-0"><a href="/AuthRecoverPassword" class="text-decoration-none label">@MessagingProject.Resources.Resource.Forgot</a></p>
                 </div>
+                
             </form>
+
+           
+
         </div>
+        <div class="col-12 d-flex py-2">
+            <span class="text text-center">Не ваш аккаунт? Вернитесь на страницу <a href="/Login" style="text-decoration:none;">Авторизации</a></span>
+        </div>
+
     </div>
+    
 </div>
