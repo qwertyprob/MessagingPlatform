@@ -1,4 +1,5 @@
-﻿using MessagingProject.Models.Contacts;
+﻿using MessagingProject.Models;
+using MessagingProject.Models.Contacts;
 
 namespace MessagingProject.Abstractions
 {
@@ -6,5 +7,6 @@ namespace MessagingProject.Abstractions
     {
         Task<ContactResponseModel> GetContactLists(string token);
         Task<IEnumerable<SingleContactModel>> GetContactList(string token, int id);
+        Task<BaseResponseModel> DeleteContactList(string token, int id);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MessagingProject.Abstractions;
+using MessagingProject.Models;
 using MessagingProject.Models.Contacts;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -22,7 +23,27 @@ namespace MessagingProject.Services
             _userService = userService;
 
         }
+        public async Task<BaseResponseModel> DeleteContactList(string token, int id)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, $"DeleteContactList?Token={token}&ID={id}");
+            var response = await _client.SendAsync(request);
+            var content = await response.Content.ReadAsStringAsync();
 
+            var contactResponse = JsonConvert.DeserializeObject<BaseResponseModel>(content);
+
+            if (contactResponse is null)
+            {
+                throw new NullReferenceException("Contact list is null!");
+            }
+
+            if (string.IsNullOrWhiteSpace(content) || content.StartsWith("<"))
+            {
+                throw new Exception("Unexpected response format (probably HTML).");
+            }
+
+            return contactResponse;
+
+        }
         public async Task<ContactResponseModel> GetContactLists(string token)
         {
             
@@ -50,7 +71,7 @@ namespace MessagingProject.Services
             return contactResponse;
 
         }
-
+        
         public async Task<IEnumerable<SingleContactModel>> GetContactList(string token, int id)
         {
             try

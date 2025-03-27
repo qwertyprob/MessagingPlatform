@@ -207,3 +207,26 @@ a, li, ul {
         height: 70%;
     }
 }
+
+/* Modal */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 90%;
+        margin-top: 10%; 
+        padding: 15px; 
+    }
+
+        .modal-content input {
+            margin-top: 2em; 
+        }
+
+        .modal-content .d-flex {
+            flex-direction: column; 
+            align-items: center;
+        }
+
+        .modal-content .btn {
+            width: 100%; 
+            margin-bottom: 10px; 
+        }
+}

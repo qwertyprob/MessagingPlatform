@@ -12,7 +12,7 @@
         <div class="col-12 d-flex flex-wrap">
             <!-- Form -->
             <div class="col-12 col-md-6 bg-white p-4">
-                <form id="myForm">
+                <form>
                     <!-- Newsletter Title -->
                     <div class="mb-3">
                         <label class="form-label">Title</label>
@@ -77,14 +77,23 @@
         </div>
     </div>
 </div>
-
 <script>
-           $(document).ready(function() {
+    //Chat
+     $(document).ready(function() {
         $('#inputText').on('input', function() {
-            var userInput = $(this).val(); 
-            $('#div1').text(userInput);  
+            var userInput = $(this).val();    
+
+            $('#div1').text(userInput); 
+
+           
+            if (userInput === "") {
+                document.getElementById('chat-container').style.display = 'none';
+            } else {
+                document.getElementById('chat-container').style.display = 'block';
+            }
         });
     });
 
 
 </script>
+

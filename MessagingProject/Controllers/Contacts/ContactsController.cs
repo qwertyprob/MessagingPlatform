@@ -23,6 +23,40 @@ namespace MessagingProject.Controllers.Contacts
         {
             return View();
         }
+
+        [HttpGet]
+        [Route("Contacts/DeleteContact/{id?}")]
+
+        public async Task<IActionResult> DeleteContactLists(int id)
+        {
+            try
+            {
+                var token = _userService.GetToken();
+                var deleteContactResponse = await _contactService.DeleteContactList(token, id);
+
+                if(deleteContactResponse.ErrorCode == 0)
+                {
+                    return Ok(deleteContactResponse);
+                }
+
+                return BadRequest(deleteContactResponse.ErrorMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.White;
+                throw new UnauthorizedAccessException();
+            }
+            catch(Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.White;
+
+                throw new Exception();
+            }
+        }
         [HttpGet]
         public async Task<IActionResult> SingleListQuery(int id)
         {

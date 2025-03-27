@@ -1,8 +1,6 @@
-﻿
-@{
-    Layout= "_Layout";
+﻿@{
+    Layout = "_Layout";
     ViewData["Title"] = "Contacts";
-
 }
 
 <div class="container-fluid py-0 md-py-0">
@@ -17,8 +15,8 @@
                     .DataSource(ds => ds.Mvc()
                     .Controller("Contacts")
                     .LoadAction("GetContactLists")
+                    .DeleteAction("DeleteContactLists")
                     )
-
                     .Columns(columns =>
                     {
                         columns.Add().DataField("Id").Visible(false);
@@ -31,13 +29,25 @@
                         .Buttons(b =>
                         {
                             b.Add().Name(GridColumnButtonName.Edit).Icon("edit");
-                            b.Add().Name(GridColumnButtonName.Delete).Icon("trash");
-
+                            b.Add().Name(GridColumnButtonName.Delete).Icon("trash")
+                        .OnClick("openModalDelete");
                         }).Caption("Actions");
                     })
-
-
-
+                    .Toolbar(toolbar =>
+                    {
+                        toolbar.Items(items =>
+                        {
+                            items.Add()
+                        .Location(ToolbarItemLocation.Before)
+                        .Widget(w => w.Button()
+                        .Type(ButtonType.Default)
+                        .Icon("add")
+                        .ElementAttr(new { @class = "btn-success" })
+                        .Text("Создать")
+                        .OnClick("openModal")
+                        );
+                        });
+                    })
                     .Paging(p => p.PageSize(10))
                     .FilterRow(f => f.Visible(true))
                     .SearchPanel(s => s.Visible(true))
@@ -52,31 +62,139 @@
                     })
                     .OnRowClick("onRowClick")
                     )
-
-
             </div>
         </div>
     </div>
 </div>
 
+@* Create Modal *@
+<div id="uploadModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+    <div class="modal-content" style="background:#fff; padding:20px; width:90%; max-width:50em; margin:15% auto; border-radius:8px; position:relative;">
+        <span onclick="closeModal()" style="cursor:pointer; position:absolute; top:0px; right:10px; font-size:35px;">&times;</span>
+        <input type="text" id="listName" class="form-control" placeholder="Новое название" style="margin-top:3em; margin-bottom:1em;" />
+        <input type="file" id="fileUpload" class="form-control" accept=".xlsx" />
+        <div class="d-flex justify-content-end py-4 ms-2">
+            <button class="btn btn-primary d-flex me-2 align-items-center" onclick="closeModal()">
+                <img src="~/img/icons/close.svg" alt="close Icon" width="22" class="me-2">Закрыть
+            </button>
+            <button class="btn btn-success d-flex align-items-center" onclick="saveList()">
+                <img src="~/img/icons/save.svg" alt="save Icon" width="22" class="me-2">Сохранить
+            </button>
+        </div>
+    </div>
+</div>
+
+@* Delete Modal *@
+<div id="deleteModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+    <div class="modal-content" style="background:#fff; padding:20px; width:90%; max-width:50em; margin:15% auto; border-radius:8px; position:relative;">
+        <span onclick="closeModalDelete()" style="cursor:pointer; position:absolute; top:0px; right:10px; font-size:35px;">&times;</span>
+        <h5 class="py-1">Вы уверены, что хотите удалить этот элемент? Пожалуйста введите <span class="text" style="color:gray; font-style:italic;">EditListOrNot123</span> и в поле ниже:</h5>
+        <input type="text" id="listName" class="form-control" placeholder="value" style="margin-top:3em; margin-bottom:1em;" />
+        <div class="row">
+            <div class="col-6">
+                <label>Email</label>
+                <input type="text" id="emailField" class="form-control" placeholder="value" style="margin-bottom:1em;" disabled />
+            </div>
+            <div class="col-6">
+                <label>Phone</label>
+                <input type="text" id="phoneField" class="form-control" placeholder="value" style="margin-bottom:1em;" disabled />
+            </div>
+        </div>
+        <div class="d-flex justify-content-end py-4 ms-2">
+            <button class="btn btn-primary d-flex me-2 align-items-center" onclick="closeModalDelete()">
+                <img src="~/img/icons/close.svg" alt="close Icon" width="22" class="me-2">Закрыть
+            </button>
+            <button class="btn btn-danger d-flex me-2 align-items-center" onclick="deleteContact()">
+                <img src="~/img/icons/trash.svg" alt="trash Icon" width="22" class="me-2">Удалить
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
-     var collapsed = false;
-    function contentReady(e) {
-        if(!collapsed) {
-            collapsed = true;
-            e.component.expandRow(["EnviroCare"]);
+    var collapsed = false;
+
+    function onRowClick(e) {
+        const id = e.data.Id;
+        window.location.href = `/Contacts/SingleList/${id}`;
+    }
+
+    // Modals
+    //Create
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("deleteModal").style.display = "none";
+    });
+
+        document.addEventListener("DOMContentLoaded", function() {
+        openModalDelete();
+    });
+
+
+            function openModalDelete(e) {
+        const id = e.row.data.Id;  
+        console.log("Удаление ID:", id);
+
+        document.getElementById('deleteModal').style.display = 'block';
+    }
+
+
+    function closeModalDelete() {
+        document.getElementById("deleteModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        var modal = document.getElementById("deleteModal");
+        if (event.target === modal) {
+            closeModal();
+        }
+    };
+
+    //Delete
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("uploadModal").style.display = "none";
+    });
+
+    function openModal() {
+        document.getElementById("uploadModal").style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById("uploadModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        var modal = document.getElementById("uploadModal");
+        if (event.target === modal) {
+            closeModal();
+        }
+    };
+        function deleteContact(e) {
+        var rowData = e.row.data; 
+        var contactId = rowData.Id; 
+
+        if (confirm("Are you sure you want to delete this contact?")) {
+            
+            $.ajax({
+                url: '/Contacts/DeleteContac/contactId',
+                type: 'GET', 
+                data: { id: contactId }, 
+                success: function (response) {
+                    if (response && response.errorCode === 0) {
+                        alert("Contact deleted successfully.");
+                        e.component.refresh(); 
+                    } else {
+                        
+                        alert("Error: " + (response.errorMessage || "Unknown error"));
+                    }
+                },
+                error: function () {
+                    // Error when calling the action
+                    alert("An error occurred while deleting the contact.");
+                }
+            });
         }
     }
 
-    function customizeTooltip(pointsInfo) {
-        return { text: parseInt(pointsInfo.originalValue) + "%" };
-    }
-
-        function onRowClick(e) {
-        const id = e.data.Id; 
-        window.location.href = `/Contacts/SingleList/${id}`; 
-    }
-
-
+    
 </script>
-            
+

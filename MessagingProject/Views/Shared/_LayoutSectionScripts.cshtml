@@ -3,7 +3,7 @@
         GetClaimsInfo(); 
 
         (function () {
-            let inactivityTime = 5 * 60 * 1000; // 5 minutes
+            let inactivityTime = 30000; // 5 minutes
             let timer;
 
             function redirectToLockScreen() {
@@ -23,8 +23,8 @@
                 resetTimer();
             }
 
-            setupInactivityTimer(); 
-            setInterval(() => document.querySelectorAll('.dx-license').forEach(el => el.remove()), 100);
+            // setupInactivityTimer(); 
+            // setInterval(() => document.querySelectorAll('.dx-license').forEach(el => el.remove()), 100);
         })();
     });
 </script>
