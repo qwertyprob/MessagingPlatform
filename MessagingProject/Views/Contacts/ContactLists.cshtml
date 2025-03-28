@@ -12,10 +12,10 @@
             <div class="col-12 col-md-10 py-4 bg-white rounded shadow-sm">
                 @(
                     Html.DevExtreme().DataGrid()
+                    .ID("container")
                     .DataSource(ds => ds.Mvc()
                     .Controller("Contacts")
                     .LoadAction("GetContactLists")
-                    .DeleteAction("DeleteContactLists")
                     )
                     .Columns(columns =>
                     {
@@ -28,11 +28,17 @@
                         columns.Add().Type(GridCommandColumnType.Buttons)
                         .Buttons(b =>
                         {
-                            b.Add().Name(GridColumnButtonName.Edit).Icon("edit");
+                            b.Add().Name(GridColumnButtonName.Edit).Icon("edit")
+                        .OnClick("onClick");
                             b.Add().Name(GridColumnButtonName.Delete).Icon("trash")
                         .OnClick("openModalDelete");
                         }).Caption("Actions");
                     })
+                    
+                    .Paging(p => p.PageSize(10))
+                    .FilterRow(f => f.Visible(true))
+                    .SearchPanel(s => s.Visible(true))
+                    .GroupPanel(g => g.Visible(true))
                     .Toolbar(toolbar =>
                     {
                         toolbar.Items(items =>
@@ -45,13 +51,10 @@
                         .ElementAttr(new { @class = "btn-success" })
                         .Text("Создать")
                         .OnClick("openModal")
+
                         );
                         });
                     })
-                    .Paging(p => p.PageSize(10))
-                    .FilterRow(f => f.Visible(true))
-                    .SearchPanel(s => s.Visible(true))
-                    .GroupPanel(g => g.Visible(true))
                     .Sorting(s => s.Mode(GridSortingMode.Multiple))
                     .Editing(editing =>
                     {
@@ -85,19 +88,22 @@
 </div>
 
 @* Delete Modal *@
-<div id="deleteModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+<div id="deleteModal" class="modal" 
+    style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
     <div class="modal-content" style="background:#fff; padding:20px; width:90%; max-width:50em; margin:15% auto; border-radius:8px; position:relative;">
         <span onclick="closeModalDelete()" style="cursor:pointer; position:absolute; top:0px; right:10px; font-size:35px;">&times;</span>
-        <h5 class="py-1">Вы уверены, что хотите удалить этот элемент? Пожалуйста введите <span class="text" style="color:gray; font-style:italic;">EditListOrNot123</span> и в поле ниже:</h5>
-        <input type="text" id="listName" class="form-control" placeholder="value" style="margin-top:3em; margin-bottom:1em;" />
+        <h5 class="py-1">Вы уверены, что хотите удалить этот элемент? Пожалуйста введите <span class="text-name" style="color:gray; font-style:italic;"></span> и в поле ниже:</h5>
+        <input type="text" id="myName" class="form-control" style="margin-top:3em;" />
+        <span id="error-message" class="text-danger" style="display: none; margin-bottom:1em;"></span>
         <div class="row">
             <div class="col-6">
                 <label>Email</label>
-                <input type="text" id="emailField" class="form-control" placeholder="value" style="margin-bottom:1em;" disabled />
+                <input type="text" id="emailField" class="form-control" style="margin-bottom:1em;" disabled />
             </div>
             <div class="col-6">
                 <label>Phone</label>
-                <input type="text" id="phoneField" class="form-control" placeholder="value" style="margin-bottom:1em;" disabled />
+                <input type="text" id="phoneField" class="form-control" style="margin-bottom:1em;" disabled />
+                <input type="hidden" id="contactId" />
             </div>
         </div>
         <div class="d-flex justify-content-end py-4 ms-2">
@@ -111,8 +117,17 @@
     </div>
 </div>
 
+
 <script>
-    var collapsed = false;
+        // On row click event
+    function onClick(e) {
+        if (e.row && e.row.data) {
+            const id = e.row.data.Id;
+            window.location.href = `/Contacts/SingleList/${id}`;
+        } else {
+            console.error("Data not found in row!");
+        }
+    }
 
     function onRowClick(e) {
         const id = e.data.Id;
@@ -120,81 +135,118 @@
     }
 
     // Modals
-    //Create
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("deleteModal").style.display = "none";
-    });
+    // Delete Modal
+       function openModalDelete(e) {
+        const id = e.row.data.Id;
+        $('#contactId').val(id);
+        $.ajax({
+            url: '/Contacts/DeleteInfo/' + id,
+            type: 'GET',
+            success: function(response) {
+                console.log(response);
 
-        document.addEventListener("DOMContentLoaded", function() {
-        openModalDelete();
-    });
+                if (response) {
+                    var name = response.name || 'No Name';
+                    var email = parseInt(response.emailCount, 10) || 0;
+                    var phone = parseInt(response.phoneCount, 10) || 0;
 
+                    
+                    $('.text-name').text(name);
+                    $('#listName').val('');
+                    $('#emailField').val(email);
+                    $('#phoneField').val(phone);
+                    $('#listName').val(name);  
 
-            function openModalDelete(e) {
-        const id = e.row.data.Id;  
-        console.log("Удаление ID:", id);
+                    $('#deleteModal').show();  
+                } else {
+                    console.error('Invalid response format');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }
 
-        document.getElementById('deleteModal').style.display = 'block';
+        //Delete contact
+        //Delete contact
+    function deleteContact() {
+        const enteredName = $('#myName').val().trim();  
+        const expectedName = $('.text-name').text().trim();  
+
+        console.log("Entered Name:", enteredName);  
+        console.log("Expected Name:", expectedName);  
+
+        if (enteredName.toLowerCase() !== expectedName.toLowerCase()) {
+        $('#error-message').text("Неверное имя! Убедитесь, что вы ввели правильное название.").show();
+        return;
+        }
+
+        const id = $('#contactId').val();
+        console.log("Contact ID:", id);
+
+        if (!id) {
+            console.error("ID не найден при удалении");
+            return;
+        }
+
+        $.ajax({
+            url: '/Contacts/DeleteContact/' + id,
+            type: 'GET',
+            success: function(response) {
+                if (response && response.ErrorCode === 0) {
+                    closeModalDelete();
+                    
+                    location.reload();
+                } else {
+                    $('#error-message').text('Ошибка при удалении: ' + response.ErrorMessage).show();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                alert('Произошла ошибка при удалении контакта.');
+            }
+        });
     }
 
 
-    function closeModalDelete() {
-        document.getElementById("deleteModal").style.display = "none";
+        function closeModalDelete() {
+        $('#deleteModal').hide();  
     }
 
-    window.onclick = function(event) {
-        var modal = document.getElementById("deleteModal");
-        if (event.target === modal) {
+       window.onclick = function(event) {
+        var deleteModal = document.getElementById("deleteModal");
+        var uploadModal = document.getElementById("uploadModal");
+
+        if (event.target === deleteModal) {
+            closeModalDelete();
+        }
+
+        if (event.target === uploadModal) {
             closeModal();
         }
     };
 
-    //Delete
+
+    // Create Modal Logic
     document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("uploadModal").style.display = "none";
     });
 
     function openModal() {
-        document.getElementById("uploadModal").style.display = "block";
+        document.getElementById("uploadModal").style.display = "block";  
     }
 
     function closeModal() {
-        document.getElementById("uploadModal").style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        var modal = document.getElementById("uploadModal");
-        if (event.target === modal) {
-            closeModal();
-        }
-    };
-        function deleteContact(e) {
-        var rowData = e.row.data; 
-        var contactId = rowData.Id; 
-
-        if (confirm("Are you sure you want to delete this contact?")) {
-            
-            $.ajax({
-                url: '/Contacts/DeleteContac/contactId',
-                type: 'GET', 
-                data: { id: contactId }, 
-                success: function (response) {
-                    if (response && response.errorCode === 0) {
-                        alert("Contact deleted successfully.");
-                        e.component.refresh(); 
-                    } else {
-                        
-                        alert("Error: " + (response.errorMessage || "Unknown error"));
-                    }
-                },
-                error: function () {
-                    // Error when calling the action
-                    alert("An error occurred while deleting the contact.");
-                }
-            });
-        }
+        document.getElementById("uploadModal").style.display = "none";  
     }
 
     
-</script>
+    window.onclick = function(event) {
+        var modal = document.getElementById("uploadModal");
+        if (event.target === modal) {
+            closeModal();  
+        }
+    };
 
+</script>

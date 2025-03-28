@@ -77,7 +77,6 @@ namespace MessagingProject.Services
             try
             {
                 Console.WriteLine($"Token: {token}");
-                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var request = new HttpRequestMessage(HttpMethod.Get, $"GetContactList?Token={token}&ID={id}");
 
@@ -91,9 +90,9 @@ namespace MessagingProject.Services
 
                 var responseModel = JsonConvert.DeserializeObject<SingleContactResponseModel>(content);
 
-                if (responseModel is not null && !string.IsNullOrEmpty(responseModel.ContactData.HashedContactData))
+                if (responseModel is not null && !string.IsNullOrEmpty(responseModel.ContactsList.HashedContactData))
                 {
-                    var decodedUsersString = _decryptor.DecodeHashedData(responseModel.ContactData.HashedContactData);
+                    var decodedUsersString = _decryptor.DecodeHashedData(responseModel.ContactsList.HashedContactData);
                     Console.WriteLine("Decoded string: " + decodedUsersString);
 
                     var listOfContacts = JsonConvert.DeserializeObject<IEnumerable<SingleContactModel>>(decodedUsersString);
@@ -117,7 +116,45 @@ namespace MessagingProject.Services
             return Enumerable.Empty<SingleContactModel>();
         }
 
-        
+
+        public async Task<SingleContactResponseModel> GetDeleteContactList(string token, int id)
+        {
+            try
+            {
+                Console.WriteLine($"Token: {token}");
+
+                var request = new HttpRequestMessage(HttpMethod.Get, $"GetContactList?Token={token}&ID={id}");
+
+                var response = await _client.SendAsync(request);
+
+                var content = await response.Content.ReadAsStringAsync();
+
+
+                Console.WriteLine("Raw JSON Response: " + content);
+
+
+                var responseModel = JsonConvert.DeserializeObject<SingleContactResponseModel>(content);
+
+                if(responseModel != null)
+                {
+                    return responseModel;
+                }
+            }
+
+            catch (Exception ex)
+            {
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+
+            return new SingleContactResponseModel();
+
+        }
+
+
 
 
 

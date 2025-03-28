@@ -6,16 +6,33 @@ namespace MessagingProject.Models.Contacts
 {
     public class SingleContactResponseModel
     {
+        [JsonProperty("contactsList")]
+        public ContactsList ContactsList { get; set; }  
+    }
+
+    public class ContactsList
+    {
+        [JsonProperty("contactsData")]
+        public string HashedContactData { get; set; }
+
         [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonProperty("contactsList")]
-        public required ContactData ContactData { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("description")]
+        public string? Description { get; set; }
+
+        [JsonProperty("email")]
+        public int Email { get; set; }
+
+        [JsonProperty("phone")]
+        public int Phone { get; set; }
+
+        [JsonProperty("createDate")]
+        public DateTime CreateDate { get; set; }
     }
-    public class ContactData
-    {
-        [JsonProperty("contactsData")]
-        public required string HashedContactData { get; set; }
-    }
+
 
 }

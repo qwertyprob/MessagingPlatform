@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MessagingProject.Controllers.Contacts
 {
-
+    [Authorize]
     public class ContactsController : BaseController
     {
         private readonly IUserService _userService;
@@ -26,7 +26,6 @@ namespace MessagingProject.Controllers.Contacts
 
         [HttpGet]
         [Route("Contacts/DeleteContact/{id?}")]
-
         public async Task<IActionResult> DeleteContactLists(int id)
         {
             try
@@ -58,15 +57,30 @@ namespace MessagingProject.Controllers.Contacts
             }
         }
         [HttpGet]
+        [Route("/Contacts/DeleteInfo/{id?}")]
+        public IActionResult GetDeleteInfo(int id)
+        {
+            var token = _userService.GetToken();
+            var contactInfo = _contactService.GetDeleteContactList(token,id).Result;
+
+            if (contactInfo == null)
+            {
+                return NotFound();
+            }
+            var result = new
+            {
+                name = contactInfo.ContactsList.Name,
+                emailCount = contactInfo.ContactsList.Email,  
+                phoneCount = contactInfo.ContactsList.Phone   
+            };
+            return Json(result);
+        }
+        [HttpGet]
         public async Task<IActionResult> SingleListQuery(int id)
         {
             var token = _userService.GetToken();
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine(token);
-            
             var response = await _contactService.GetContactList(token, id);
 
-            foreach (var contact in response) { Console.WriteLine(contact.Email); }
 
             return Json(new { data = response }); 
         }

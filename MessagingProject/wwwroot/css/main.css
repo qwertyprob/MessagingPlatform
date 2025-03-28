@@ -198,11 +198,20 @@ a, li, ul {
         height: 70%;
     }
 }
-@media(max-width:360px) {
+@media(max-width:412px) {
     #chat-container {
         position: absolute;
         top: 15%;
-        left: 15%;
+        left: 10%;
+        width: 70%;
+        height: 70%;
+    }
+}
+@media(max-width:390px) {
+    #chat-container {
+        position: absolute;
+        top: 15%;
+        left: 10%;
         width: 70%;
         height: 70%;
     }
