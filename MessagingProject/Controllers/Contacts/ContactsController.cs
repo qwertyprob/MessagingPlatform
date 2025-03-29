@@ -1,7 +1,12 @@
-﻿using MessagingProject.Abstractions;
+﻿using DevExpress.Data.Helpers;
+using MessagingProject.Abstractions;
+using MessagingProject.Models.Contacts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Drawing.Printing;
+using System.Text;
 using System.Threading.Tasks;
 
 
@@ -79,20 +84,22 @@ namespace MessagingProject.Controllers.Contacts
         public async Task<IActionResult> SingleListQuery(int id)
         {
             var token = _userService.GetToken();
-            var response = await _contactService.GetContactList(token, id);
-
-
+            var response = await _contactService.GetContactHashedData(token, id);
             return Json(new { data = response }); 
         }
 
 
 
         [Route("Contacts/SingleList/{id?}")]
-        public IActionResult SingleList(int id)
+        public async Task<IActionResult> SingleList(int id)
         {
             ViewBag.ContactId = id;
-            return View();
+            //Model name
+            var model = _contactService.GetDeleteContactList(_userService.GetToken(), id).Result.ContactsList;
+            return View("SingleList",model.Name);
         }
+
+
 
 
 
@@ -116,6 +123,29 @@ namespace MessagingProject.Controllers.Contacts
             
 
         }
+
+
+
+        [HttpPost]
+        [Route("Contacts/CreateContactList")]
+        public async Task<IActionResult> CreateContactList([FromBody] CreateContactListRequest request)
+        {
+            try
+            {
+                var response = await _contactService.CreateContactList(request);
+                
+                return Ok(response);
+
+            }
+            catch (UnauthorizedAccessException exe) { Console.WriteLine(exe.Message); }
+
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+
+
+            return BadRequest();
+        }
+
 
         public ActionResult Overview()
         {

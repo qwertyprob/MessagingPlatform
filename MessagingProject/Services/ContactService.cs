@@ -4,6 +4,7 @@ using MessagingProject.Models.Contacts;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.WebSockets;
 using System.Text;
@@ -23,6 +24,8 @@ namespace MessagingProject.Services
             _userService = userService;
 
         }
+        //DELETE
+        
         public async Task<BaseResponseModel> DeleteContactList(string token, int id)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, $"DeleteContactList?Token={token}&ID={id}");
@@ -44,6 +47,8 @@ namespace MessagingProject.Services
             return contactResponse;
 
         }
+
+        //GET
         public async Task<ContactResponseModel> GetContactLists(string token)
         {
             
@@ -71,12 +76,10 @@ namespace MessagingProject.Services
             return contactResponse;
 
         }
-        
-        public async Task<IEnumerable<SingleContactModel>> GetContactList(string token, int id)
+        public async Task<IEnumerable<SingleContactModel>> GetContactHashedData(string token, int id)
         {
             try
             {
-                Console.WriteLine($"Token: {token}");
 
                 var request = new HttpRequestMessage(HttpMethod.Get, $"GetContactList?Token={token}&ID={id}");
 
@@ -84,16 +87,11 @@ namespace MessagingProject.Services
 
                 var content = await response.Content.ReadAsStringAsync();
 
-
-                Console.WriteLine("Raw JSON Response: " + content);
-
-
                 var responseModel = JsonConvert.DeserializeObject<SingleContactResponseModel>(content);
 
                 if (responseModel is not null && !string.IsNullOrEmpty(responseModel.ContactsList.HashedContactData))
                 {
                     var decodedUsersString = _decryptor.DecodeHashedData(responseModel.ContactsList.HashedContactData);
-                    Console.WriteLine("Decoded string: " + decodedUsersString);
 
                     var listOfContacts = JsonConvert.DeserializeObject<IEnumerable<SingleContactModel>>(decodedUsersString);
 
@@ -115,23 +113,16 @@ namespace MessagingProject.Services
 
             return Enumerable.Empty<SingleContactModel>();
         }
-
-
         public async Task<SingleContactResponseModel> GetDeleteContactList(string token, int id)
         {
             try
             {
-                Console.WriteLine($"Token: {token}");
 
                 var request = new HttpRequestMessage(HttpMethod.Get, $"GetContactList?Token={token}&ID={id}");
 
                 var response = await _client.SendAsync(request);
 
                 var content = await response.Content.ReadAsStringAsync();
-
-
-                Console.WriteLine("Raw JSON Response: " + content);
-
 
                 var responseModel = JsonConvert.DeserializeObject<SingleContactResponseModel>(content);
 
@@ -155,8 +146,41 @@ namespace MessagingProject.Services
         }
 
 
+        //CREATE
+        public async Task<BaseResponseModel> CreateContactList(CreateContactListRequest request)
+        {
+            var requestContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+
+            var response = await _client.PostAsync("UpdateContactList", requestContent);
+
+            
+
+            var contentBody = await response.Content.ReadAsStringAsync();
+
+            if (string.IsNullOrWhiteSpace(contentBody))
+            {
+                Console.WriteLine("Empty response body");
+                return null;
+            }
+
+            var responseBody = JsonConvert.DeserializeObject<BaseResponseModel>(contentBody);
+
+            if (responseBody.ErrorCode == 0)
+            {
+                return responseBody;
+            }
+
+            return null;
+        }
 
 
 
     }
+
+
+
+
+
+
 }
+

@@ -1,0 +1,93 @@
+﻿
+
+<div id="uploadModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+    <div class="modal-content" style="background:#fff; padding:20px; width:90%; max-width:50em; margin:15% auto; border-radius:8px; position:relative;">
+        <span onclick="closeModal()" style="cursor:pointer; position:absolute; top:0px; right:10px; font-size:35px;">&times;</span>
+        <input type="text" id="listName" class="form-control" placeholder="Новое название" style="margin-top:3em; margin-bottom:1em;" />
+        <input type="file" id="fileUpload" class="form-control" accept=".xlsx" />
+        <div class="d-flex justify-content-end py-4 ms-2">
+            <button class="btn btn-primary d-flex me-2 align-items-center" onclick="closeModal()">
+                <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">Закрыть
+            </button>
+            <button class="btn btn-success d-flex align-items-center" onclick="createContactList()">
+                <img src="~/img/icons/save.svg" alt="save Icon" width="22" class="me-2">Сохранить
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+   
+    function getToken() {
+        return $.ajax({
+            url: '/getuserByClaims',
+            type: 'GET'
+        }).then(function(response) {
+            console.log('Полный ответ сервера:', response);
+            console.log('Полученный токен:', response.Token);  
+            return response.Token;  
+        }).catch(function(error) {
+            console.error("Ошибка при получении токена:", error);
+            return null;
+        });
+    }
+
+  
+    function createContactList() {
+        getToken().then(function(token) {
+            console.log("Токен внутри createContactList:", token);
+
+            if (!token) {
+                alert("Токен не получен");
+                return;
+            }
+
+            var listName = $("#listName").val();
+
+            var requestData = {
+                name: listName,
+                token: token
+            };
+
+            console.log("Данные перед отправкой:", requestData);
+
+            $.ajax({
+                url: '/Contacts/CreateContactList',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(requestData),
+                success: function(result) {
+                   location.reload();
+                    console.log(result);
+                    closeModal();  
+                },
+                error: function(xhr) {
+                    let errorMessage = xhr.responseJSON?.message || "Не удалось создать список";
+                    alert("Ошибка: " + errorMessage);
+                }
+            });
+        }).catch(function(error) {
+            console.error("Ошибка получения токена:", error);
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("uploadModal").style.display = "none";
+    });
+
+    function openModal() {
+        document.getElementById("uploadModal").style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById("uploadModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        var modal = document.getElementById("uploadModal");
+        if (event.target === modal) {
+            closeModal();
+        }
+    };
+</script>

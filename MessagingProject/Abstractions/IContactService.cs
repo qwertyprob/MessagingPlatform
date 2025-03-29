@@ -5,10 +5,14 @@ namespace MessagingProject.Abstractions
 {
     public interface IContactService
     {
-        Task<ContactResponseModel> GetContactLists(string token);
-        Task<IEnumerable<SingleContactModel>> GetContactList(string token, int id);
         Task<BaseResponseModel> DeleteContactList(string token, int id);
+        Task<ContactResponseModel> GetContactLists(string token);
+
+        Task<IEnumerable<SingleContactModel>> GetContactHashedData(string token, int id);
+
         Task<SingleContactResponseModel> GetDeleteContactList(string token, int id);
+
+        Task<BaseResponseModel> CreateContactList(CreateContactListRequest request);
 
     }
 }

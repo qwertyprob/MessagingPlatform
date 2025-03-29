@@ -32,6 +32,9 @@ namespace MessagingProject.Models.Contacts
 
         [JsonProperty("createDate")]
         public DateTime CreateDate { get; set; }
+
+        [JsonIgnore]
+        public string Token { get; set; }
     }
 
 

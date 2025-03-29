@@ -1,4 +1,5 @@
-﻿
+﻿@using MessagingProject.Models.Contacts
+@model string
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Contacts";
@@ -8,63 +9,41 @@
 
 <div class="container-fluid py-0 md-py-0">
     <div class="row justify-content-center">
-        <div class="col-12 col-md-10 p-0 ms-3" style="background:none;border:0px;">
-            <h1 style="font-weight:600;">Single list</h1>
+        <div class="col-6 col-md-10 p-0 ms-3 d-flex" style="background:none;border:0px;">
+            <h1 style="font-weight:600;">@Model</h1>
+            <button class="btn btn-transparent p-0" style="border: none; background: transparent; transition: all 0.3s ease;" onclick="openModal()">
+                <img src="~/img/icons/edit-pencil.png" class="ms-2" width="30" />
+                </button>
         </div>
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 py-4 bg-white rounded shadow-sm">
-                @(
-                    Html.DevExtreme().DataGrid()
-                    .DataSource(ds => ds.Mvc()
-                    .Controller("Contacts")
-                    .LoadAction("SingleListQuery")
-                    .LoadParams(new { id = ViewBag.ContactId })
-                    )
-
-                    .Columns(columns =>
-                    {
-
-                        columns.Add().DataField("Name").Caption("Name");
-                        columns.Add().DataField("Email").Caption("Email");
-                        columns.Add().DataField("Phone").Caption("Phone");
-
-                        columns.Add().Type(GridCommandColumnType.Buttons)
-                        .Buttons(b =>
-                        {
-                            b.Add().Name(GridColumnButtonName.Edit).Icon("edit");
-                            b.Add().Name(GridColumnButtonName.Delete).Icon("trash");
-
-                        }).Caption("Actions");
-                    })
-
-
-
-                    .Paging(p => p.PageSize(25))
-                    .Pager(pager =>
-                    {
-                        pager.ShowPageSizeSelector(true);
-                        pager.AllowedPageSizes(new[] { 25, 50, 100 });
-                        pager.ShowInfo(true);
-                    })
-                    .FilterRow(f => f.Visible(true))
-                    .SearchPanel(s => s.Visible(true))
-                    .GroupPanel(g => g.Visible(true))
-                    .Sorting(s => s.Mode(GridSortingMode.Multiple))
-                    .Editing(editing =>
-                    {
-                        editing.Mode(GridEditMode.Row);
-                        editing.AllowAdding(true);
-                        editing.AllowDeleting(true);
-                        editing.AllowUpdating(true);
-                    })
-                    
-                    )
-
-
+                @await Html.PartialAsync("_SingleContactDataGrid")
             </div>
         </div>
     </div>
 </div>
+
+@*Create Modal*@
+
+@*Update Modal*@
+<div id="editModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+    <div class="modal-content" style="background:#fff; padding:20px; width:90%; max-width:50em; margin:15% auto; border-radius:8px; position:relative;">
+        <span onclick="closeModal()" style="cursor:pointer; position:absolute; top:0px; right:10px; font-size:35px;">&times;</span>
+        <input type="text" id="listName" class="form-control" placeholder="Новое название" style="margin-top:3em; margin-bottom:1em;" />
+       
+        <div class="d-flex justify-content-end py-4 ms-2">
+            <button class="btn btn-primary d-flex me-2 align-items-center " onclick="closeModal()">
+                <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">Закрыть
+            </button>
+            <button class="btn btn-success d-flex align-items-center" onclick="">
+                <img src="~/img/icons/save.svg" alt="save Icon" width="22" class="me-2">Сохранить
+            </button>
+        </div>
+    </div>
+</div>
+@*Update ModalSingleList*@
+
+@*Delete Modal*@
 
 <script>
      var collapsed = false;
@@ -78,5 +57,20 @@
     function customizeTooltip(pointsInfo) {
         return { text: parseInt(pointsInfo.originalValue) + "%" };
     }
+
+    function openModal() {
+        document.getElementById("editModal").style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById("editModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        var modal = document.getElementById("editModal");
+        if (event.target === modal) {
+            closeModal();
+        }
+    };
 
  </script>
