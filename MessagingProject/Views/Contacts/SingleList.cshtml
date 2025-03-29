@@ -1,5 +1,5 @@
 ﻿@using MessagingProject.Models.Contacts
-@model string
+@model ContactsList
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Contacts";
@@ -10,7 +10,7 @@
 <div class="container-fluid py-0 md-py-0">
     <div class="row justify-content-center">
         <div class="col-6 col-md-10 p-0 ms-3 d-flex" style="background:none;border:0px;">
-            <h1 style="font-weight:600;">@Model</h1>
+            <h1 style="font-weight:600;">@Model.Name</h1>
             <button class="btn btn-transparent p-0" style="border: none; background: transparent; transition: all 0.3s ease;" onclick="openModal()">
                 <img src="~/img/icons/edit-pencil.png" class="ms-2" width="30" />
                 </button>
@@ -29,13 +29,14 @@
 <div id="editModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
     <div class="modal-content" style="background:#fff; padding:20px; width:90%; max-width:50em; margin:15% auto; border-radius:8px; position:relative;">
         <span onclick="closeModal()" style="cursor:pointer; position:absolute; top:0px; right:10px; font-size:35px;">&times;</span>
-        <input type="text" id="listName" class="form-control" placeholder="Новое название" style="margin-top:3em; margin-bottom:1em;" />
-       
+        <input type="text" id="listName" class="form-control" placeholder="Новое название" style="margin-top:3em; margin-bottom:1em;" value="@Model.Name"/>
+        <input type="hidden" id="Id" name="Id" value="@Model.Id"/>
+
         <div class="d-flex justify-content-end py-4 ms-2">
             <button class="btn btn-primary d-flex me-2 align-items-center " onclick="closeModal()">
                 <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">Закрыть
             </button>
-            <button class="btn btn-success d-flex align-items-center" onclick="">
+            <button class="btn btn-success d-flex align-items-center" onclick="updateContactName()">
                 <img src="~/img/icons/save.svg" alt="save Icon" width="22" class="me-2">Сохранить
             </button>
         </div>
@@ -46,6 +47,78 @@
 @*Delete Modal*@
 
 <script>
+        $(document).ready(function () {
+        $("#Id").val("@Model.Id");
+    });
+       function getToken() {
+        return $.ajax({
+            url: '/getuserByClaims',
+            type: 'GET'
+        }).then(function(response) {
+            console.log('Полный ответ сервера:', response);
+            if (!response || !response.Token) {
+                return $.Deferred().reject("Токен не получен").promise();
+            }
+            console.log('Полученный токен:', response.Token);
+            return response.Token;
+        }).catch(function(error) {
+            console.error("Ошибка при получении токена:", error);
+            return $.Deferred().reject(error).promise();
+        });
+    }
+
+    function updateContactName() {
+        getToken().then(function(token) {
+            console.log("Токен внутри updateContactName:", token);
+
+            if (!token) {
+                alert("Ошибка: токен не получен");
+                return;
+            }
+
+            var listName = $("#listName").val().trim();
+            var id = $("#Id").val();
+            console.log(id);
+
+                if (!id) {
+                alert("Ошибка: ID не указан.");
+                return;
+            }
+
+            if (!listName) {
+                alert("Ошибка: Название списка не может быть пустым.");
+                return;
+            }
+
+            var requestData = {
+                id: id,
+                name: listName,
+                token: token
+            };
+
+            console.log("Данные перед отправкой:", requestData);
+
+            $.ajax({
+                url: '/Contacts/CreateContactList',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(requestData),
+                success: function(result) {
+                    console.log("Успех:", result);
+                    closeModal();
+                    location.reload();
+                },
+                error: function(xhr) {
+                    let errorMessage = xhr.responseJSON?.message || "Не удалось создать список";
+                    alert("Ошибка: " + errorMessage);
+                }
+            });
+        }).catch(function(error) {
+            console.error("Ошибка получения токена:", error);
+            alert("Ошибка: " + error);
+        });
+    }
+
      var collapsed = false;
     function contentReady(e) {
         if(!collapsed) {

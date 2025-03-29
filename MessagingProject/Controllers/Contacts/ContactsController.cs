@@ -96,7 +96,7 @@ namespace MessagingProject.Controllers.Contacts
             ViewBag.ContactId = id;
             //Model name
             var model = _contactService.GetDeleteContactList(_userService.GetToken(), id).Result.ContactsList;
-            return View("SingleList",model.Name);
+            return View("SingleList",model);
         }
 
 
@@ -145,6 +145,25 @@ namespace MessagingProject.Controllers.Contacts
 
             return BadRequest();
         }
+        //[HttpPost]
+        //[Route("Contacts/CreateContactList")]
+        //public async Task<IActionResult> UpdateNameContactList([FromBody] CreateContactListRequest request)
+        //{
+        //    try
+        //    {
+        //        var response = await _contactService.CreateContactList(request);
+
+        //        return Ok(response);
+
+        //    }
+        //    catch (UnauthorizedAccessException exe) { Console.WriteLine(exe.Message); }
+
+        //    catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+
+
+        //    return BadRequest();
+        //}
 
 
         public ActionResult Overview()
