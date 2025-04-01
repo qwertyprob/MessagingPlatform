@@ -3,11 +3,13 @@
         <span onclick="closeCreateModal()" style="cursor:pointer; position:absolute; top:0px; right:10px; font-size:35px;">&times;</span>
 
         @* Hidden inputs *@
-        <input type="hidden" id="hiddenId" value="@Model.Id" />
-
+        <input type="hidden" id="hiddenId" name="Id" value="@Model.Id" />
         <input type="hidden" id="hiddenName" value="@Model.Name" />
         <input type="hidden" id="hiddenEmail" value="@Model.Email" />
         <input type="hidden" id="hiddenPhone" value="@Model.Phone" />
+        <input type="hidden" id="hiddenDescription" value="@Model.Description" />
+        <input type="hidden" id="hiddenData" value="@Model.ContactsData" />
+
 
         <label class="form-controll" style="margin-top:3em;">Имя</label>
         <input type="text" id="name" class="form-control" placeholder="Имя" style="margin-bottom:1em;" />
@@ -39,10 +41,12 @@
                 alert("Ошибка: токен не получен");
                 return;
             }
-                var id = parseInt(document.getElementById("hiddenId").value);
+                var id = document.getElementById("hiddenId").value;
                 var name = document.getElementById("hiddenName").value;
                 var email = parseInt(document.getElementById("hiddenEmail").value);
                 var phone = parseInt(document.getElementById("hiddenPhone").value);
+                var description = document.getElementById("hiddenDescription").value;
+
 
                 var requestData = {
         request: {
@@ -57,7 +61,8 @@
             name: name,
             email: email,
             phone: phone,
-            Token: token
+            description:description,
+            token: token
         }
     };
 

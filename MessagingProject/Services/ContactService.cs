@@ -92,12 +92,11 @@ namespace MessagingProject.Services
 
                 var responseModel = JsonConvert.DeserializeObject<SingleContactResponseModel>(content);
 
-                if (responseModel is not null && !string.IsNullOrEmpty(responseModel.ContactsList.HashedContactData))
+                if (responseModel is not null && !string.IsNullOrEmpty(responseModel.ContactsList.ContactsData))
                 {
-                    var decodedUsersString = _decryptor.DecodeHashedData(responseModel.ContactsList.HashedContactData);
+                    var decodedUsersString = _decryptor.DecodeHashedData(responseModel.ContactsList.ContactsData);
 
-                    var listOfContacts = JsonConvert.DeserializeObject<IEnumerable<SingleContactModel>>(decodedUsersString);
-
+                    var listOfContacts = JsonConvert.DeserializeObject<IEnumerable<SingleContactModel>>(decodedUsersString) ?? null;
 
                     return listOfContacts;
                 }
@@ -177,7 +176,7 @@ namespace MessagingProject.Services
         public async Task<BaseResponseModel> CreateSingleContactList(CreateSingleContactRequest request)
         {
 
-            request.RequestBody.HashedContactData = _decryptor.EncodeToBase64(request.Request);
+            request.RequestBody.ContactsData = _decryptor.EncodeToBase64(request.Request);
 
             var requestContent = new StringContent(JsonConvert.SerializeObject(request.RequestBody), Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("UpdateContactList", requestContent);

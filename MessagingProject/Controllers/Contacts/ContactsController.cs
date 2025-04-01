@@ -89,9 +89,9 @@ namespace MessagingProject.Controllers.Contacts
         public async Task<IActionResult> SingleList(int id)
         {
             ViewBag.ContactId = id;
-
             //ContactList name by ID
             var model = _contactService.GetContactList(_userService.GetToken(), id).Result.ContactsList;
+
             return View("SingleList",model);
         }
 
@@ -128,19 +128,19 @@ namespace MessagingProject.Controllers.Contacts
         {
             try
             {
-
                 var response = await _contactService.CreateContactList(request);
-                
                 return Ok(response);
-
             }
-            catch (UnauthorizedAccessException exe) { Console.WriteLine(exe.Message); }
-
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
-
-
-
-            return BadRequest();
+            catch (UnauthorizedAccessException exe)
+            {
+                Console.WriteLine(exe.Message);
+                return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest();
+            }
         }
         
 

@@ -13,7 +13,7 @@ namespace MessagingProject.Models.Contacts
     public class ContactsList
     {
         [JsonProperty("contactsData")]
-        public string HashedContactData { get; set; }
+        public string ContactsData { get; set; } = "W10=";
 
         [JsonProperty("id")]
         public int Id { get; set; }

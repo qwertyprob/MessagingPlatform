@@ -3,6 +3,11 @@
         <span onclick="closeEditModal()" style="cursor:pointer; position:absolute; top:0px; right:10px; font-size:35px;">&times;</span>
         <input type="text" id="listName" class="form-control" placeholder="Новое название" style="margin-top:3em; margin-bottom:1em;" value="@Model.Name" />
         <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+        <input type="hidden" id="hiddenName" value="@Model.Name" />
+        <input type="hidden" id="hiddenEmail" value="@Model.Email" />
+        <input type="hidden" id="hiddenPhone" value="@Model.Phone" />
+        <input type="hidden" id="hiddenDescription" value="@Model.Description" />
+        <input type="hidden" id="hiddenData" value="@Model.ContactsData" />
 
         <div class="d-flex justify-content-end py-4 ms-2">
             <button class="btn btn-primary d-flex me-2 align-items-center " onclick="closeEditModal()">
@@ -47,6 +52,11 @@
 
             var listName = $("#listName").val().trim();
             var id = $("#Id").val();
+            var email = parseInt(document.getElementById("hiddenEmail").value);
+            var phone = parseInt(document.getElementById("hiddenPhone").value);
+            var description = document.getElementById("hiddenDescription").value;
+            var hasheData = document.getElementById("hiddenData").value;
+            console.log("Значение contactsData:", hasheData);
             console.log(id);
 
                 if (!id) {
@@ -59,14 +69,20 @@
                 return;
             }
 
-            var requestData = {
-                id: id,
-                name: listName,
-                token: token
-            };
+
+                var requestData = {
+                    id: id,
+                    name: listName,
+                    email: email,
+                    phone: phone,
+                    description: description,
+                    contactsData: hasheData,
+                    token: token
+                };
+
 
             console.log("Данные перед отправкой:", requestData);
-
+            
             $.ajax({
                 url: '/Contacts/CreateContactList',
                 type: 'POST',
@@ -74,7 +90,7 @@
                 data: JSON.stringify(requestData),
                 success: function(result) {
                     console.log("Успех:", result);
-                    closeModal();
+                    closeEditModal();
                     location.reload();
                 },
                 error: function(xhr) {
@@ -101,7 +117,7 @@
     window.onclick = function(event) {
         var modal = document.getElementById("editModal");
         if (event.target === modal) {
-            closeModal();
+            closeEditModal();
         }
     };
 </script>
