@@ -62,7 +62,7 @@ namespace MessagingProject.Controllers.Dashboard
             }
             catch (Exception ex)
             {
-                throw new Exception("Something went wrong");
+                throw new Exception(ex.Message);
             }
         }
         [HttpGet]
@@ -86,7 +86,7 @@ namespace MessagingProject.Controllers.Dashboard
             }
             catch (Exception ex)
             {
-                throw new Exception("Something went wrong");
+                throw new Exception(ex.Message);
             }
         }
 
@@ -113,7 +113,7 @@ namespace MessagingProject.Controllers.Dashboard
             }
             catch (Exception ex)
             {
-                throw new Exception("Something went wrong");
+                throw new Exception(ex.Message);
             }
         }
         [HttpGet]
@@ -137,7 +137,7 @@ namespace MessagingProject.Controllers.Dashboard
             }
             catch (Exception ex)
             {
-                throw new Exception("Something went wrong");
+                throw new Exception(ex.Message);
             }
         }
 

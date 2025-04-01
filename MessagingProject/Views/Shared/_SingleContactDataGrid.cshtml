@@ -1,5 +1,6 @@
 ﻿@(
-                    Html.DevExtreme().DataGrid().ID("singlelist")
+                    Html.DevExtreme().DataGrid()
+                    .ID("singlelist")
                     .DataSource(ds => ds.Mvc()
                     .Controller("Contacts")
                     .LoadAction("SingleListQuery")
@@ -8,7 +9,7 @@
 
                     .Columns(columns =>
                     {
-
+                        columns.Add().DataField("Id").Visible(false);
                         columns.Add().DataField("Name").Caption("Name");
                         columns.Add().DataField("Email").Caption("Email");
                         columns.Add().DataField("Phone").Caption("Phone");
@@ -21,7 +22,22 @@
 
                         }).Caption("Actions");
                     })
+                    .Toolbar(toolbar =>
+                    {
+                        toolbar.Items(items =>
+                        {
+                            items.Add()
+                        .Location(ToolbarItemLocation.Before)
+                        .Widget(w => w.Button()
+                        .Type(ButtonType.Default)
+                        .Icon("add")
+                        .ElementAttr(new { @class = "btn-success" })
+                        .Text("Создать")
+                        .OnClick("openCreateModal")
 
+                        );
+                        });
+                    })
 
 
                     .Paging(p => p.PageSize(25))
@@ -44,3 +60,20 @@
                     })
 
                     )
+
+
+<script>
+    var collapsed = false;
+    function contentReady(e) {
+        if(!collapsed) {
+            collapsed = true;
+            e.component.expandRow(["EnviroCare"]);
+        }
+    }
+
+    function customizeTooltip(pointsInfo) {
+        return { text: parseInt(pointsInfo.originalValue) + "%" };
+    }
+
+    
+</script>

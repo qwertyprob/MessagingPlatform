@@ -60,6 +60,8 @@ namespace MessagingProject.Services
 
             var contactResponse = JsonConvert.DeserializeObject<ContactResponseModel>(content);
 
+            
+
             if (contactResponse is null)
             {
                 throw new NullReferenceException("Contact list is null!");
@@ -76,6 +78,7 @@ namespace MessagingProject.Services
             return contactResponse;
 
         }
+
         public async Task<IEnumerable<SingleContactModel>> GetContactHashedData(string token, int id)
         {
             try
@@ -113,7 +116,7 @@ namespace MessagingProject.Services
 
             return Enumerable.Empty<SingleContactModel>();
         }
-        public async Task<SingleContactResponseModel> GetDeleteContactList(string token, int id)
+        public async Task<SingleContactResponseModel> GetContactList(string token, int id)
         {
             try
             {
@@ -147,14 +150,37 @@ namespace MessagingProject.Services
 
 
         //CREATE
-        public async Task<BaseResponseModel> CreateContactList(CreateContactListRequest request)
+        public async Task<ContactResponseModel> CreateContactList(ContactsList request)
         {
             var requestContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync("UpdateContactList", requestContent);
 
-            
+            var contentBody = await response.Content.ReadAsStringAsync();
 
+            if (string.IsNullOrWhiteSpace(contentBody))
+            {
+                Console.WriteLine("Empty response body");
+                return null;
+            }
+
+            var responseBody = JsonConvert.DeserializeObject<ContactResponseModel>(contentBody);
+
+            if (responseBody.ErrorCode == 0)
+            {
+                return responseBody;
+            }
+
+            return null;
+        }
+
+        public async Task<BaseResponseModel> CreateSingleContactList(CreateSingleContactRequest request)
+        {
+
+            request.RequestBody.HashedContactData = _decryptor.EncodeToBase64(request.Request);
+
+            var requestContent = new StringContent(JsonConvert.SerializeObject(request.RequestBody), Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync("UpdateContactList", requestContent);
             var contentBody = await response.Content.ReadAsStringAsync();
 
             if (string.IsNullOrWhiteSpace(contentBody))
@@ -172,8 +198,6 @@ namespace MessagingProject.Services
 
             return null;
         }
-
-
 
     }
 

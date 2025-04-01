@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Drawing.Printing;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,11 +25,7 @@ namespace MessagingProject.Controllers.Contacts
             _contactService = contactService;
         }
 
-        public IActionResult ContactLists()
-        {
-            return View();
-        }
-
+        //DELETE
         [HttpGet]
         [Route("Contacts/DeleteContact/{id?}")]
         public async Task<IActionResult> DeleteContactLists(int id)
@@ -66,7 +63,7 @@ namespace MessagingProject.Controllers.Contacts
         public IActionResult GetDeleteInfo(int id)
         {
             var token = _userService.GetToken();
-            var contactInfo = _contactService.GetDeleteContactList(token,id).Result;
+            var contactInfo = _contactService.GetContactList(token,id).Result;
 
             if (contactInfo == null)
             {
@@ -88,21 +85,17 @@ namespace MessagingProject.Controllers.Contacts
             return Json(new { data = response }); 
         }
 
-
-
         [Route("Contacts/SingleList/{id?}")]
         public async Task<IActionResult> SingleList(int id)
         {
             ViewBag.ContactId = id;
-            //Model name
-            var model = _contactService.GetDeleteContactList(_userService.GetToken(), id).Result.ContactsList;
+
+            //ContactList name by ID
+            var model = _contactService.GetContactList(_userService.GetToken(), id).Result.ContactsList;
             return View("SingleList",model);
         }
 
-
-
-
-
+        //GET
         [HttpGet]
         public async Task<IActionResult> GetContactLists()
         {
@@ -123,17 +116,48 @@ namespace MessagingProject.Controllers.Contacts
             
 
         }
+        public IActionResult ContactLists()
+        {
+            return View();
+        }
 
-
-
+        //CREATE
         [HttpPost]
         [Route("Contacts/CreateContactList")]
-        public async Task<IActionResult> CreateContactList([FromBody] CreateContactListRequest request)
+        public async Task<IActionResult> CreateContactList([FromBody] ContactsList request)
         {
             try
             {
+
                 var response = await _contactService.CreateContactList(request);
                 
+                return Ok(response);
+
+            }
+            catch (UnauthorizedAccessException exe) { Console.WriteLine(exe.Message); }
+
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+
+
+            return BadRequest();
+        }
+        
+
+        [HttpPost]
+        [Route("Contacts/CreateSingleContact")]
+        public async Task<IActionResult> CreateSingleContact([FromBody] CreateSingleContactRequest request)
+        {
+            try
+            {
+
+                if (request == null || request.Request == null || request.RequestBody == null)
+                {
+                    return BadRequest("Invalid request data");
+                }
+
+                var response = await _contactService.CreateSingleContactList(request);
+
                 return Ok(response);
 
             }

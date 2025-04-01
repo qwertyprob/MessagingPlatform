@@ -10,9 +10,10 @@ namespace MessagingProject.Abstractions
 
         Task<IEnumerable<SingleContactModel>> GetContactHashedData(string token, int id);
 
-        Task<SingleContactResponseModel> GetDeleteContactList(string token, int id);
+        Task<SingleContactResponseModel> GetContactList(string token, int id);
 
-        Task<BaseResponseModel> CreateContactList(CreateContactListRequest request);
+        Task<ContactResponseModel> CreateContactList(ContactsList request);
+        Task<BaseResponseModel> CreateSingleContactList(CreateSingleContactRequest request);
 
     }
 }

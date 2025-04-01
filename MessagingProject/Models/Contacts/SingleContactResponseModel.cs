@@ -31,9 +31,8 @@ namespace MessagingProject.Models.Contacts
         public int Phone { get; set; }
 
         [JsonProperty("createDate")]
-        public DateTime CreateDate { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.UtcNow;
 
-        [JsonIgnore]
         public string Token { get; set; }
     }
 
