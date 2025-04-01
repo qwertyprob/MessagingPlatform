@@ -59,6 +59,36 @@ namespace MessagingProject.Controllers.Contacts
             }
         }
         [HttpGet]
+        [Route("Contacts/DeleteSingleContact/{id?}")]
+        public async Task<IActionResult> DeleteSingleContactList(DeleteSingleContactRequest request)
+        {
+            try
+            {
+                var contactToDelete = await _contactService.DeleteSingleContactList(request);
+                if(contactToDelete.ErrorCode == 0)
+                {
+                    return Ok(contactToDelete);
+                }
+                return BadRequest(contactToDelete.ErrorMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.White;
+                throw new UnauthorizedAccessException();
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.White;
+
+                throw new Exception();
+            }
+        }
+
+        [HttpGet]
         [Route("/Contacts/DeleteInfo/{id?}")]
         public IActionResult GetDeleteInfo(int id)
         {
@@ -78,6 +108,7 @@ namespace MessagingProject.Controllers.Contacts
             return Json(result);
         }
         [HttpGet]
+        [Route("/Contacts/SingleListQuery/{id?}")]
         public async Task<IActionResult> SingleListQuery(int id)
         {
             var token = _userService.GetToken();
@@ -170,25 +201,7 @@ namespace MessagingProject.Controllers.Contacts
 
             return BadRequest();
         }
-        //[HttpPost]
-        //[Route("Contacts/CreateContactList")]
-        //public async Task<IActionResult> UpdateNameContactList([FromBody] CreateContactListRequest request)
-        //{
-        //    try
-        //    {
-        //        var response = await _contactService.CreateContactList(request);
-
-        //        return Ok(response);
-
-        //    }
-        //    catch (UnauthorizedAccessException exe) { Console.WriteLine(exe.Message); }
-
-        //    catch (Exception ex) { Console.WriteLine(ex.Message); }
-
-
-
-        //    return BadRequest();
-        //}
+        
 
 
         public ActionResult Overview()

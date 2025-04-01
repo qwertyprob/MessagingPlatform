@@ -18,7 +18,7 @@
                         .Buttons(b =>
                         {
                             b.Add().Name(GridColumnButtonName.Edit).Icon("edit");
-                            b.Add().Name(GridColumnButtonName.Delete).Icon("trash");
+                            b.Add().Name(GridColumnButtonName.Delete).Icon("trash").OnClick("openDeleteSingleModal");
 
                         }).Caption("Actions");
                     })
@@ -58,8 +58,9 @@
                         editing.AllowDeleting(true);
                         editing.AllowUpdating(true);
                     })
-
+                    .OnRowClick("onRowClick")
                     )
+
 
 
 <script>
@@ -74,6 +75,15 @@
     function customizeTooltip(pointsInfo) {
         return { text: parseInt(pointsInfo.originalValue) + "%" };
     }
+    function onRowClick(e) {
+        var rowData = e.data;
+        var id = rowData.Id;
 
+        console.log("ID: " + id);
+
+
+    }
+
+    
     
 </script>

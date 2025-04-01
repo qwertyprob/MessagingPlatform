@@ -90,8 +90,8 @@
                 data: JSON.stringify(requestData),
                 success: function(result) {
                     console.log("Успех:", result);
-                    closeEditModal();
                     location.reload();
+                    closeEditModal();
                 },
                 error: function(xhr) {
                     let errorMessage = xhr.responseJSON?.message || "Не удалось создать список";

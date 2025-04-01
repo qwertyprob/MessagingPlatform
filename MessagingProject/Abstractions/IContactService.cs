@@ -1,10 +1,15 @@
 ﻿using MessagingProject.Models;
 using MessagingProject.Models.Contacts;
+using MessagingProject.Services;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace MessagingProject.Abstractions
 {
     public interface IContactService
     {
+        Task<BaseResponseModel> DeleteSingleContactList(DeleteSingleContactRequest request);
+        
         Task<BaseResponseModel> DeleteContactList(string token, int id);
         Task<ContactResponseModel> GetContactLists(string token);
 

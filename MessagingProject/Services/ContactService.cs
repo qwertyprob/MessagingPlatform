@@ -25,7 +25,54 @@ namespace MessagingProject.Services
 
         }
         //DELETE
-        
+        public async Task<BaseResponseModel> DeleteSingleContactList(DeleteSingleContactRequest request)
+        {
+            var contactToDelete = GetContactList(request.Token, request.Id).Result.ContactsList;
+
+            var listOfHashedData = RemoveContact(_decryptor.DecodeHashedDataToList(contactToDelete.ContactsData), request.ContactId);
+
+            var newContactsData = _decryptor.EncodeListToBase64(listOfHashedData);
+
+            contactToDelete.ContactsData = newContactsData;
+
+            contactToDelete.Phone = PhoneCount(listOfHashedData);
+            contactToDelete.Email = EmailCount(listOfHashedData);
+
+            var requestContent = new StringContent(JsonConvert.SerializeObject(contactToDelete), Encoding.UTF8, "application/json");
+
+            var response = await _client.PostAsync("UpdateContactList", requestContent);
+
+            var contentBody = await response.Content.ReadAsStringAsync();
+
+            if (string.IsNullOrWhiteSpace(contentBody))
+            {
+                Console.WriteLine("Empty response body");
+                return null;
+            }
+
+            var responseBody = JsonConvert.DeserializeObject<BaseResponseModel>(contentBody);
+
+            if (responseBody.ErrorCode == 0)
+            {
+                return responseBody;
+            }
+
+            return null;
+
+
+
+
+        }
+
+        private IEnumerable<SingleContactModel> RemoveContact(IEnumerable<SingleContactModel> list, int id)
+        {
+            var listToReturn = list.ToList();
+            listToReturn.RemoveAt(id - 1);
+            SetIdToList(listToReturn);
+            return listToReturn;
+        }
+
+
         public async Task<BaseResponseModel> DeleteContactList(string token, int id)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, $"DeleteContactList?Token={token}&ID={id}");
@@ -148,7 +195,7 @@ namespace MessagingProject.Services
         }
 
 
-        //CREATE
+        //CREATE AND UPDATE(NAME)
         public async Task<ContactResponseModel> CreateContactList(ContactsList request)
         {
             var requestContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
@@ -172,7 +219,6 @@ namespace MessagingProject.Services
 
             return null;
         }
-
         public async Task<BaseResponseModel> CreateSingleContactList(CreateSingleContactRequest request)
         {
 
@@ -204,6 +250,8 @@ namespace MessagingProject.Services
 
             return null;
         }
+
+        //PRIVATE METHODS
         private IEnumerable<SingleContactModel> AddOrUpdateData(SingleContactModel user, string base64)
         {
 

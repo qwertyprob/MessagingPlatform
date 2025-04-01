@@ -1,0 +1,48 @@
+﻿
+<div id="deleteSingleModal" class="modal"
+     style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+    <div class="modal-content" style="background:#fff; padding:20px; padding-top:30px; width:90%; max-width:50em; margin:15% auto; border-radius:8px; position:relative; ">
+        <span onclick="closeDeleteSingleModal()" style="cursor:pointer; position:absolute; top:0px; right:10px; font-size:35px;">&times;</span>
+        <h5 class="py-1">Вы уверены, что хотите удалить этот элемент? Пожалуйста введите <span class="text-name" style="color:gray; font-style:italic; font-weight:bold;"></span> и в поле ниже:</h5>
+        <input type="text" id="myName" class="form-control" style="margin-top:2em;" />
+        <span id="error-message" class="text-danger" style="display: none; margin-bottom:1em;"></span>
+        <div class="row">
+            <div class="col-6">
+                <label>Email</label>
+                <input type="text" id="emailField" class="form-control" style="margin-bottom:1em;" disabled />
+            </div>
+            <div class="col-6">
+                <label>Phone</label>
+                <input type="text" id="phoneField" class="form-control" style="margin-bottom:1em;" disabled />
+                <input type="hidden" id="contactId" />
+            </div>
+        </div>
+        <div class="d-flex justify-content-end py-4 ms-2">
+            <button class="btn btn-primary d-flex me-2 align-items-center" onclick="closeDeleteSingleModal()">
+                <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">Закрыть
+            </button>
+            <button class="btn btn-danger d-flex me-2 align-items-center" onclick="deleteSingleContact()">
+                <img src="~/img/icons/trash.svg" alt="trash Icon" width="22" class="me-1">Удалить
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function openDeleteSingleModal(){
+        $('#deleteSingleModal').show();
+    }
+    function closeDeleteSingleModal(){
+        $('#deleteSingleModal').hide();
+    }
+    window.onclick = function(event) {
+        var deleteModal = document.getElementById("deleteSingleModal");
+
+        if (event.target === deleteModal) {
+            closeModalDelete();
+        }
+    };
+    
+</script>
