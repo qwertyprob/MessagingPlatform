@@ -156,7 +156,6 @@ namespace MessagingProject.Controllers.Contacts
                     return BadRequest("Invalid request data");
                 }
 
-                request.RequestBody.SavedHashedData = request.RequestBody.ContactsData;
 
                 var response = await _contactService.CreateSingleContactList(request);
 

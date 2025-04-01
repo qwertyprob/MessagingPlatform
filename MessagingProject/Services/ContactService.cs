@@ -213,6 +213,7 @@ namespace MessagingProject.Services
 
                 var list = _decryptor.DecodeHashedDataToList(base64).ToList();
                 list.Add(user);
+                SetIdToList(list);
 
                 return list;
             }
@@ -231,6 +232,14 @@ namespace MessagingProject.Services
         private int PhoneCount(IEnumerable<SingleContactModel> list)
         {
             return list?.Count(x => x != null && !string.IsNullOrWhiteSpace(x.Phone)) ?? 0;
+        }
+
+        private void SetIdToList(List<SingleContactModel> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i].Id = i + 1; 
+            }
         }
 
 

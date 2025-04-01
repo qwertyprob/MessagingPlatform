@@ -12,7 +12,6 @@ namespace MessagingProject.Models.Contacts
 
     public class ContactsList
     {
-        public string SavedHashedData { get; set; }
 
         [JsonProperty("contactsData")]
         public string ContactsData { get; set; } = "W10=";
