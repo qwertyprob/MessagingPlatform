@@ -176,7 +176,14 @@ namespace MessagingProject.Services
         public async Task<BaseResponseModel> CreateSingleContactList(CreateSingleContactRequest request)
         {
 
-            request.RequestBody.ContactsData = _decryptor.EncodeToBase64(request.Request);
+            var listOfHashedData = AddOrUpdateData(request.Request, request.RequestBody.ContactsData);
+
+
+
+            request.RequestBody.ContactsData = _decryptor.EncodeListToBase64(listOfHashedData);
+
+            request.RequestBody.Phone = PhoneCount(listOfHashedData);
+            request.RequestBody.Email = EmailCount(listOfHashedData);
 
             var requestContent = new StringContent(JsonConvert.SerializeObject(request.RequestBody), Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("UpdateContactList", requestContent);
@@ -197,6 +204,35 @@ namespace MessagingProject.Services
 
             return null;
         }
+        private IEnumerable<SingleContactModel> AddOrUpdateData(SingleContactModel user, string base64)
+        {
+
+
+            if (!string.IsNullOrEmpty(base64))
+            {
+
+                var list = _decryptor.DecodeHashedDataToList(base64).ToList();
+                list.Add(user);
+
+                return list;
+            }
+
+           
+
+
+            return [];
+        }
+
+        private int EmailCount(IEnumerable<SingleContactModel> list)
+        {
+            return list?.Count(x => x != null && !string.IsNullOrWhiteSpace(x.Email)) ?? 0;
+        }
+
+        private int PhoneCount(IEnumerable<SingleContactModel> list)
+        {
+            return list?.Count(x => x != null && !string.IsNullOrWhiteSpace(x.Phone)) ?? 0;
+        }
+
 
     }
 

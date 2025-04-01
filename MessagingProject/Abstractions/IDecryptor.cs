@@ -6,5 +6,7 @@ namespace MessagingProject.Abstractions
     {
         string DecodeHashedData(string hashedData);
         string EncodeToBase64(SingleContactModel contact);
+        IEnumerable<SingleContactModel> DecodeHashedDataToList(string hashedData);
+        string EncodeListToBase64(IEnumerable<SingleContactModel> contactList);
     }
 }
