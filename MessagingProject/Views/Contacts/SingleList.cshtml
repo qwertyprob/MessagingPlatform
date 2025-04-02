@@ -24,14 +24,19 @@
 </div>
 
 @*Create Modal*@
+
     @await Html.PartialAsync("_SingleContactCreateModal")
+
 @*Update Name Modal*@
 
     @await Html.PartialAsync("_SingleContactUpdateModal")
 
 @*Update ModalSingleList*@
 
+    @await Html.PartialAsync("_SingleContactUpdateList")
+
 @*Delete Modal*@
+
     @await Html.PartialAsync("_SingleContactDeleteModal")
 
 <script>

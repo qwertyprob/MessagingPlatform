@@ -45,11 +45,11 @@
                 if (response) {
                     $('#contactId').val(response.Id)
                     $('.text-name').text(response.Name || 'No Name');
-                    $('#emailField').val(response.Email || 'No emails');
-                    $('#phoneField').val(response.Phone || 'No phones');
+                    $('#emailField').val(response.Email || 'No email');
+                    $('#phoneField').val(response.Phone || 'No phone');
 
 
-                    $('#deleteModal').show();
+                    $('#deleteSingleModal').show();
                 } else {
                     console.error('Контакт не найден');
                 }

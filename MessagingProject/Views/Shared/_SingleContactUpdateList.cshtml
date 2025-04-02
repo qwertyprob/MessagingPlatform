@@ -1,0 +1,129 @@
+﻿<div id="updateSingleModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+    <div class="modal-content" style="background:#fff; padding:20px; width:90%; max-width:50em; margin:15% auto; border-radius:8px; position:relative;">
+        <span onclick="closeSingleUpdateModal()" style="cursor:pointer; position:absolute; top:0px; right:10px; font-size:35px;">&times;</span>
+
+        @* Hidden inputs *@
+        <input type="hidden" id="hiddenContactId" name="Id" />
+        <input type="hidden" id="hiddenId" name="Id" value="@Model.Id" />
+        <input type="hidden" id="hiddenDescription" value="@Model.Description" />
+        <input type="hidden" id="hiddenData" value="@Model.ContactsData" />
+
+        <label style="margin-top:3em;">Имя</label>
+        <input type="text" id="name-update" class="form-control" style="margin-bottom:1em;" />
+
+        <label>Email</label>
+        <input type="text" id="email-update" class="form-control" style="margin-bottom:1em;" />
+
+        <label>Phone</label>
+        <input type="text" id="phone-update" class="form-control" style="margin-bottom:1em;" />
+
+        <div class="d-flex justify-content-end py-4 ms-2">
+            <button class="btn btn-primary d-flex me-2 align-items-center " onclick="closeSingleUpdateModal()">
+                <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">Закрыть
+            </button>
+            <button class="btn btn-success d-flex align-items-center" onclick="updateSingleContact()">
+                <img src="~/img/icons/save.svg" alt="save Icon" width="22" class="me-2">Обновить
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openSingleUpdateModal(e) {
+        $('#updateSingleModal').show();
+
+        const contactId = e.row.data.Id;
+        const id = @Model.Id;
+
+        $.ajax({
+            url: `/Contacts/GetSingleContact?id=${id}&contactId=${contactId}`,
+            type: 'GET',
+            success: function(response) {
+                if (response) {
+                    $('#hiddenContactId').val(response.Id);
+                    $('#name-update').val(response.Name || 'No name');
+                    $('#email-update').val(response.Email || 'No email');
+                    $('#phone-update').val(response.Phone || 'No phone');
+                } else {
+                    console.error('Контакт не найден');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Ошибка:', error);
+            }
+        });
+    }
+
+    function updateSingleContact() {
+        getToken().then(function(token) {
+            console.log("Токен:", token);
+
+            if (!token) {
+                alert("Ошибка: токен не получен");
+                return;
+            }
+
+            var contactId = document.getElementById("hiddenContactId").value;
+            var id = document.getElementById("hiddenId").value;
+            var name = document.getElementById("hiddenName").value;
+            var email = document.getElementById("hiddenEmail").value;
+            var phone = document.getElementById("hiddenPhone").value;
+            var description = document.getElementById("hiddenDescription").value;
+            var hasheData = document.getElementById("hiddenData").value;
+
+            var requestData = {
+                request: {
+                    Id: contactId,
+                    Name: $("#name-update").val().trim(),
+                    Email: $("#email-update").val().trim(),
+                    Phone: $("#phone-update").val().trim()
+                },
+                requestBody: {
+                    id: id,
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    description: description,
+                    contactsData: hasheData,
+                    token: token
+                }
+            };
+
+            console.log("Данные перед отправкой:", requestData);
+
+            $.ajax({
+                url: '/Contacts/CreateSingleContact',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(requestData),
+                success: function(result) {
+                    console.log("Контакт создан", result);
+                    closeCreateModal();
+                    location.reload();
+                },
+                error: function(xhr) {
+                    let errorMessage = xhr.responseJSON?.message || "Ошибка создания контакта";
+                    alert("Ошибка: " + errorMessage);
+                }
+            });
+        }).catch(function(error) {
+            console.error("Ошибка получения токена:", error);
+            alert("Ошибка: " + error);
+        });
+    }
+
+    function closeSingleUpdateModal() {
+        $('#name-update').val('');
+        $('#email-update').val('');
+        $('#phone-update').val('');
+        $('#updateSingleModal').hide();
+    }
+
+    window.onclick = function(event) {
+        var deleteModal = document.getElementById("updateSingleModal");
+
+        if (event.target === deleteModal) {
+            closeSingleUpdateModal();
+        }
+    };
+</script>

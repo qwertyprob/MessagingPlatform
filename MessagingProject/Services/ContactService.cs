@@ -264,23 +264,30 @@ namespace MessagingProject.Services
         //PRIVATE METHODS
         private IEnumerable<SingleContactModel> AddOrUpdateData(SingleContactModel user, string base64)
         {
-
-
             if (!string.IsNullOrEmpty(base64))
             {
-
                 var list = _decryptor.DecodeHashedDataToList(base64).ToList();
-                list.Add(user);
-                SetIdToList(list);
 
+                var existingUser = list.FirstOrDefault(u => u.Id == user.Id);
+
+                if (existingUser != null)
+                {
+                    existingUser.Name = user.Name;
+                    existingUser.Phone = user.Phone;
+                    existingUser.Email = user.Email;
+                }
+                else
+                {
+                    list.Add(user);
+                }
+
+                SetIdToList(list);
                 return list;
             }
 
-           
-
-
-            return [];
+            return new List<SingleContactModel>();
         }
+
 
         private int EmailCount(IEnumerable<SingleContactModel> list)
         {

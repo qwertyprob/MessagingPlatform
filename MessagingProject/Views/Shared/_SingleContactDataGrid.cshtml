@@ -17,7 +17,7 @@
                         columns.Add().Type(GridCommandColumnType.Buttons)
                         .Buttons(b =>
                         {
-                            b.Add().Name(GridColumnButtonName.Edit).Icon("edit");
+                            b.Add().Name(GridColumnButtonName.Edit).Icon("edit").OnClick("openSingleUpdateModal");
                             b.Add().Name(GridColumnButtonName.Delete).Icon("trash").OnClick("openDeleteSingleModal");
 
                         }).Caption("Actions");
