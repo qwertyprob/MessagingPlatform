@@ -1,4 +1,5 @@
 ﻿using DevExpress.Data.Helpers;
+using DevExpress.Utils.Zip;
 using MessagingProject.Abstractions;
 using MessagingProject.Models.Contacts;
 using Microsoft.AspNetCore.Authorization;
@@ -59,16 +60,20 @@ namespace MessagingProject.Controllers.Contacts
             }
         }
         [HttpGet]
-        [Route("Contacts/DeleteSingleContact/{id?}")]
-        public async Task<IActionResult> DeleteSingleContactList(DeleteSingleContactRequest request)
+        [Route("Contacts/DeleteSingleContact")]
+        public async Task<IActionResult> DeleteSingleContactList(int id, int contactId)
         {
             try
             {
+                var request = new DeleteSingleContactRequest { Id = id, ContactId = contactId };
+                request.Token = _userService.GetToken();
                 var contactToDelete = await _contactService.DeleteSingleContactList(request);
-                if(contactToDelete.ErrorCode == 0)
+
+                if (contactToDelete.ErrorCode == 0)
                 {
                     return Ok(contactToDelete);
                 }
+
                 return BadRequest(contactToDelete.ErrorMessage);
             }
             catch (UnauthorizedAccessException ex)
@@ -76,17 +81,29 @@ namespace MessagingProject.Controllers.Contacts
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(ex.Message);
                 Console.ForegroundColor = ConsoleColor.White;
-                throw new UnauthorizedAccessException();
+                return Unauthorized();
             }
             catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(ex.Message);
                 Console.ForegroundColor = ConsoleColor.White;
-
-                throw new Exception();
+                return StatusCode(500, "Ошибка сервера");
             }
         }
+
+        //GET QUERY FOR DELETE
+        [HttpGet]
+        [Route("Contacts/GetSingleContact")]
+        public async Task<IActionResult> GetSingleContact([FromQuery] int id, [FromQuery] int contactId)
+        {
+            var token = _userService.GetToken();
+            var response = await _contactService.GetContactHashedData(token, id);
+            var singleContact = response.FirstOrDefault(x => x.Id == contactId);
+
+            return singleContact != null ? Ok(singleContact) : NotFound();
+        }
+
 
         [HttpGet]
         [Route("/Contacts/DeleteInfo/{id?}")]

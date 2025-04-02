@@ -27,13 +27,84 @@
         </div>
     </div>
 </div>
-
-
+@* Hidden id's *@
+<input type="hidden" id="hiddenModelId" value="@Model.Id" />
+<input type="hidden" id="contactId" value="" />
 
 <script>
-    function openDeleteSingleModal(){
+          function openDeleteSingleModal(e) {
         $('#deleteSingleModal').show();
+
+        const contactId = e.row.data.Id;
+        const id = @Model.Id; 
+
+        $.ajax({
+            url: `/Contacts/GetSingleContact?id=${id}&contactId=${contactId}`,
+            type: 'GET',
+            success: function(response) {
+                if (response) {
+                    $('#contactId').val(response.Id)
+                    $('.text-name').text(response.Name || 'No Name');
+                    $('#emailField').val(response.Email || 'No emails');
+                    $('#phoneField').val(response.Phone || 'No phones');
+
+
+                    $('#deleteModal').show();
+                } else {
+                    console.error('Контакт не найден');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Ошибка:', error);
+            }
+        });
     }
+
+
+
+        function deleteSingleContact() {
+        const enteredName = $('#myName').val().trim();
+        const expectedName = $('.text-name').text().trim();
+
+        console.log("Entered Name:", enteredName);
+        console.log("Expected Name:", expectedName);
+
+        if (enteredName.toLowerCase() !== expectedName.toLowerCase()) {
+            $('#error-message').text("Неверное имя! Убедитесь, что вы ввели правильное название.").show();
+            return;
+        }
+
+        const id = $('#hiddenModelId').val(); 
+        const contactId = $('#contactId').val(); 
+
+        console.log("List ID:", id);
+        console.log("Contact ID:", contactId);
+
+        if (!id || !contactId) {
+            console.error("ID не найден при удалении");
+            return;
+        }
+
+        $.ajax({
+            url: `/Contacts/DeleteSingleContact?id=${id}&contactId=${contactId}`,
+            type: 'GET',
+            success: function(response) {
+                if (response && response.ErrorCode === 0) {
+                    closeDeleteSingleModal();
+                    location.reload();
+                } else {
+                    $('#error-message').text('Ошибка при удалении: ' + response.ErrorMessage).show();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                alert('Произошла ошибка при удалении контакта.');
+            }
+        });
+    }
+
+
+   
     function closeDeleteSingleModal(){
         $('#deleteSingleModal').hide();
     }

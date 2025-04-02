@@ -15,12 +15,14 @@ namespace MessagingProject.Controllers.Profile
     public class ProfileController : Controller
     {
         private readonly IAuthService _authService;
+        private readonly IUserService _userService;
         private readonly IValidator<LoginViewModel> _validator;
 
-        public ProfileController(IAuthService authService, IValidator<LoginViewModel> validator)
+        public ProfileController(IAuthService authService, IValidator<LoginViewModel> validator, IUserService userService)
         {
             _authService = authService;
             _validator = validator;
+            _userService = userService;
         }
         [Route("/EmailSignature")]
         public IActionResult EmailSignature()
@@ -44,6 +46,7 @@ namespace MessagingProject.Controllers.Profile
         [Route("/ScreenLock")]
         public IActionResult ScreenLock()
         {
+            var model = _userService.GetProfileInfo(_userService.GetToken());
             HttpContext.SignOutAsync();
             
             var claims = GetUserClaims();

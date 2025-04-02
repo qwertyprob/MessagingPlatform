@@ -1,6 +1,7 @@
 ﻿using MessagingProject.Abstractions;
 using MessagingProject.Models;
 using MessagingProject.Models.Contacts;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Drawing;
@@ -29,6 +30,7 @@ namespace MessagingProject.Services
         {
             var contactToDelete = GetContactList(request.Token, request.Id).Result.ContactsList;
 
+            //new list
             var listOfHashedData = RemoveContact(_decryptor.DecodeHashedDataToList(contactToDelete.ContactsData), request.ContactId);
 
             var newContactsData = _decryptor.EncodeListToBase64(listOfHashedData);
@@ -37,6 +39,7 @@ namespace MessagingProject.Services
 
             contactToDelete.Phone = PhoneCount(listOfHashedData);
             contactToDelete.Email = EmailCount(listOfHashedData);
+            contactToDelete.Token = request.Token;
 
             var requestContent = new StringContent(JsonConvert.SerializeObject(contactToDelete), Encoding.UTF8, "application/json");
 
@@ -52,12 +55,9 @@ namespace MessagingProject.Services
 
             var responseBody = JsonConvert.DeserializeObject<BaseResponseModel>(contentBody);
 
-            if (responseBody.ErrorCode == 0)
-            {
-                return responseBody;
-            }
 
-            return null;
+
+            return responseBody;
 
 
 
@@ -67,10 +67,20 @@ namespace MessagingProject.Services
         private IEnumerable<SingleContactModel> RemoveContact(IEnumerable<SingleContactModel> list, int id)
         {
             var listToReturn = list.ToList();
+
+            if (id <= 0 || id > listToReturn.Count)
+            {
+                Console.WriteLine("Invalid contact ID");
+                return listToReturn; 
+            }
+
             listToReturn.RemoveAt(id - 1);
+
             SetIdToList(listToReturn);
+
             return listToReturn;
         }
+
 
 
         public async Task<BaseResponseModel> DeleteContactList(string token, int id)
