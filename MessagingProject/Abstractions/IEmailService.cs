@@ -1,4 +1,5 @@
 ﻿using MessagingProject.Models;
+using MessagingProject.Models.Email;
 
 namespace MessagingProject.Abstractions
 {
@@ -6,5 +7,6 @@ namespace MessagingProject.Abstractions
     {
         Task<GetByMonthInfoResponseModel> GetByMonthInfo(string token);
         Task<GetByWeekInfoResponseModel> GetByWeekInfo(string token);
+        Task<CampaignResponseModel> GetCampaigns(string token);
     }
 }

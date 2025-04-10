@@ -243,4 +243,16 @@
   <data name="Update" xml:space="preserve">
     <value>Обновить</value>
   </data>
+  <data name="Screen Lock" xml:space="preserve">
+    <value>Экран блокировки</value>
+  </data>
+  <data name="PasswordEnter" xml:space="preserve">
+    <value>Введите ваш пароль чтобы восстановить доступ</value>
+  </data>
+  <data name="Accout" xml:space="preserve">
+    <value>Не ваш аккаунт? Вернитесь на страницу</value>
+  </data>
+  <data name="Authorization" xml:space="preserve">
+    <value>Авторизации</value>
+  </data>
 </root>

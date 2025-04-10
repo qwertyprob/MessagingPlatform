@@ -61,6 +61,24 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not your account? Return to.
+        /// </summary>
+        public static string Accout {
+            get {
+                return ResourceManager.GetString("Accout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Authorization.
+        /// </summary>
+        public static string Authorization {
+            get {
+                return ResourceManager.GetString("Authorization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string Close {
@@ -286,6 +304,15 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter your password to restore access.
+        /// </summary>
+        public static string PasswordEnter {
+            get {
+                return ResourceManager.GetString("PasswordEnter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phone.
         /// </summary>
         public static string Phone {
@@ -327,6 +354,15 @@ namespace MessagingProject.Resources {
         public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Screen Lock.
+        /// </summary>
+        public static string Screen_Lock {
+            get {
+                return ResourceManager.GetString("Screen Lock", resourceCulture);
             }
         }
         

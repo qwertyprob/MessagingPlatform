@@ -18,8 +18,8 @@
 <div class="container p-5">
     <div class="row px-4">
         <div class="col-md-12 ms-1 me-1 px-3 sm:mx-2">
-            <h2>Экран блокировки</h2>
-            <span>Введите ваш пароль чтобы восстановить доступ</span>
+            <h2>@MessagingProject.Resources.Resource.LockScreen</h2>
+            <span>@MessagingProject.Resources.Resource.PasswordEnter</span>
             <div class="col-12 d-flex flex-column justify-content-center align-items-center py-1">
             <div class="circle">@firstTwoLetters</div>
                 <span style="font-size:1.3em; color:dimgrey">@claims["LastName"] @claims["FirstName"] </span>
@@ -33,7 +33,7 @@
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group my-3">
-                    <button type="submit" name="submit" class="btn btn-primary" style="width:100% !important">Разблокировать</button>
+                    <button type="submit" name="submit" class="btn btn-primary" style="width:100% !important">@MessagingProject.Resources.Resource.Send</button>
                 </div>
                 <div class="d-flex justify-content-between align-items-center w-100">
                     <div class="dropdown">
@@ -66,7 +66,7 @@
 
         </div>
         <div class="col-12 d-flex py-2">
-            <span class="text text-center">Не ваш аккаунт? Вернитесь на страницу <a href="/Login" style="text-decoration:none;">Авторизации</a></span>
+            <span class="text text-center">@MessagingProject.Resources.Resource.Accout <a href="/Login" style="text-decoration:none;">@MessagingProject.Resources.Resource.Authorization</a></span>
         </div>
 
     </div>

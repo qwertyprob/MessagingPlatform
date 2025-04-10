@@ -243,4 +243,16 @@
   <data name="Update" xml:space="preserve">
     <value>Actualizați</value>
   </data>
+  <data name="Screen Lock" xml:space="preserve">
+    <value>Ecran de blocare</value>
+  </data>
+  <data name="PasswordEnter" xml:space="preserve">
+    <value>Introduceți parola pentru a restabili accesul</value>
+  </data>
+  <data name="Accout" xml:space="preserve">
+    <value>Nu contul tău? Reveniți la pagina de</value>
+  </data>
+  <data name="Authorization" xml:space="preserve">
+    <value>Autorizare</value>
+  </data>
 </root>
