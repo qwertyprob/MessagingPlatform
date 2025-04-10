@@ -1,32 +1,24 @@
-﻿
-
-@{
+﻿@{
     Layout = "_Layout";
     ViewData["Title"] = "Contacts";
 }
 
-<div class="container-fluid py-0 md-py-0">
+<div class="container py-0 md-py-0">
     <div class="row justify-content-center">
         <div class="col-12 col-md-10 p-0 ms-3" style="background:none;border:0px;">
-            <h1 style="font-weight:600;">Contact list</h1>
+            <h1 style="font-weight:600;">@MessagingProject.Resources.Resource.Contats</h1>
         </div>
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 py-4 bg-white rounded shadow-sm">
-                @await Html.PartialAsync("_ContactDataGrid")
+                @await Html.PartialAsync("Contacts/_ContactDataGrid")
             </div>
         </div>
     </div>
 </div>
 
 @* Create Modal *@
-@await Html.PartialAsync("_ContactCreateModal")
+@await Html.PartialAsync("Contacts/_ContactCreateModal")
 
 @* Delete Modal *@
-@await Html.PartialAsync("_ContactDeleteModal")
+@await Html.PartialAsync("Contacts/_ContactDeleteModal")
 
-
-
-<script>
-
-
-</script>

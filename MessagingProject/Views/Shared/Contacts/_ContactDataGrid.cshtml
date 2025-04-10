@@ -2,7 +2,7 @@
 
 @(
                     Html.DevExtreme().DataGrid()
-                    .ID("container")
+                    .ID("ContactContainer")
                     .DataSource(ds => ds.Mvc()
                     .Controller("Contacts")
                     .LoadAction("GetContactLists")
@@ -12,7 +12,7 @@
                         columns.Add().DataField("Id").Visible(false);
                         columns.Add().DataField("Name").Caption("Name");
                         columns.Add().DataField("Emails").Caption("Email");
-                        columns.Add().DataField("Phones").Caption("Phones");
+                        columns.Add().DataField("Phones").Caption("Phone");
                         columns.Add().DataField("ParsedDate").Caption("Date");
 
                         columns.Add().Type(GridCommandColumnType.Buttons)
@@ -22,12 +22,9 @@
                         .OnClick("onClick");
                             b.Add().Name(GridColumnButtonName.Delete).Icon("trash")
                         .OnClick("openModalDelete");
-                        }).Caption("Actions");
+                        });
                     })
-
-                    .Paging(p => p.PageSize(25))
-                    .FilterRow(f => f.Visible(true))
-                    .SearchPanel(s => s.Visible(true))
+                    .SearchPanel(s => s.Visible(true).Width(200))
                     .GroupPanel(g => g.Visible(true))
                     .Toolbar(toolbar =>
                     {
@@ -40,10 +37,26 @@
                         .Icon("add")
                         .ElementAttr(new { @class = "btn-success" })
                         .Text("Создать")
-                        .OnClick("openModal")
+                        .OnClick("openModal"));
+                        
+                        items.Add()
+                        .Location(ToolbarItemLocation.After)
+                        .Widget(w => w.Button()
+                        .Type(ButtonType.Normal)
+                        .Icon("refresh")
+                        .OnClick("refreshData"));
 
-                        );
+                            items.Add()
+                 .Location(ToolbarItemLocation.After)
+                 .Widget(w => w.TextBox()
+                     .Placeholder("Поиск...")
+                     .Value("")
+                     .OnValueChanged("onSearchChange")
+                     .Width(200));
+
+
                         });
+
                     })
                     .Sorting(s => s.Mode(GridSortingMode.Multiple))
                     .Editing(editing =>
@@ -53,10 +66,32 @@
                         editing.AllowDeleting(true);
                         editing.AllowUpdating(true);
                     })
+
                     .OnRowClick("onRowClick")
+
+   
 )
 
-<script>
+
+
+<script type="text/javascript">
+
+
+        function onSearchChange(e) {
+        const searchValue = e.value;
+        const dataGrid = $('#ContactContainer').dxDataGrid('instance');
+        dataGrid.option("searchPanel.text", searchValue);
+        dataGrid.refresh(); 
+
+        }
+
+
+        function refreshData(){
+            $("#ContactContainer").dxDataGrid("getDataSource").reload();
+
+        }
+
+
        // On row click event
     function onClick(e) {
         if (e.row && e.row.data) {
@@ -71,4 +106,10 @@
         const id = e.data.Id;
         window.location.href = `/Contacts/SingleList/${id}`;
     }
+
+
+        
+
 </script>
+
+

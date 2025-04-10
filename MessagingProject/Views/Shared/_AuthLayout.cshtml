@@ -1,21 +1,21 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    @await Html.PartialAsync("_AuthHead")
+    @await Html.PartialAsync("Auth/_AuthHead")
 </head>
 
 <body>
-    @await Html.PartialAsync("_AuthLogo")
+    @await Html.PartialAsync("Auth/_AuthLogo")
 
     @RenderBody()
 
-    @await Html.PartialAsync("_AuthFooter")
+    @await Html.PartialAsync("Auth/_AuthFooter")
 
-    @await Html.PartialAsync("_AuthJs")
+    @await Html.PartialAsync("Auth/_AuthJs")
 
     @await RenderSectionAsync("Scripts", required: false)
 
-    @await Html.PartialAsync("_AuthScripts")
+    @await Html.PartialAsync("Auth/_AuthScripts")
 
 </body>
 

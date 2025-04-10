@@ -7,7 +7,7 @@
 }
 
 
-<div class="container-fluid py-0 md-py-0">
+<div class="container py-0 md-py-0">
     <div class="row justify-content-center">
         <div class="col-6 col-md-10 p-0 ms-3 d-flex" style="background:none;border:0px;">
             <h1 style="font-weight:600;">@Model.Name</h1>
@@ -17,7 +17,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 py-4 bg-white rounded shadow-sm">
-                @await Html.PartialAsync("_SingleContactDataGrid")
+                @await Html.PartialAsync("Contacts/_SingleContactDataGrid")
             </div>
         </div>
     </div>
@@ -25,19 +25,19 @@
 
 @*Create Modal*@
 
-    @await Html.PartialAsync("_SingleContactCreateModal")
+@await Html.PartialAsync("Contacts/_SingleContactCreateModal")
 
 @*Update Name Modal*@
 
-    @await Html.PartialAsync("_SingleContactUpdateModal")
+@await Html.PartialAsync("Contacts/_SingleContactUpdateModal")
 
 @*Update ModalSingleList*@
 
-    @await Html.PartialAsync("_SingleContactUpdateList")
+@await Html.PartialAsync("Contacts/_SingleContactUpdateList")
 
 @*Delete Modal*@
 
-    @await Html.PartialAsync("_SingleContactDeleteModal")
+@await Html.PartialAsync("Contacts/_SingleContactDeleteModal")
 
 <script>
 

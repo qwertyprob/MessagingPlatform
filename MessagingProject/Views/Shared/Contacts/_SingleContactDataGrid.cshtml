@@ -33,9 +33,24 @@
                         .Icon("add")
                         .ElementAttr(new { @class = "btn-success" })
                         .Text("Создать")
-                        .OnClick("openCreateModal")
+                        .OnClick("openCreateModal"));
 
-                        );
+                        items.Add()
+                            .Location(ToolbarItemLocation.After)
+                            .Widget(w => w.Button()
+                            .Type(ButtonType.Normal)
+                            .Icon("refresh")
+                            .OnClick("refreshData"));
+
+                        items.Add()
+                            .Location(ToolbarItemLocation.After)
+                            .Widget(w => w.TextBox()
+                            .Placeholder("Поиск...")
+                            .Value("")
+                            .OnValueChanged("onSearchChange")
+                            .Width(200));
+
+
                         });
                     })
 
@@ -64,6 +79,20 @@
 
 
 <script>
+    function onSearchChange(e) {
+        const searchValue = e.value;
+        const dataGrid = $('#singlelist').dxDataGrid('instance');
+        dataGrid.option("searchPanel.text", searchValue);
+        dataGrid.refresh();
+
+        }
+
+
+        function refreshData(){
+            $("#singlelist").dxDataGrid("getDataSource").reload();
+
+        }
+
     var collapsed = false;
     function contentReady(e) {
         if(!collapsed) {

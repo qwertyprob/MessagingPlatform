@@ -18,6 +18,11 @@ body, html {
     
     
 }
+.wider-container {
+    max-width: 95%;
+    width: 100%;
+    max-height: auto;
+}
 
 footer {
     background-color: none;
