@@ -59,7 +59,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify(requestData),
                 success: function(result) {
-                   location.reload();
+            $("#ContactContainer").dxDataGrid("getDataSource").reload();
                     console.log(result);
                     closeModal();  
                 },
@@ -83,6 +83,9 @@
 
     function closeModal() {
         document.getElementById("uploadModal").style.display = "none";
+        $('#uploadModal').hide();
+        $('#listName').val('');
+        $('#fileUpload').val('');
     }
 
     window.onclick = function(event) {

@@ -90,7 +90,7 @@
                 data: JSON.stringify(requestData),
                 success: function(result) {
                     console.log("Успех:", result);
-                    location.reload();
+            $("#singlelist").dxDataGrid("getDataSource").reload();
                     closeEditModal();
                 },
                 error: function(xhr) {

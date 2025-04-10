@@ -101,7 +101,7 @@
                 success: function(result) {
                     console.log("Контакт создан", result);
                     closeCreateModal();
-                    location.reload();
+            $("#singlelist").dxDataGrid("getDataSource").reload();
                 },
                 error: function(xhr) {
                     let errorMessage = xhr.responseJSON?.message || "Ошибка создания контакта";

@@ -80,7 +80,7 @@
 
                     
                     closeCreateModal();
-                     location.reload();
+                    location.reload();
                 },
                 error: function(xhr) {
                     let errorMessage = xhr.responseJSON?.message || "Ошибка создания контакта";
@@ -102,12 +102,15 @@
 
     function closeCreateModal() {
         document.getElementById("createModal").style.display = "none";
+        $("#name").val('');
+        $("#email").val('');
+        $("#phone").val('');
     }
 
     window.onclick = function(event) {
         var modal = document.getElementById("createModal");
         if (event.target === modal) {
-            closeModal();
+            closeCreateModal();
         }
     };
 </script>

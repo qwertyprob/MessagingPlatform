@@ -31,8 +31,8 @@
                         .Widget(w => w.Button()
                         .Type(ButtonType.Default)
                         .Icon("add")
-                        .ElementAttr(new { @class = "btn-success" })
-                        .Text(MessagingProject.Resources.Resource.Create)
+@*                         .ElementAttr(new { @class = "btn-success" })
+ *@                        .Text(MessagingProject.Resources.Resource.Create)
                         .OnClick("openCreateModal"));
 
                         items.Add()
@@ -90,7 +90,7 @@
 
         function refreshData(){
             $("#singlelist").dxDataGrid("getDataSource").reload();
-
+            dataGrid.refresh();
         }
 
     var collapsed = false;
