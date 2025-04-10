@@ -10,10 +10,10 @@
                     .Columns(columns =>
                     {
                         columns.Add().DataField("Id").Visible(false);
-                        columns.Add().DataField("Name").Caption("Name");
-                        columns.Add().DataField("Emails").Caption("Email");
-                        columns.Add().DataField("Phones").Caption("Phone");
-                        columns.Add().DataField("ParsedDate").Caption("Date");
+                        columns.Add().DataField("Name").Caption(MessagingProject.Resources.Resource.Name);
+                        columns.Add().DataField("Emails").Caption(MessagingProject.Resources.Resource.Email);
+                        columns.Add().DataField("Phones").Caption(MessagingProject.Resources.Resource.Phone);
+                        columns.Add().DataField("ParsedDate").Caption(MessagingProject.Resources.Resource.Date);
 
                         columns.Add().Type(GridCommandColumnType.Buttons)
                         .Buttons(b =>
@@ -36,7 +36,7 @@
                         .Type(ButtonType.Default)
                         .Icon("add")
                         .ElementAttr(new { @class = "btn-success" })
-                        .Text("Создать")
+                        .Text(MessagingProject.Resources.Resource.Create)
                         .OnClick("openModal"));
                         
                         items.Add()
@@ -49,7 +49,7 @@
                             items.Add()
                  .Location(ToolbarItemLocation.After)
                  .Widget(w => w.TextBox()
-                     .Placeholder("Поиск...")
+                     .Placeholder(MessagingProject.Resources.Resource.Search)
                      .Value("")
                      .OnValueChanged("onSearchChange")
                      .Width(200));

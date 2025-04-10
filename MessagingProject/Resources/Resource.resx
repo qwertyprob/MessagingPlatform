@@ -210,4 +210,37 @@
   <data name="SentThisWeek" xml:space="preserve">
     <value>Sent This Week</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Create Date</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search..</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Elem1" xml:space="preserve">
+    <value>Are you sure you want to delete this item? Please enter</value>
+  </data>
+  <data name="Elem2" xml:space="preserve">
+    <value>in the field below:</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
 </root>

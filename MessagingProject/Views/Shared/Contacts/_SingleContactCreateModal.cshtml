@@ -11,21 +11,21 @@
         <input type="hidden" id="hiddenData" value="@Model.ContactsData" />
 
 
-        <label class="form-controll" style="margin-top:3em;">Имя</label>
-        <input type="text" id="name" class="form-control" placeholder="Имя" style="margin-bottom:1em;" />
+        <label class="form-controll" style="margin-top:3em;">@MessagingProject.Resources.Resource.Name</label>
+        <input type="text" id="name" class="form-control" placeholder="@MessagingProject.Resources.Resource.Name" style="margin-bottom:1em;" />
 
-        <label class="form-controll">Email</label>
-        <input type="text" id="email" class="form-control" placeholder="Email" style="margin-bottom:1em;"  />
+        <label class="form-controll">@MessagingProject.Resources.Resource.Email</label>
+        <input type="text" id="email" class="form-control" placeholder="@MessagingProject.Resources.Resource.Email" style="margin-bottom:1em;" />
 
-        <label class="form-controll">Phone</label>
-        <input type="text" id="phone" class="form-control" placeholder="Phone" style="margin-bottom:1em;"  />
+        <label class="form-controll">@MessagingProject.Resources.Resource.Phone</label>
+        <input type="text" id="phone" class="form-control" placeholder="@MessagingProject.Resources.Resource.Phone" style="margin-bottom:1em;" />
 
         <div class="d-flex justify-content-end py-4 ms-2">
             <button class="btn btn-primary d-flex me-2 align-items-center " onclick="closeCreateModal()">
-                <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">Закрыть
+                <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">@MessagingProject.Resources.Resource.Close
             </button>
             <button class="btn btn-success d-flex align-items-center" onclick="createContact()">
-                <img src="~/img/icons/save.svg" alt="save Icon" width="22" class="me-2">Сохранить
+                <img src="~/img/icons/save.svg" alt="save Icon" width="22" class="me-2">@MessagingProject.Resources.Resource.Save
             </button>
         </div>
     </div>

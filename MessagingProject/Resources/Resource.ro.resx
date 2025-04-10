@@ -210,4 +210,37 @@
   <data name="SentThisWeek" xml:space="preserve">
     <value>Trimis săptămâna această</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nume</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Data creării</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Creați</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Caută..</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Închide</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Salvează</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Şterge</value>
+  </data>
+  <data name="Elem1" xml:space="preserve">
+    <value>Sigur doriți să ștergeți acest articol? Vă rugăm să introduceți</value>
+  </data>
+  <data name="Elem2" xml:space="preserve">
+    <value>în câmpul de mai jos:</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Actualizați</value>
+  </data>
 </root>

@@ -10,9 +10,9 @@
                     .Columns(columns =>
                     {
                         columns.Add().DataField("Id").Visible(false);
-                        columns.Add().DataField("Name").Caption("Name");
-                        columns.Add().DataField("Email").Caption("Email");
-                        columns.Add().DataField("Phone").Caption("Phone");
+                        columns.Add().DataField("Name").Caption(MessagingProject.Resources.Resource.Name);
+                        columns.Add().DataField("Email").Caption(MessagingProject.Resources.Resource.Email);
+                        columns.Add().DataField("Phone").Caption(MessagingProject.Resources.Resource.Phone);
 
                         columns.Add().Type(GridCommandColumnType.Buttons)
                         .Buttons(b =>
@@ -20,7 +20,7 @@
                             b.Add().Name(GridColumnButtonName.Edit).Icon("edit").OnClick("openSingleUpdateModal");
                             b.Add().Name(GridColumnButtonName.Delete).Icon("trash").OnClick("openDeleteSingleModal");
 
-                        }).Caption("Actions");
+                        }).Caption("");
                     })
                     .Toolbar(toolbar =>
                     {
@@ -32,7 +32,7 @@
                         .Type(ButtonType.Default)
                         .Icon("add")
                         .ElementAttr(new { @class = "btn-success" })
-                        .Text("Создать")
+                        .Text(MessagingProject.Resources.Resource.Create)
                         .OnClick("openCreateModal"));
 
                         items.Add()
@@ -45,7 +45,7 @@
                         items.Add()
                             .Location(ToolbarItemLocation.After)
                             .Widget(w => w.TextBox()
-                            .Placeholder("Поиск...")
+                            .Placeholder(MessagingProject.Resources.Resource.Search)
                             .Value("")
                             .OnValueChanged("onSearchChange")
                             .Width(200));

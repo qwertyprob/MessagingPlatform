@@ -210,4 +210,37 @@
   <data name="SentThisWeek" xml:space="preserve">
     <value>Отправлено на этой неделе</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата создания</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Поиск..</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Elem1" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить этот элемент? Пожалуйста введите</value>
+  </data>
+  <data name="Elem2" xml:space="preserve">
+    <value>в поле ниже:</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
 </root>
