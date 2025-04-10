@@ -4,6 +4,7 @@
     ViewData["Title"] = "Email";
 
 }
+
 <div class="container-fluid py-0 md-py-0">
     <div class="row mx-5 px-5">
         <div class="col-12 col-md-10 p-0" style="background:none;border:0px;">
@@ -18,50 +19,107 @@
                     <label class="form-label">Newsletter Title</label>
                     <input type="text" class="form-control" value="Created on 03-18-2025" readonly>
                 </div>
+                <!-- Template Name Dropdown -->
+                <div class="mb-3">
+                    <label class="form-label">Template Name</label>
+                    <select id="templateName" class="form-select" style="width: 100%;height:auto;">
+                        <option>кукеек</option>
+                        <option>ke</option>
+                        <option>Ppo</option>
+                        <option>Le shance finale</option>
+                        <option>dsa</option>
+                        <option>dsa</option>
+                        <option>Namer23</option>
+                        <option>template</option>
+                        <option>pol2</option>
+                        <option>tetetetetette</option>
+                        <option>tetetetetette</option>
+                        <option>yyyyyyyyyyyyyyyyyy</option>
+                    </select>
+                </div>
 
                 <!-- Template Title -->
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Template Title">
+                    <label class="form-label">Template Subject</label>
+                    <input type="text" class="form-control" placeholder="Template Subject">
                 </div>
 
-                <!-- Subject -->
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Subject">
-                </div>
+                
 
-                <!-- Contact List Title -->
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Contact List Title">
+                <!-- Contact List -->
+                <div class="col-12 mb-3">
+                    <label for="multi-select">Name of contact list</label>
+                    <select id="multi-select" multiple="multiple" style="width: 100%;">
+                        <option value="testj">testj</option>
+                        <option value="mine-test-data">mine-test-data</option>
+                        <option value="data-set-from-excel-file(10000)">data-set-from-excel-file(10000)</option>
+                        <option value="data-set-from-excel-file(20000)">data-set-from-excel-file(20000)</option> 
+                        <option value="data-set-from-excel-file(30000)">data-set-from-excel-file(30000)</option> 
+                        <option value="data-set-from-excel-file(40000)">data-set-from-excel-file(40000)</option> 
+                    </select>
                 </div>
 
                 <!-- Checkboxes -->
-                <div class="mb-3 d-flex align-items-center flex-wrap">
-                    <input class="form-check-input me-2" type="checkbox" id="sendNow">
-                    <label class="form-check-label me-4" for="sendNow">Send Now</label>
+                <div class="mb-3 d-flex align-items-center flex-wrap gap-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="sendNow">
+                        <label class="form-check-label" for="sendNow">Send Now</label>
+                    </div>
 
-                    <input class="form-check-input me-2" type="checkbox" id="enableReplies">
-                    <label class="form-check-label me-4" for="enableReplies">Enable Replies</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="enableReplies" onchange="toggleEmailInput()">
+                        <label class="form-check-label" for="enableReplies">Enable Replies</label>
+                    </div>
 
-                    <input class="form-check-input me-2" type="checkbox" id="enableSignature">
-                    <label class="form-check-label" for="enableSignature">Enable Signature</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="enableSignature">
+                        <label class="form-check-label" for="enableSignature">Enable Signature</label>
+                    </div>
                 </div>
 
-                <p class="text-danger">* To receive replies, check "Enable Replies"</p>
+                <!-- Note -->
+                <p class="text-danger mb-3">* To receive replies, check "Enable Replies"</p>
 
-                <!-- Buttons -->
-                <div class="d-flex gap-3 justify-content-between flex-wrap">
-                    <button type="submit" class="btn btn-success btn-icon d-flex align-items-center justify-content-center btn-responsive">
-                        <img src="~/img/icons/send.svg" alt="Send Icon" width="20"> Send
-                    </button>
-                    <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center gap-2 btn-responsive">
-                        <img src="~/img/icons/save.svg" alt="Save Icon" width="20">
-                        <span>Save</span>
-                    </button>
+                <!-- Hidden Email Input -->
+                <div id="emailInputWrapper" class="mb-3" style="display: none;">
+                    <label class="form-label" for="replyEmail">Email</label>
+                    <input type="email" class="form-control" id="replyEmail" placeholder="Enter reply email">
                 </div>
             </form>
-        </div>
+        
+                <!-- Buttons -->
+                <div class="d-flex gap-3 justify-content-between flex-wrap">
+                    <button type="submit" class="btn btn-success d-flex align-items-center justify-content-center btn-responsive gap-2">
+                        <img src="~/img/icons/send.svg" alt="Send Icon" width="20">
+                        Send
+                    </button>
+                    <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center btn-responsive gap-2">
+                        <img src="~/img/icons/save.svg" alt="Save Icon" width="20">
+                        Save
+                    </button>
+                </div>
+            </div>
+        <script>
 
-        <!-- Пустая колонка -->
-        <div class="col-6"></div>
-    </div>
-</div>
+    //HiddenInput
+        function toggleEmailInput() {
+    var checkbox = document.getElementById('enableReplies');
+    var emailInput = document.getElementById('emailInputWrapper');
+
+    if (checkbox.checked) {
+        emailInput.style.display = 'block';
+    } else {
+        emailInput.style.display = 'none';
+    }
+}
+
+
+    //Selector list
+    $(document).ready(function() {
+        $('#multi-select').select2({
+            placeholder: "Начните вводить...",
+            tags: true,  
+            tokenSeparators: [',', ' ']  
+        });
+    });
+</script>

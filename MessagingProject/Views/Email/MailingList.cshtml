@@ -13,107 +13,11 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 py-4 bg-white rounded shadow-sm">
-                @(
-                    Html.DevExtreme().DataGrid()
-                        .ID("MailContainer")
-                        .DataSource(ds => ds.Mvc()
-                        .Controller("Email")
-                        .LoadAction("GetCampaignList")
-                        )
-                        .Columns(columns =>
-                        {
-                            columns.Add().DataField("Id").Visible(false);
-                            columns.Add().DataField("Name").Caption("Name");
-                            columns.Add().DataField("Subject").Caption("Subject");
-                            columns.Add().DataField("FormattedCreateParsedDate").Caption("Date");
-                            columns.Add().DataField("FormattedScheduledParsedDate").Caption("Scheduled");
-                            columns.Add().DataField("StatusDescription").Caption("Status");
-
-                            columns.Add().Type(GridCommandColumnType.Buttons)
-                            .Buttons(b =>
-                            {
-                                b.Add().Name(GridColumnButtonName.Edit).Icon("edit");
-
-                                b.Add().Name(GridColumnButtonName.Delete).Icon("trash");
-                        
-                            });
-
-                    })
-                    .SearchPanel(s => s.Visible(true).Width(200))
-                    .GroupPanel(g => g.Visible(true))
-                    
-                    .Sorting(s => s
-                    .Mode(GridSortingMode.Multiple)
-                    .AscendingText("Created")
-                    .DescendingText("Created Descending")
-                    )
-
-                    .Toolbar(toolbar =>
-                    {
-                        toolbar.Items(items =>
-                        {
-                            items.Add()
-                        .Location(ToolbarItemLocation.Before)
-                        .Widget(w => w.Button()
-                        .Type(ButtonType.Default)
-                        .Icon("add")
-                        .ElementAttr(new { @class = "btn-success" })
-                        .Text(MessagingProject.Resources.Resource.Create)
-                        .OnClick("createMail"));
-
-                            items.Add()
-                        .Location(ToolbarItemLocation.After)
-                        .Widget(w => w.Button()
-                        .Type(ButtonType.Normal)
-                        .Icon("refresh")
-                        .OnClick("refreshData"));
-
-                            items.Add()
-                        .Location(ToolbarItemLocation.After)
-                        .Widget(w => w.TextBox()
-                        .Placeholder(MessagingProject.Resources.Resource.Search)
-                        .Value("")
-                        .OnValueChanged("onSearchChange")
-                        .Width(200));
-
-
-                        });
-
-                    })
-                    
-                    .Editing(editing =>
-                    {
-                        editing.Mode(GridEditMode.Row);
-                        editing.AllowAdding(true);
-                        editing.AllowDeleting(true);
-                        editing.AllowUpdating(true);
-                    })
-                    )
+                @await Html.PartialAsync("Email/_EmailDataGrid")
             </div>
         </div>
     </div>
 </div>
 
 
-<script>
-
-    function createMail(){
-        window.location.href = "/Email/SendEmail";
-
-    }
-
-     function onSearchChange(e) {
-        const searchValue = e.value;
-        const dataGrid = $('#MailContainer').dxDataGrid('instance');
-        dataGrid.option("searchPanel.text", searchValue);
-        dataGrid.refresh(); 
-
-        }
-
-
-        function refreshData(){
-            $("#MailContainer").dxDataGrid("getDataSource").reload();
-
-        }
-</script>
 

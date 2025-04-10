@@ -37,8 +37,17 @@ namespace MessagingProject.Controllers.Email
             {
                 var token = _userService.GetToken();
                 var response = await _emailService.GetCampaigns(token);
+                if(response.ErrorCode == 0)
+                {
+                    var sortedCampaignDataList = response?.CampaignDataList
+                    .OrderByDescending(x => x.Created)
+                    .ToList();
 
-                return Ok(new { data = response.CampaignDataList });
+                    return Ok(new { data = sortedCampaignDataList });
+                }
+                
+                return BadRequest(response.ErrorMessage);
+
 
             }
             catch (UnauthorizedAccessException ex)

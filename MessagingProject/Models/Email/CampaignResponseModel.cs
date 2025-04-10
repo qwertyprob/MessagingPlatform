@@ -2,7 +2,7 @@
 
 namespace MessagingProject.Models.Email
 {
-    public class CampaignResponseModel
+    public class CampaignResponseModel:BaseResponseModel
     {
         [JsonProperty("campaignDataList")]
         public IEnumerable<CampaignData> CampaignDataList { get; set; } = [];
@@ -34,7 +34,7 @@ namespace MessagingProject.Models.Email
         };
 
         [JsonProperty("created")]
-        private DateTime? Created { get; set; }
+        public DateTime? Created { get; set; }
         public string FormattedCreateParsedDate => Created?.ToString("dd-MM-yyyy HH:mm");
 
         [JsonProperty("scheduled")]
@@ -48,6 +48,11 @@ namespace MessagingProject.Models.Email
 
         [JsonProperty("contactListID")]
         public string ContactListID { get; set; }
+
+        [JsonProperty("template")]
+        public int Template { get; set; }
+
+        public string TemplateName { get; set; } = string.Empty;
 
     }
 
