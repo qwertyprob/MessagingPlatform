@@ -10,6 +10,9 @@ namespace MessagingProject.Models.Email
 
     public class CampaignData
     {
+        [JsonIgnore]
+        public string TemplateName { get; set; } = "";
+
         [JsonProperty("contactList")]
         public string ContactListData { get; set; } 
 
@@ -51,10 +54,8 @@ namespace MessagingProject.Models.Email
         [JsonProperty("contactListID")]
         public string ContactListID { get; set; }
 
-        [JsonProperty("template")]
-        public int Templates { get; set; }
 
-        public string TemplateName { get; set; } = string.Empty;
+    
 
     }
 

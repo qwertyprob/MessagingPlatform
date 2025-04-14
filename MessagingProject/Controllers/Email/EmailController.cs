@@ -30,6 +30,7 @@ namespace MessagingProject.Controllers.Email
             return View();
         }
 
+
         [HttpGet]
         public async Task<IActionResult> GetCampaignList()
         {
@@ -42,6 +43,7 @@ namespace MessagingProject.Controllers.Email
                     var sortedCampaignDataList = response?.CampaignDataList
                     .OrderByDescending(x => x.Created)
                     .ToList();
+
 
                     return Ok(new { data = sortedCampaignDataList });
                 }

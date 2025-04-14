@@ -270,4 +270,7 @@
   <data name="Schedule" xml:space="preserve">
     <value>Programa</value>
   </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
 </root>

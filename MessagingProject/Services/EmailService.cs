@@ -8,13 +8,14 @@ namespace MessagingProject.Services
 {
     public class EmailService : IEmailService
     {
-        public HttpClient _client { get; set; }
-
-        public EmailService(HttpClient client)
+        private readonly HttpClient _client;
+        private readonly ITemplateService _templateService;
+        public EmailService(HttpClient client, ITemplateService templateService)
         {
             _client = client;
+            _templateService = templateService;
         }
-        //GET
+        //GET DATA
         public async Task<GetByMonthInfoResponseModel> GetByMonthInfo(string token)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, $"GetInfoCompany?Token={token}&CampaignOnly=true");
@@ -54,6 +55,7 @@ namespace MessagingProject.Services
 
         }
 
+        //GET CAMPAIGNS 
         public async Task<CampaignResponseModel> GetCampaigns(string token)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, $"Campaign/GetList?Token={token}");
@@ -63,6 +65,22 @@ namespace MessagingProject.Services
             if (responseModel is null)
             {
                 throw new NullReferenceException();
+            }
+
+            var templateList = await _templateService.GetTemplates(token);
+            foreach (var model in responseModel.CampaignDataList)
+            {
+                var template = await _templateService.GetTemplatesById(model.Template);
+                if (template == null)
+                {
+                    continue;
+                }
+                
+
+                model.TemplateName = template.Name;
+
+                
+                
             }
 
             return responseModel;

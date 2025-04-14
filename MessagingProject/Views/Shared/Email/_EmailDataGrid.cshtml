@@ -9,10 +9,10 @@
                         {
                             columns.Add().DataField("Id").Visible(false);
                             columns.Add().DataField("Name").Caption(MessagingProject.Resources.Resource.Name);
-                            columns.Add().DataField("Subject").Caption(MessagingProject.Resources.Resource.Template);
+                            columns.Add().DataField("TemplateName").Caption(MessagingProject.Resources.Resource.Template);
                             columns.Add().DataField("FormattedCreateParsedDate").Caption(MessagingProject.Resources.Resource.Date);
                             columns.Add().DataField("FormattedScheduledParsedDate").Caption(MessagingProject.Resources.Resource.Schedule);
-                            columns.Add().DataField("StatusDescription").Caption("Status");
+                            columns.Add().DataField("StatusDescription").Caption(MessagingProject.Resources.Resource.Status);
 
                             columns.Add().Type(GridCommandColumnType.Buttons)
                             .Buttons(b =>
