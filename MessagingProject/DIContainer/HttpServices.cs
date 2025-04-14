@@ -58,6 +58,18 @@ namespace MessagingProject.DIContainer
 
                 options.DefaultRequestHeaders.Add("Accept", "application/json");
             });
+            //Templates
+            services.AddHttpClient<IEmailService, EmailService>(options =>
+            {
+#if DEBUG
+                options.BaseAddress = new Uri(Config["ApiUrls:Email"]);
+#endif
+#if RELEASE
+                options.BaseAddress = new Uri(Config["ApiUrls:Email"]);
+#endif
+
+                options.DefaultRequestHeaders.Add("Accept", "application/json");
+            });
         }
     }
 }

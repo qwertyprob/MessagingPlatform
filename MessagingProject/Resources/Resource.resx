@@ -255,4 +255,19 @@
   <data name="Authorization" xml:space="preserve">
     <value>Authorization</value>
   </data>
+  <data name="draft" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="instant" xml:space="preserve">
+    <value>Instant</value>
+  </data>
+  <data name="schelduled" xml:space="preserve">
+    <value>Scheduled</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>Template name</value>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
 </root>

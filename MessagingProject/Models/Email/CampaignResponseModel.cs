@@ -10,8 +10,8 @@ namespace MessagingProject.Models.Email
 
     public class CampaignData
     {
-        //[JsonProperty("contactListData")]
-        //public IEnumerable<string> ContactListData { get; set; }
+        [JsonProperty("contactList")]
+        public string ContactListData { get; set; } 
 
         //[JsonProperty("token")]
         //public string Token { get; set; } - always null
@@ -20,6 +20,8 @@ namespace MessagingProject.Models.Email
         public string Id { get; set; }
         [JsonProperty("name")]
         public string Name { get; set; }
+        [JsonProperty("template")]
+        public int Template { get; set; }
         [JsonProperty("subject")]
         public string Subject { get; set; }
         [JsonProperty("body")]
@@ -28,9 +30,9 @@ namespace MessagingProject.Models.Email
         private int Status { get; set; }
         public string StatusDescription => Status switch
         {
-            1 => "Запланнированный",
-            2 => "Мгновенный",
-            _ => "Черновик"
+            1 => MessagingProject.Resources.Resource.schelduled,
+            2 => MessagingProject.Resources.Resource.instant,
+            _ => MessagingProject.Resources.Resource.draft
         };
 
         [JsonProperty("created")]
@@ -50,7 +52,7 @@ namespace MessagingProject.Models.Email
         public string ContactListID { get; set; }
 
         [JsonProperty("template")]
-        public int Template { get; set; }
+        public int Templates { get; set; }
 
         public string TemplateName { get; set; } = string.Empty;
 

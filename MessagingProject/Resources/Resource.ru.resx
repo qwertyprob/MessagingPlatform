@@ -255,4 +255,19 @@
   <data name="Authorization" xml:space="preserve">
     <value>Авторизации</value>
   </data>
+  <data name="draft" xml:space="preserve">
+    <value>Черновик</value>
+  </data>
+  <data name="instant" xml:space="preserve">
+    <value>Мгновенный </value>
+  </data>
+  <data name="schelduled" xml:space="preserve">
+    <value>Запланированный</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>Название шаблона</value>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>Запланировать</value>
+  </data>
 </root>

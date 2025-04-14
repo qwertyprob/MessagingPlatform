@@ -65,8 +65,6 @@ namespace MessagingProject.Services
                 throw new NullReferenceException();
             }
 
-            
-
             return responseModel;
         }
     }

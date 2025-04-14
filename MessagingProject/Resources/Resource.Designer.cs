@@ -151,6 +151,15 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Draft.
+        /// </summary>
+        public static string draft {
+            get {
+                return ResourceManager.GetString("draft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete this item? Please enter.
         /// </summary>
         public static string Elem1 {
@@ -259,6 +268,15 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Instant.
+        /// </summary>
+        public static string instant {
+            get {
+                return ResourceManager.GetString("instant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lock Screen.
         /// </summary>
         public static string LockScreen {
@@ -358,6 +376,24 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Schedule.
+        /// </summary>
+        public static string Schedule {
+            get {
+                return ResourceManager.GetString("Schedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scheduled.
+        /// </summary>
+        public static string schelduled {
+            get {
+                return ResourceManager.GetString("schelduled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Screen Lock.
         /// </summary>
         public static string Screen_Lock {
@@ -435,6 +471,15 @@ namespace MessagingProject.Resources {
         public static string SMSNewsLetter {
             get {
                 return ResourceManager.GetString("SMSNewsLetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Template name.
+        /// </summary>
+        public static string Template {
+            get {
+                return ResourceManager.GetString("Template", resourceCulture);
             }
         }
         

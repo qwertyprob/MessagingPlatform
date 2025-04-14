@@ -255,4 +255,19 @@
   <data name="Authorization" xml:space="preserve">
     <value>Autorizare</value>
   </data>
+  <data name="draft" xml:space="preserve">
+    <value>Proiect</value>
+  </data>
+  <data name="instant" xml:space="preserve">
+    <value>Instantaney</value>
+  </data>
+  <data name="schelduled" xml:space="preserve">
+    <value>Planificat</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>Numele șablonului</value>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>Programa</value>
+  </data>
 </root>

@@ -52,10 +52,12 @@ namespace MessagingProject.Controllers.Email
             }
             catch (UnauthorizedAccessException ex)
             {
+                Console.WriteLine(ex.Message);
                 return Unauthorized(new { message = "Unauthorized" });
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return StatusCode(500, new { message = "An error occurred", error = ex.Message });
             }
             
