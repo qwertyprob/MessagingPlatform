@@ -90,7 +90,7 @@
                 data: JSON.stringify(requestData),
                 success: function(result) {
                     console.log("Успех:", result);
-                    location.window.reload();
+                    window.location.reload();               
                     closeEditModal();
                 },
                 error: function(xhr) {
@@ -112,6 +112,7 @@
 
     function closeEditModal() {
         document.getElementById("editModal").style.display = "none";
+
     }
 
     window.onclick = function(event) {

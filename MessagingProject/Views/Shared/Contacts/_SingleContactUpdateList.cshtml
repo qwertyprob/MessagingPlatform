@@ -100,6 +100,7 @@
                 data: JSON.stringify(requestData),
                 success: function(result) {
                     console.log("Контакт создан", result);
+                                        location.window.reload();
                     closeCreateModal();
             $("#singlelist").dxDataGrid("getDataSource").reload();
                 },

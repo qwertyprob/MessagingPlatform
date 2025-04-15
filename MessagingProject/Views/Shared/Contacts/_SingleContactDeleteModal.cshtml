@@ -91,7 +91,7 @@
             success: function(response) {
                 if (response && response.ErrorCode === 0) {
                     closeDeleteSingleModal();
-            $("#singlelist").dxDataGrid("getDataSource").reload();
+                        window.location.reload();
                 } else {
                     $('#error-message').text('Ошибка при удалении: ' + response.ErrorMessage).show();
                 }
