@@ -68,20 +68,18 @@ namespace MessagingProject.Services
             }
 
             var templateList = await _templateService.GetTemplates(token);
-            foreach (var model in responseModel.CampaignDataList)
+
+            // Instead of using a foreach loop, we can use LINQ to create a list of tasks
+            var tasks = responseModel.CampaignDataList.Select(async model =>
             {
                 var template = await _templateService.GetTemplatesById(model.Template);
-                if (template == null)
+                if (template != null)
                 {
-                    continue;
+                    model.TemplateName = template.Name;
                 }
-                
+            });
 
-                model.TemplateName = template.Name;
-
-                
-                
-            }
+            await Task.WhenAll(tasks);
 
             return responseModel;
         }

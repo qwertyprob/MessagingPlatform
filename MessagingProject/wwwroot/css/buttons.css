@@ -134,6 +134,6 @@ btn-no-bg-black{
     }
 }
 
-    
-    
-
+.dx-button:hover {
+    background-color: #286090 !important; 
+}

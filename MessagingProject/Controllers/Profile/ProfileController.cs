@@ -44,17 +44,22 @@ namespace MessagingProject.Controllers.Profile
         }
         [AllowAnonymous]
         [Route("/ScreenLock")]
+
         public IActionResult ScreenLock()
         {
-            var model = _userService.GetProfileInfo(_userService.GetToken());
-            HttpContext.SignOutAsync();
-            
             var claims = GetUserClaims();
-            ViewBag.Claims = claims;
+
             HttpContext.Session.SetString("Email", claims["Email"]);
+            HttpContext.Session.SetString("FullName", claims["FullName"]); 
+
+            HttpContext.SignOutAsync();
+
             ViewBag.Email = HttpContext.Session.GetString("Email");
+            ViewBag.FullName = HttpContext.Session.GetString("FullName");
+
             return View();
         }
+
 
         [AllowAnonymous]
         [HttpPost]
@@ -92,10 +97,13 @@ namespace MessagingProject.Controllers.Profile
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+        private Dictionary<string, string> GetUserClaims()
+        {
+            return User.Claims.ToDictionary(c => c.Type, c => c.Value);
+        }
 
-        
         [AllowAnonymous]
-        private IDictionary<string,string> GetUserClaims()
+        private IDictionary<string,string> GetUserClaimss()
         {
             var claims = HttpContext.User.Claims;
 

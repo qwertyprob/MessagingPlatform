@@ -130,7 +130,7 @@
     <value>Пароль</value>
   </data>
   <data name="Send" xml:space="preserve">
-    <value>Войти</value>
+    <value>Отправить</value>
   </data>
   <data name="SendRequest" xml:space="preserve">
     <value>Отправить запрос</value>

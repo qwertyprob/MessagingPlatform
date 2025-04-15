@@ -308,3 +308,24 @@ label {
     background-color: #f0f0f0 !important; /* нежный серый фон при наведении */
     color: #244065;
 }
+.card-hover {
+    position: relative;
+    z-index: 1;
+    transition: background-color 0.3s ease;
+}
+
+    .card-hover:hover {
+        z-index: 1000;
+        background-color: lightgray !important;
+        cursor: pointer;
+    }
+
+.dropdown-menu {
+    z-index: 2000 !important;
+    filter: none !important;
+}
+
+    .dropdown-menu * {
+        filter: none !important;
+    }
+

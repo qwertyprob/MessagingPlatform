@@ -130,7 +130,7 @@
     <value>Parola</value>
   </data>
   <data name="Send" xml:space="preserve">
-    <value>Conectare</value>
+    <value>Trimite</value>
   </data>
   <data name="SendRequest" xml:space="preserve">
     <value>Trimitere</value>

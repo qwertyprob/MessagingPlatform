@@ -4,16 +4,19 @@
     Layout = "_AuthLayout";
     ViewData["Title"] = "Lock Screen";
 
-    var claims = ViewBag.Claims;
+    var claims = ViewBag.Claims as Dictionary<string, string> ?? new Dictionary<string, string>();
 
-    var lastName = claims.ContainsKey("LastName") && !string.IsNullOrEmpty(claims["LastName"]) ? claims["LastName"].Substring(0, 1) : string.Empty;
-    var firstName = claims.ContainsKey("FirstName") && !string.IsNullOrEmpty(claims["FirstName"]) ? claims["FirstName"].Substring(0, 1) : string.Empty;
+    var lastName = claims.ContainsKey("LastName") && !string.IsNullOrEmpty(claims["LastName"])
+        ? claims["LastName"].Substring(0, 1)
+        : string.Empty;
+
+    var firstName = claims.ContainsKey("FirstName") && !string.IsNullOrEmpty(claims["FirstName"])
+        ? claims["FirstName"].Substring(0, 1)
+        : string.Empty;
 
     var firstTwoLetters = $"{lastName}{firstName}";
-
-
-
 }
+
 
 <div class="container p-5">
     <div class="row px-4">
@@ -22,7 +25,12 @@
             <span>@MessagingProject.Resources.Resource.PasswordEnter</span>
             <div class="col-12 d-flex flex-column justify-content-center align-items-center py-1">
             <div class="circle">@firstTwoLetters</div>
-                <span style="font-size:1.3em; color:dimgrey">@claims["LastName"] @claims["FirstName"] </span>
+
+                <span style="font-size:1.3em; color:dimgrey">
+                    @(claims.ContainsKey("LastName") ? claims["LastName"] : "")
+                    @(claims.ContainsKey("FirstName") ? claims["FirstName"] : "")
+                </span>
+
             </div>
             <form asp-action="LoginUser" >
                 <input type="hidden" name="Email" class="form-control" value="@ViewBag.Email" asp-for="Email" />
