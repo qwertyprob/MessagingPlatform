@@ -27,10 +27,8 @@ namespace MessagingProject.Controllers.Email
         [Route("Email/TemplateList")]
         public IActionResult TemplateList()
         {
-            return View();
+            return View("TemplateList");
         }
-
-
         [HttpGet]
         public async Task<IActionResult> GetCampaignList()
         {
@@ -38,7 +36,7 @@ namespace MessagingProject.Controllers.Email
             {
                 var token = _userService.GetToken();
                 var response = await _emailService.GetCampaigns(token);
-                if(response.ErrorCode == 0)
+                if (response.ErrorCode == 0)
                 {
                     var sortedCampaignDataList = response?.CampaignDataList
                     .OrderByDescending(x => x.Created)
@@ -47,7 +45,7 @@ namespace MessagingProject.Controllers.Email
 
                     return Ok(new { data = sortedCampaignDataList });
                 }
-                
+
                 return BadRequest(response.ErrorMessage);
 
 
@@ -62,7 +60,10 @@ namespace MessagingProject.Controllers.Email
                 Console.WriteLine(ex.Message);
                 return StatusCode(500, new { message = "An error occurred", error = ex.Message });
             }
-            
+
         }
+
+
+
     }
 }
