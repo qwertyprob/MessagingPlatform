@@ -10,6 +10,7 @@ namespace MessagingProject.Services
     public class TemplateService : ITemplateService
     {
         private readonly HttpClient _client;
+        //Cache to store templates
         private static readonly ConcurrentDictionary<int, TemplateDataModel> _templatesCache = new ConcurrentDictionary<int, TemplateDataModel>();
 
         public TemplateService(HttpClient client)

@@ -5,15 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace MessagingProject.Controllers.Email
 {
     [Authorize]
-
     public class EmailController : BaseController
     {
         private readonly IUserService _userService;
         private IEmailService _emailService;
-        public EmailController(IAuthService auth, IUserService userService, IEmailService emailService) : base(auth)
+        private ITemplateService _templateService;
+        public EmailController(IAuthService auth, IUserService userService, IEmailService emailService, ITemplateService templateService) : base(auth)
         {
             _userService = userService;
             _emailService = emailService;
+            _templateService = templateService;
         }
         //Views
         [Route("Email/MailingList")]
@@ -26,14 +27,39 @@ namespace MessagingProject.Controllers.Email
         {
             return View();
         }
-        [Route("Email/TemplateList")]
-        public IActionResult TemplateList()
-        {
-            return View("TemplateList");
-        }
 
+        //Template
+        //GET
+        [HttpGet]
+        [Route("Email/TemplateList")]
+        public async Task<IActionResult> GetTemplateList()
+        {
+            try
+            {
+                var token = _userService.GetToken();
+                var response = await _templateService.GetTemplates(token);
+                if (response.ErrorCode == 0)
+                {
+                    // Отправляем данные в представление напрямую
+                    return View("TemplateList", response);
+                }
+                return BadRequest(response.ErrorMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Unauthorized(new { message = "Unauthorized" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+            }
+        }
+ 
         //MailList
         //GET 
+
         [HttpGet]
         public async Task<IActionResult> GetCampaignList()
         {
@@ -69,8 +95,9 @@ namespace MessagingProject.Controllers.Email
         }
 
 
-        //Template
-        //GET
+
+     
+
 
 
 
