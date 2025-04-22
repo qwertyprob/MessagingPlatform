@@ -48,6 +48,33 @@ namespace MessagingProject.Controllers.Email
                 return StatusCode(500, new { message = "An error occurred", error = ex.Message });
             }
         }
+        //DELETE
+        [HttpGet]
+        [Route("Template/DeleteTemplateList/{id}")]
+        public async Task<IActionResult> DeleteTemplate(int id)
+        {
+            try
+            {
+                var token = _userService.GetToken();
+                var response = await _templateService.DeleteTemplate(id,token);
+                if (response.ErrorCode == 0)
+                {
+                    Console.WriteLine($"Template with ID:{id} is successfully deleted!");
+                    return Ok(response);
+                }
+                return BadRequest(response.ErrorMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Unauthorized(new { message = "Unauthorized" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+            }
+        }
 
 
 

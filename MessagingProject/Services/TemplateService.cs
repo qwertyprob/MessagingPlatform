@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using MessagingProject.Models.Email.Template;
+using MessagingProject.Models;
 
 namespace MessagingProject.Services
 {
@@ -18,6 +19,8 @@ namespace MessagingProject.Services
             _client = client;
         }
 
+
+        //GET
         public async Task<TemplateResponseModel> GetTemplates(string token)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, $"GetTemplatesByToken?Token={token}");
@@ -60,6 +63,33 @@ namespace MessagingProject.Services
             }
 
             return template;
+        }
+
+        //DELETE
+        public async Task<BaseResponseModel> DeleteTemplate(int id,string token)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, $"DeleteTemplate?Token={token}&ID={id}");
+            try
+            {
+                var response = await _client.SendAsync(request);
+                var content = await response.Content.ReadAsStringAsync();
+                var responseModel = JsonConvert.DeserializeObject<BaseResponseModel>(content);
+                if (responseModel == null)
+                {
+                    throw new NullReferenceException("Deserialized response is null.");
+                }
+                // Remove the template from the cache
+                _templatesCache.TryRemove(id, out _);
+                return responseModel;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new ApplicationException("Error deleting template.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An unexpected error occurred.", ex);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MessagingProject.Models.Email.Template;
+﻿using MessagingProject.Models;
+using MessagingProject.Models.Email.Template;
 
 namespace MessagingProject.Abstractions
 {
@@ -7,5 +8,6 @@ namespace MessagingProject.Abstractions
 
         Task<TemplateResponseModel> GetTemplates(string token);
         Task<TemplateDataModel> GetTemplatesById(int id);
+        Task<BaseResponseModel> DeleteTemplate(int id, string token);
     }
 }

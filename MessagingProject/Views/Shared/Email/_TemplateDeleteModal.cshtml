@@ -1,0 +1,79 @@
+﻿<div id="deleteTemplateModal" class="modal"
+     style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+    <div class="modal-content" style="background:#fff; padding:20px; padding-top:30px; width:90%; max-width:50em; margin:15% auto; border-radius:8px; position:relative; ">
+        <span onclick="closeDeleteTemplateModal()" style="cursor:pointer; position:absolute; top:0px; right:10px; font-size:35px;">&times;</span>
+        <h5 class="py-1">@MessagingProject.Resources.Resource.Elem1 <span class="text-name" style="color:gray; font-style:italic; font-weight:bold;" id="nameField"></span> @MessagingProject.Resources.Resource.Elem2</h5>
+        <input type="text" id="templateName" class="form-control" style="margin-top:2em;" />
+        <span id="error-message" class="text-danger" style="display: none; margin-bottom:1em;"></span>
+        <div class="row">
+            <div class="col-12">
+                <label>Тема шаблона</label>
+                <input type="text" id="subjectField" class="form-control" style="margin-bottom:1em;"  disabled />
+            </div>
+            <div class="col-12">
+                <div class="card-wrapper d-flex align-items-center justify-content-center" style="flex-grow: 1;">
+                    <div class="card mb-2" style="border: none; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+                        <img id="imageField" class="img-fluid" style="max-width: 100%; max-height: 100%; object-fit: contain;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end py-4 ms-2">
+            <button class="btn btn-primary d-flex me-2 align-items-center" onclick="closeDeleteTemplateModal()">
+                <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">@MessagingProject.Resources.Resource.Close
+            </button>
+            <button class="btn btn-danger d-flex me-2 align-items-center" onclick="deleteTemplate()">
+                <img src="~/img/icons/trash.svg" alt="trash Icon" width="22" class="me-1">@MessagingProject.Resources.Resource.Delete
+            </button>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hiddenTemplateId"/>
+
+<script>
+    function openDeleteTemplateModal(id,name,subject,img){
+        $('#deleteTemplateModal').show();
+        
+
+    document.getElementById("hiddenTemplateId").value = id;
+    document.getElementById("nameField").innerText  = name;
+    document.getElementById("subjectField").value = subject;
+    document.getElementById("imageField").src = img;
+
+
+    }
+
+    function closeDeleteTemplateModal(){
+        $('#deleteTemplateModal').hide();
+    }
+
+        function deleteTemplate() {
+        let nameValue = document.getElementById("nameField").innerText.trim();
+
+        if (nameValue === "") {
+            document.getElementById("error-message").innerText = "Имя шаблона не указано.";
+            document.getElementById("error-message").style.display = "block";
+            return false;
+        }
+
+        document.getElementById("error-message").style.display = "none";
+
+        let templateId = $('#hiddenTemplateId').val();
+        $.ajax({
+            url: '/Template/DeleteTemplateList/' + templateId,
+            type: 'GET',
+            success: function (data) {
+                console.log("Успешно удалено:", data);
+                window.location.reload();
+                closeDeleteTemplateModal();
+            },
+            error: function (xhr, status, error) {
+                console.error("Ошибка запроса:", error);
+            }
+        });
+
+        return true;
+    }
+
+</script>
