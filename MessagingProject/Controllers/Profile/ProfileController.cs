@@ -18,7 +18,7 @@ namespace MessagingProject.Controllers.Profile
         private readonly IUserService _userService;
         private readonly IValidator<LoginViewModel> _validator;
 
-        public ProfileController(IAuthService authService, IValidator<LoginViewModel> validator, IUserService userService)
+        public ProfileController(IAuthService authService, IValidator<LoginViewModel> validator, IUserService userService) 
         {
             _authService = authService;
             _validator = validator;

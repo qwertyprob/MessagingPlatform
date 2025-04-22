@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MessagingProject.Controllers.Email
 {
+    [Authorize]
 
     public class EmailController : BaseController
     {
@@ -14,6 +15,7 @@ namespace MessagingProject.Controllers.Email
             _userService = userService;
             _emailService = emailService;
         }
+        //Views
         [Route("Email/MailingList")]
         public IActionResult MailingList()
         {
@@ -29,6 +31,9 @@ namespace MessagingProject.Controllers.Email
         {
             return View("TemplateList");
         }
+
+        //MailList
+        //GET 
         [HttpGet]
         public async Task<IActionResult> GetCampaignList()
         {
@@ -62,6 +67,10 @@ namespace MessagingProject.Controllers.Email
             }
 
         }
+
+
+        //Template
+        //GET
 
 
 

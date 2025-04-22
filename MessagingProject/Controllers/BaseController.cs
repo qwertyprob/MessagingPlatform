@@ -39,18 +39,20 @@ namespace MessagingProject.Controllers
                 return;
             }
 
-            // Попытка рефреша токена
+            // try to refresh token
             try
             {
                 var newToken = await _authService.RefreshAccessTokenAsync();
                 if (!string.IsNullOrEmpty(newToken))
                 {
-                    // Обновляем токен в куках и в клеймах
+                    // update token claims
                     var identity = new ClaimsIdentity(user.Claims.Where(c => c.Type != "Token"), "Cookies");
                     identity.AddClaim(new Claim("Token", newToken));
 
                     var principal = new ClaimsPrincipal(identity);
                     await HttpContext.SignInAsync("Cookies", principal);
+
+                    // logging for debugging
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.WriteLine("\tRefreshed");
                 }

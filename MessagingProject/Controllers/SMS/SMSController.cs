@@ -1,12 +1,18 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MessagingProject.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MessagingProject.Controllers.SMS
 {
     [Route("SMS")]
 
-    public class SMSController : Controller
+    [Authorize]
+    public class SMSController : BaseController
     {
+        public SMSController(IAuthService authService) : base(authService)
+        {
+        }
+
         [Route("CreateSms")]
         public IActionResult CreateSms()
         {

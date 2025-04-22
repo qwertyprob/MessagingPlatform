@@ -1,8 +1,11 @@
 ﻿using MessagingProject.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MessagingProject.Controllers.Email
 {
+    [Authorize]
+
     public class TemplateController:BaseController
     {
         private readonly IUserService _userService;

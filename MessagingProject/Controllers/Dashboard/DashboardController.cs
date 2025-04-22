@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 namespace MessagingProject.Controllers.Dashboard
 {
+    [Authorize]
 
     public class DashboardController : BaseController
     {
