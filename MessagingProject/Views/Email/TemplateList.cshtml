@@ -1,4 +1,4 @@
-﻿@using MessagingProject.Models.Email
+﻿@using MessagingProject.Models.Email.Template
 @model TemplateResponseModel
 @{
     ViewData["Title"] = "Email";
@@ -7,10 +7,10 @@
 }
 <div class="container py-0 md-py-0">
     <div class="row justify-content-center">
-        <div class="col-12 col-md-10 p-0 ms-3 mb-3" style="background:none;border:0px;">
-            <h1 style="font-weight:600;">Template List</h1>
+        <div class="col-12 col-md-10 p-0 " style="background:none;border:0px;">
+            <h1 style="font-weight:600;">@MessagingProject.Resources.Resource.EmailTemplateList</h1>
         </div>
-        <div class="col-12 col-md-10 ms-3 p-4 mb-3 me-3" style="background:white !important;">
+        <div class="col-12 col-md-10 ms-3 p-4 mb-2 me-3" style="background:white !important;">
             <button class="dx-button dx-widget dx-button-mode-contained dx-button-default d-flex justify-content-between" id="createButton">
                 <span class="dx-button-content me-2">
                     <i class="dx-icon dx-icon-edit me-1" style="font-size: 20px;"></i>
@@ -18,7 +18,6 @@
                 </span>
             </button>
         </div>
-
         @foreach(var template in Model.Templates)
         {
             <div class="col-12 col-md-3 bg-white my-2 me-3 p-1 ms-3 mb-3 card-hover">
@@ -52,7 +51,7 @@
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="/Profile">Редактировать</a></li>
+                                <li><a class="dropdown-item" href="/Email/UpdateTemplate">Редактировать</a></li>
                                 <li><a class="dropdown-item" href="/ScreenLock">Создать дубликат</a></li>
                                 <li><a class="dropdown-item" href="/Logout">Удалить</a></li>
                             </ul>
@@ -60,9 +59,8 @@
                     </div>
                 </div>
             </div>
-
-
         }
+    
     </div>
 </div>
 

@@ -1,4 +1,4 @@
-﻿using MessagingProject.Models.Email;
+﻿using MessagingProject.Models.Email.Template;
 
 namespace MessagingProject.Abstractions
 {

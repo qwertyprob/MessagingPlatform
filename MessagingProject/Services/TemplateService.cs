@@ -1,9 +1,9 @@
 ﻿using MessagingProject.Abstractions;
-using MessagingProject.Models.Email;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using MessagingProject.Models.Email.Template;
 
 namespace MessagingProject.Services
 {

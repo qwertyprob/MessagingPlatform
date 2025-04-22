@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Email";
+    Layout = "_Layout";
+
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-10 bg-white p-4" >
+            <form>
+                <div class="row align-items-center mb-3">
+                    <div class="col-md-6">
+                        <label for="template" class="form-label">Template name</label>
+                        <input type="text" id="template" class="form-control" placeholder="Enter template name">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" id="subject" class="form-control" placeholder="Enter subject">
+                    </div>
+                </div>
+            </form>
+            <div id="editor-container" style="height:30em; flex-grow: 1; overflow: auto;"></div>
+
+            <div class="d-flex justify-content-end py-4 ms-2">
+                <button class="btn btn-primary d-flex me-2 align-items-center" onclick="closeModal()">
+                    <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">@MessagingProject.Resources.Resource.Close
+                </button>
+                <button class="btn btn-success d-flex align-items-center" onclick="createContactList()">
+                    <img src="~/img/icons/save.svg" alt="save Icon" width="22" class="me-2">@MessagingProject.Resources.Resource.Save
+                </button>
+            </div>
+
+        </div>
+
+            
+            
+            
+        
+       
+
+    </div>
+   
+</div>
+
+<script>
+        unlayer.init({
+      id: 'editor-container', // ID of the container created in previous step
+      projectId: 1234, // Add your project ID here
+      displayMode: 'email', // Can be 'email', 'web' or 'popup'
+    });
+</script>

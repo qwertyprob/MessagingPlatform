@@ -137,3 +137,10 @@ btn-no-bg-black{
 .dx-button:hover {
     background-color: #286090 !important; 
 }
+
+.dx-button-success:hover {
+    background-color: #388e38 !important;
+}
+.dx-button-danger:hover {
+    background-color: #cc433f !important;
+}

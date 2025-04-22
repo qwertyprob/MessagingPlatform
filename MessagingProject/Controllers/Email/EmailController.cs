@@ -28,6 +28,11 @@ namespace MessagingProject.Controllers.Email
             return View();
         }
 
+        public IActionResult UpdateTemplate()
+        {
+            return View();
+        }
+
         //Template
         //GET
         [HttpGet]
@@ -40,7 +45,6 @@ namespace MessagingProject.Controllers.Email
                 var response = await _templateService.GetTemplates(token);
                 if (response.ErrorCode == 0)
                 {
-                    // Отправляем данные в представление напрямую
                     return View("TemplateList", response);
                 }
                 return BadRequest(response.ErrorMessage);

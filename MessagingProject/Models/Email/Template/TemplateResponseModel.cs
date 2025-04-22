@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MessagingProject.Models.Email
+namespace MessagingProject.Models.Email.Template
 {
     public class TemplateResponseModel : BaseResponseModel
     {
