@@ -22,10 +22,10 @@
             <div id="editor-container" style="height:30em; flex-grow: 1; overflow: auto;"></div>
 
             <div class="d-flex justify-content-end py-4 ms-2">
-                <button class="btn btn-primary d-flex me-2 align-items-center" onclick="closeModal()">
+                <button class="btn btn-primary d-flex me-2 align-items-center" id="close">
                     <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">@MessagingProject.Resources.Resource.Close
                 </button>
-                <button class="btn btn-success d-flex align-items-center" onclick="createContactList()">
+                <button class="btn btn-success d-flex align-items-center" onclick="updateTemplate()">
                     <img src="~/img/icons/save.svg" alt="save Icon" width="22" class="me-2">@MessagingProject.Resources.Resource.Save
                 </button>
             </div>
@@ -47,5 +47,9 @@
       id: 'editor-container', // ID of the container created in previous step
       projectId: 1234, // Add your project ID here
       displayMode: 'email', // Can be 'email', 'web' or 'popup'
+    });
+
+        $('#close').on('click', function () {
+        window.location.href = "/Email/TemplateList";
     });
 </script>

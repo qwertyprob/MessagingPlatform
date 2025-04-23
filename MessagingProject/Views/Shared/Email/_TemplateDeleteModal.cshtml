@@ -60,6 +60,7 @@
         document.getElementById("error-message").style.display = "none";
 
         let templateId = $('#hiddenTemplateId').val();
+
         $.ajax({
             url: '/Template/DeleteTemplateList/' + templateId,
             type: 'GET',

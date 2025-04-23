@@ -1,4 +1,4 @@
-﻿@using MessagingProject.Models.Email.Template
+﻿
 @model TemplateResponseModel
 @{
     ViewData["Title"] = "Email";
@@ -11,7 +11,7 @@
             <h1 style="font-weight:600;">@MessagingProject.Resources.Resource.EmailTemplateList</h1>
         </div>
         <div class="col-12 col-md-10 ms-3 p-4 mb-2 me-3" style="background:white !important;">
-            <button class="dx-button dx-widget dx-button-mode-contained dx-button-default d-flex justify-content-between" id="createButton">
+            <button class="dx-button dx-widget dx-button-mode-contained dx-button-default d-flex justify-content-between" id="createTemplateButton">
                 <span class="dx-button-content me-2">
                     <i class="dx-icon dx-icon-edit me-1" style="font-size: 20px;"></i>
                     @MessagingProject.Resources.Resource.Create
@@ -70,5 +70,7 @@
 
 
 <script>
-    
+    $('#createTemplateButton').on('click', function () {
+        window.location.href = "/Email/UpdateTemplate";
+    });
 </script>
