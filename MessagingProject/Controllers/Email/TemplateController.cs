@@ -1,4 +1,5 @@
 ﻿using MessagingProject.Abstractions;
+using MessagingProject.Models.Email.Template;
 using MessagingProject.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -75,6 +76,8 @@ namespace MessagingProject.Controllers.Email
                 return StatusCode(500, new { message = "An error occurred", error = ex.Message });
             }
         }
+
+
 
 
 

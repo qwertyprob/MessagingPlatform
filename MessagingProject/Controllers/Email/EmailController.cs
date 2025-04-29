@@ -1,4 +1,5 @@
 ﻿using MessagingProject.Abstractions;
+using MessagingProject.Models.Email.Template;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,9 +29,21 @@ namespace MessagingProject.Controllers.Email
             return View();
         }
 
-        public IActionResult UpdateTemplate()
+        [Route("Email/UpdateTemplate")]
+        [Route("Email/UpdateTemplate/{id?}")]
+        public async Task<IActionResult> UpdateTemplate(int? id)
         {
-            return View();
+            if (id.HasValue)
+            {
+                var model = await _templateService.GetTemplatesById(id);
+                return View(model);
+            }
+            else
+            {
+                
+                return View(new TemplateDataModel());
+            }
+
         }
 
         //Template
@@ -98,9 +111,38 @@ namespace MessagingProject.Controllers.Email
 
         }
 
+        //CREATE
+        //UPDATE
+        [HttpPost]
+        [Route("Email/UpdateTemplateForm")]
+        public async Task<IActionResult> UpdateTemplateForm([FromBody] TemplateRequestModel model)
+        {
+            try
+            {
+                if (model == null)
+                {
+                    return BadRequest("Invalid data.");
+                }
+
+                var response = await _templateService.UpdateTemplate(model);
+                
+                return Ok(response.ErrorMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Unauthorized(new { message = "Unauthorized" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+            }
+        }
 
 
-     
+
+
 
 
 

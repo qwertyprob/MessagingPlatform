@@ -7,7 +7,9 @@ namespace MessagingProject.Abstractions
     {
 
         Task<TemplateResponseModel> GetTemplates(string token);
-        Task<TemplateDataModel> GetTemplatesById(int id);
+        Task<TemplateDataModel> GetTemplatesById(int? id);
         Task<BaseResponseModel> DeleteTemplate(int id, string token);
+
+        Task<BaseResponseModel> UpdateTemplate(TemplateRequestModel request);
     }
 }

@@ -1,26 +1,29 @@
-﻿@{
+﻿@model TemplateDataModel
+@{
     ViewData["Title"] = "Email";
     Layout = "_Layout";
 
 }
 
+
 <div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-10 bg-white p-4" >
             <form>
+                <input type="hidden" id="hiddenId" value="@Model.Id"/>
                 <div class="row align-items-center mb-3">
                     <div class="col-md-6">
                         <label for="template" class="form-label">Template name</label>
-                        <input type="text" id="template" class="form-control" placeholder="Enter template name">
+                        <input type="text" id="template" class="form-control" placeholder="Enter template name" value="@Model.Name">
                     </div>
                     <div class="col-md-6">
                         <label for="subject" class="form-label">Subject</label>
-                        <input type="text" id="subject" class="form-control" placeholder="Enter subject">
+                        <input type="text" id="subject" class="form-control" placeholder="Enter subject" value="@Model.Subject">
                     </div>
                 </div>
+            
+            <div id="editor-container" style="height:45em; flex-grow: 1; overflow: auto;"></div>
             </form>
-            <div id="editor-container" style="height:30em; flex-grow: 1; overflow: auto;"></div>
-
             <div class="d-flex justify-content-end py-4 ms-2">
                 <button class="btn btn-primary d-flex me-2 align-items-center" id="close">
                     <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">@MessagingProject.Resources.Resource.Close
@@ -41,15 +44,118 @@
     </div>
    
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 
 <script>
-        unlayer.init({
-      id: 'editor-container', // ID of the container created in previous step
-      projectId: 1234, // Add your project ID here
-      displayMode: 'email', // Can be 'email', 'web' or 'popup'
+    async function getToken() {
+        try {
+            const response = await $.ajax({
+                url: '/getuserByClaims',
+                type: 'GET'
+            });
+            return response.Token;
+        } catch (error) {
+            console.error("Ошибка при получении токена:", error);
+            return null;
+        }
+    }
+
+    unlayer.init({
+        id: 'editor-container',
+        projectId: 1234,
+        displayMode: 'email',
     });
+
+    unlayer.addEventListener('editor:ready', function () {
+        const base64String = '@Html.Raw(Model.BodyJson ?? "")';
+        if (base64String) {
+            try {
+                const decoded = atob(base64String);
+                const design = JSON.parse(decoded);
+                unlayer.loadDesign(design);
+            } catch (e) {
+                console.error("Ошибка загрузки дизайна:", e);
+            }
+        } else {
+            console.warn("Пустой BodyJson");
+        }
+    });
+
+       
 
         $('#close').on('click', function () {
         window.location.href = "/Email/TemplateList";
     });
+        
+         async function updateTemplate() {
+        try {
+            unlayer.exportHtml(async function (data) {
+                const jsonString = JSON.stringify(data.design);
+                const bodyJson = btoa(jsonString);
+                const body = btoa(data.html);
+                // const image = await convertToBase64(data.html);
+                console.log("Base64-encoded design:", bodyJson);
+                console.log("Base64-encoded HTML:", body);
+
+                const token = await getToken();
+
+                if (token) {
+                    console.log("Token:", token);
+                } else {
+                    console.error("Не удалось получить токен.");
+                }
+                    $.ajax({
+                    url: '/Email/UpdateTemplateForm',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        id: $('#hiddenId').val(),
+                        name: $('#template').val(),
+                        subject: $('#subject').val(),
+                        state:0,
+                        // imageTemplate: image,
+                        bodyJson: bodyJson,
+                        body: body,
+                        token: token
+                    }),
+                    success: function(response) {
+                        if (response.errorCode === 0) {
+                            alert('Шаблон успешно сохранен!');
+                            window.location.href = '/Email/TemplateList';
+                        }
+                        window.location.href = '/Email/TemplateList';
+
+                    }
+                    
+                });
+
+                });
+
+            } catch (error) {
+                console.error("Ошибка при обновлении шаблона:", error);
+            }
+    }
+
+
+                function convertToBase64(htmlContent) {
+        return new Promise((resolve, reject) => {
+            const hiddenDiv = document.createElement('div');
+            hiddenDiv.style.position = 'absolute';
+            hiddenDiv.style.left = '-9999px';
+            hiddenDiv.innerHTML = htmlContent;
+            document.body.appendChild(hiddenDiv);
+
+            html2canvas(hiddenDiv).then(canvas => {
+                const base64Image = canvas.toDataURL("image/png");
+                document.body.removeChild(hiddenDiv); 
+                resolve(base64Image);
+            }).catch(error => {
+                document.body.removeChild(hiddenDiv);
+                reject(error);
+            });
+        });
+    }
+
+       
+
 </script>

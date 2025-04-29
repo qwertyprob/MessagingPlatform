@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using MessagingProject.Models.Email.Template;
 using MessagingProject.Models;
+using static DevExpress.Data.Helpers.FindSearchRichParser;
+using System.Text;
+using MessagingProject.Models.Contacts;
 
 namespace MessagingProject.Services
 {
@@ -55,15 +58,16 @@ namespace MessagingProject.Services
             }
         }
 
-        public async Task<TemplateDataModel> GetTemplatesById(int id)
+        public async Task<TemplateDataModel> GetTemplatesById(int? id)
         {
-            if (!_templatesCache.TryGetValue(id, out var template))
+            if (!_templatesCache.TryGetValue(id.Value, out var template))
             {
                 throw new KeyNotFoundException($"Template with id {id} not found.");
             }
 
-            return template;
+            return await Task.FromResult(template);
         }
+
 
         //DELETE
         public async Task<BaseResponseModel> DeleteTemplate(int id,string token)
@@ -85,6 +89,49 @@ namespace MessagingProject.Services
             catch (HttpRequestException ex)
             {
                 throw new ApplicationException("Error deleting template.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An unexpected error occurred.", ex);
+            }
+        }
+
+        //CREATE
+        //UPDATE
+        public async Task<BaseResponseModel> UpdateTemplate(TemplateRequestModel request)
+        {
+            try
+            {
+                var requestContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+
+                var json = JsonConvert.SerializeObject(request);
+
+
+                Console.WriteLine(json);
+
+                var response = await _client.PostAsync("UpdateTemplate", requestContent);
+
+                var contentBody = await response.Content.ReadAsStringAsync();
+
+                if (string.IsNullOrWhiteSpace(contentBody))
+                {
+                    Console.WriteLine("Empty response body");
+                    return null;
+                }
+
+                var responseBody = JsonConvert.DeserializeObject<BaseResponseModel>(contentBody);
+
+                if (responseBody.ErrorCode == 0)
+                {
+                    return responseBody;
+                }
+
+                return null;
+
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new ApplicationException("Error updating template.", ex);
             }
             catch (Exception ex)
             {
