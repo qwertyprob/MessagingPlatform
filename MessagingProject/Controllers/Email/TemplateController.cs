@@ -77,9 +77,64 @@ namespace MessagingProject.Controllers.Email
             }
         }
 
+        //CREATE
+        //UPDATE
+        [HttpPost]
+        [Route("Template/UpdateTemplateForm")]
+        public async Task<IActionResult> UpdateTemplateForm([FromBody] TemplateRequestModel model)
+        {
+            try
+            {
+                if (model == null)
+                {
+                    return BadRequest("Invalid data.");
+                }
 
+                var response = await _templateService.UpdateTemplate(model);
 
+                return Ok(response.ErrorMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Unauthorized(new { message = "Unauthorized" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+            }
+        }
+        [HttpPost]
+        [Route("Template/CreateDuplicateTemplate")]
+        public async Task <IActionResult> CreateDuplicateTemplate([FromBody] TemplateRequestModel model)
+        {
+            try
+            {
+                if (model == null)
+                {
+                    return BadRequest("Invalid data.");
+                }
 
+                //To Create a new Template
+                model.Id = 0;
+
+                var response = await _templateService.UpdateTemplate(model);
+
+                return Ok(response.ErrorMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Unauthorized(new { message = "Unauthorized" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+            }
+
+        }
 
     }
 }

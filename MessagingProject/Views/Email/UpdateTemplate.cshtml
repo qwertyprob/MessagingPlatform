@@ -94,6 +94,8 @@
                 const bodyJson = btoa(jsonString);
                 const body = btoa(data.html);
                 // const image = await convertToBase64(data.html);
+
+                const image = '@Html.Raw(Model.ImageTemplate)'
                 console.log("Base64-encoded design:", bodyJson);
                 console.log("Base64-encoded HTML:", body);
 
@@ -113,7 +115,7 @@
                         name: $('#template').val(),
                         subject: $('#subject').val(),
                         state:0,
-                        // imageTemplate: image,
+                        imageTemplate: image,
                         bodyJson: bodyJson,
                         body: body,
                         token: token

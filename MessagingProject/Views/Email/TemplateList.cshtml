@@ -52,7 +52,7 @@
 
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="/Email/UpdateTemplate/@template.Id">Редактировать</a></li>
-                                <li><a class="dropdown-item" href="/ScreenLock">Создать дубликат</a></li>
+                                <li><a class="dropdown-item" onclick="createDuplicate('@template.Id','@template.Name','@template.Subject','@template.ImageTemplate','@template.Body','@template.BodyJson')">Создать дубликат</a></li>
                                 <li>
                                     <a class="dropdown-item" onclick="openDeleteTemplateModal('@template.Id','@template.Name','@template.Subject','@template.ImageTemplate')">Удалить</a>
                                 </li>
@@ -68,8 +68,10 @@
     </div>
 </div>
 
-
+@await Html.PartialAsync("Email/_CreateDuplicateTemplate")
 <script>
+    
+
     $('#createTemplateButton').on('click', function () {
         window.location.href = "/Email/UpdateTemplate";
     });

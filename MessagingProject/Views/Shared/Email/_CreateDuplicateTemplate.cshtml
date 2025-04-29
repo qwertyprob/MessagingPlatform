@@ -1,0 +1,45 @@
+﻿
+<script>
+     async function getToken() {
+        try {
+            const response = await $.ajax({
+                url: '/getuserByClaims',
+                type: 'GET'
+            });
+            return response.Token;
+        } catch (error) {
+            console.error("Ошибка при получении токена:", error);
+            return null;
+        }
+    }
+        async function createDuplicate(id, name, subject, image, body, bodyjson) {
+        const token = await getToken();
+
+        $.ajax({
+            url: '/Template/CreateDuplicateTemplate',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                id: id,
+                name: name,
+                subject: subject,
+                state: 0,
+                // imageTemplate: image,
+                bodyJson: bodyjson,
+                body: body,
+                token: token
+            }),
+            success: function(response) {
+                if (response.errorCode === 0) {
+                    alert('Шаблон успешно сохранен!');
+                    window.location.href = '/Email/TemplateList';
+                }
+                window.location.href = '/Email/TemplateList';
+
+            },
+            error: function(xhr, status, error) {
+                alert('Ошибка сервера: ' + error);
+            }
+        });
+    }
+</script>
