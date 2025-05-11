@@ -1,13 +1,20 @@
-﻿@{
+﻿@model TemplateResponseModel
+
+@{
     Layout = "_Layout";
     ViewData["Title"] = "Email";
 
+    var date = DateTime.UtcNow;
+    string formattedDate = date.ToString("dd-MM-yyyy");
+
+    // Если шаблон существует, заполняем поля
+    var template = Model;
 }
 
 <div class="container-fluid py-0 md-py-0">
     <div class="row mx-5 px-5">
         <div class="col-12 col-md-10 p-0" style="background:none;border:0px;">
-            <h1 style="font-weight:600;">Create NewsLetter</h1>
+            <h1 style="font-weight:600;">@MessagingProject.Resources.Resource.CreateEmailNewsLetter</h1>
         </div>
 
         <!-- Форма -->
@@ -16,44 +23,29 @@
                 <!-- Newsletter Title -->
                 <div class="mb-3">
                     <label class="form-label">Newsletter Title</label>
-                    <input type="text" class="form-control" value="Created on 03-18-2025">
+                    <input type="text" class="form-control" value="Created on @formattedDate">
                 </div>
                 <!-- Template Name Dropdown -->
                 <div class="mb-3">
-                    <label class="form-label">Template Name</label>
+                    <label class="form-label">@MessagingProject.Resources.Resource.Template</label>
                     <select id="templateName" class="form-select" style="width: 100%;height:auto;">
-                        <option>кукеек</option>
-                        <option>ke</option>
-                        <option>Ppo</option>
-                        <option>Le shance finale</option>
-                        <option>dsa</option>
-                        <option>dsa</option>
-                        <option>Namer23</option>
-                        <option>template</option>
-                        <option>pol2</option>
-                        <option>tetetetetette</option>
-                        <option>tetetetetette</option>
-                        <option>yyyyyyyyyyyyyyyyyy</option>
+                        @foreach (var item in Model.Templates)
+                        {
+                            <option value="@item.Id" id="options">@item.Name</option>
+                        }
                     </select>
                 </div>
 
                 <!-- Template Title -->
                 <div class="mb-3">
-                    <label class="form-label">Template Subject</label>
-                    <input type="text" class="form-control" placeholder="Template Subject">
+                    <label class="form-label">@MessagingProject.Resources.Resource.Subject</label>
+                    <input type="text" class="form-control" id="templateTitle" value="@template.Templates.FirstOrDefault(x => x.Subject != null)?.Subject">
                 </div>
 
                 <!-- Contact List -->
                 <div class="col-12 mb-3">
                     <label for="multi-select">Name of contact list</label>
-                    <select id="multi-select" multiple="multiple" style="width: 100%;">
-                        <option value="testj">testj</option>
-                        <option value="mine-test-data">mine-test-data</option>
-                        <option value="data-set-from-excel-file(10000)">data-set-from-excel-file(10000)</option>
-                        <option value="data-set-from-excel-file(20000)">data-set-from-excel-file(20000)</option>
-                        <option value="data-set-from-excel-file(30000)">data-set-from-excel-file(30000)</option>
-                        <option value="data-set-from-excel-file(40000)">data-set-from-excel-file(40000)</option>
-                    </select>
+                    <select id="multi-select" multiple="multiple" style="width: 100%;"></select>
                 </div>
 
                 <!-- Checkboxes -->
@@ -89,7 +81,7 @@
                     <input type="email" class="form-control" id="replyEmail" placeholder="Enter reply email">
                 </div>
             </form>
-
+            <form>
             <!-- Buttons -->
             <div class="d-flex gap-3 justify-content-between flex-wrap">
                 <button type="submit" class="btn btn-success d-flex align-items-center justify-content-center btn-responsive gap-2">
@@ -101,54 +93,22 @@
                     Save
                 </button>
             </div>
+            </form>
+        </div>
+        <div class="col-6 bg-white p-4">
+            <!-- Контейнер для картинки -->
+            <div id="templatePreview" style="margin-top: 15px;">
+                <img id="templateImage" src="@template.Templates.FirstOrDefault(x => x.ImageTemplate != null)?.ImageTemplate" alt="Превью шаблона" style="max-width: 100%;" />
+            </div>
         </div>
     </div>
 </div>
-    <script>
 
-        //HiddenInput
-        function toggleEmailInput() {
-            var checkbox = document.getElementById('enableReplies');
-            var emailInput = document.getElementById('emailInputWrapper');
+@await Html.PartialAsync("Email/_SendEmailJsGETScripts")
 
-                if (checkbox.checked)
-                {
-                    emailInput.style.display = 'block';
-                }
-                else 
-                {
-                    emailInput.style.display = 'none';
-
-                }
-
-                }
-                function toggleScheduledEmail() {
-            var checkbox = document.getElementById('scheduleToggle');
-            var emailInput = document.getElementById('emailscheduledWrapper');
-
-            if (!checkbox.checked) {
-                emailInput.style.display = 'block';
-            } else {
-                emailInput.style.display = 'none';
-            }
-        }
+<script>
+       
 
 
-                $(function() {
-            $("#scheduledDateTime").dxDateBox({
-                type: "datetime",
-                displayFormat: "dd-MM-yyyy HH:mm",
-                placeholder: "Выберите дату и время",
-                showClearButton: true,
-                width: "100%"
-            });
-            });
-        //Selector list
-        $(document).ready(function() {
-            $('#multi-select').select2({
-                placeholder: "Начните вводить...",
-                tags: true,
-                tokenSeparators: [',', ' ']
-            });
-        });
-    </script>
+
+</script>

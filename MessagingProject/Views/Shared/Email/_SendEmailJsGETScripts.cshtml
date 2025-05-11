@@ -1,0 +1,105 @@
+﻿<script>
+    //UI DISABLE form
+     $(document).ready(function () {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        const hasId = Array.from(urlParams.keys()).some(k => k.toLowerCase() === 'id');
+
+        if (!hasId) {
+            $('#multi-select').val(null).trigger('change');
+            $('#templateName').val('');
+            $('#templateTitle').val('');
+            $('#templateImage').attr('src', '');
+            $('#templatePreview').hide();
+
+            $('#emailInputWrapper').hide();
+            $('#emailscheduledWrapper').hide();
+
+            $('#scheduleToggle').prop('checked', false);
+            $('#enableReplies').prop('checked', false);
+            $('#enableSignature').prop('checked', false);
+        }
+
+        loadContactList();
+    });
+
+            $(document).ready(function () {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        const isEdit = urlParams.get('IsEdit') || urlParams.get('isedit');
+
+        if (isEdit && isEdit.toLowerCase() === 'false') {
+            $('form input, form select, form textarea, form button').attr('disabled', true); // добавляем form button
+
+        }
+    });
+
+    // Contacts
+    function loadContactList() {
+        $.get('/Contacts/GetNameContactLists', function (response) {
+            const $select = $('#multi-select').empty();
+            if (response?.length) {
+                response.forEach(name => {
+                    $select.append(new Option(name, name));
+                });
+                $select.trigger('change');
+            }
+        }).fail(error => console.error("Contacts error:", error));
+    }
+
+    // TemplateById
+    function getTemplateById(id) {
+        $.get(`/Template/GetTemplate/${id}`, function (response) {
+            if (response) {
+                $('#templateTitle').val(response.Subject);
+                $('#templateImage').attr('src', response.ImageTemplate);
+                $('#templatePreview').show();
+            }
+        }).fail(error => console.error("Template error:", error));
+    }
+
+    // UI Email Reply
+    function toggleEmailInput() {
+        $('#emailInputWrapper').toggle($('#enableReplies').is(':checked'));
+    }
+
+    // UI Date
+    function toggleScheduledEmail() {
+        $('#emailscheduledWrapper').toggle(!$('#scheduleToggle').is(':checked'));
+    }
+
+    // Initialization
+    $(function () {
+        // Contacts
+        loadContactList();
+
+        // Tamplate choice
+        $('#templateName').on('change', function () {
+            getTemplateById($(this).val());
+        });
+
+        // Select2 for list
+        $('#multi-select').select2({
+            placeholder: "Начните вводить...",
+            tags: true,
+            tokenSeparators: [',', ' ']
+        });
+
+        // DateTime picker
+        $('#scheduledDateTime').dxDateBox({
+            type: "datetime",
+            displayFormat: "dd-MM-yyyy HH:mm",
+            placeholder: "Выберите дату и время",
+            showClearButton: true,
+            width: "100%"
+        });
+
+        // Initialization
+        toggleEmailInput();
+        toggleScheduledEmail();
+
+        // Checkbocks
+        $('#enableReplies').on('change', toggleEmailInput);
+        $('#scheduleToggle').on('change', toggleScheduledEmail);
+    });
+</script>

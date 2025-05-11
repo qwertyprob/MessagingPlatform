@@ -164,6 +164,37 @@ namespace MessagingProject.Controllers.Contacts
             
 
         }
+        // GET
+        [HttpGet]
+        public async Task<IActionResult> GetNameContactLists()
+        {
+            try
+            {
+                var token = _userService.GetToken();
+                var response = await _contactService.GetContactLists(token);
+
+                // Фильтрация и возвращение списка контактов
+                var filteredContacts = response.ContactsLists
+                    .Where(x => !string.IsNullOrEmpty(x.Name)) 
+                    .Select(x => x.Name ) 
+                    .ToList();
+
+                return Ok(filteredContacts);
+            }
+            catch (UnauthorizedAccessException exe)
+            {
+                Console.WriteLine(exe.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return BadRequest();
+        }
+
+
+
         public IActionResult ContactLists()
         {
             return View();

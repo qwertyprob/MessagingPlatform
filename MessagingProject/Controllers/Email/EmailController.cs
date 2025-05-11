@@ -23,11 +23,57 @@ namespace MessagingProject.Controllers.Email
         {
             return View();
         }
+        [HttpGet]
         [Route("Email/SendEmail")]
-        public IActionResult SendEmail()
+        public async Task<IActionResult> SendEmail(int? id)
         {
-            return View();
+            try
+            {
+                if (id.HasValue)
+                {
+                    var template = await _templateService.GetTemplatesById(id.Value);
+                    var model = new TemplateResponseModel()
+                    {
+                        ErrorCode = 0,
+                        ErrorMessage = "",
+                        Templates = new List<TemplateDataModel>() { template } // Add the template to the list
+
+                       
+                    };
+                    Console.WriteLine(template.ImageTemplate);
+                    if (template != null)
+                    {
+                        return View("SendEmail", model); // Pass the model to the view
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                }
+
+                var token = _userService.GetToken();
+                var response = await _templateService.GetTemplates(token);
+                if (response.ErrorCode == 0)
+                {
+                    return View("SendEmail", response); // Pass all templates if no specific ID
+                }
+
+                return BadRequest(response.ErrorMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Unauthorized(new { message = "Unauthorized" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+            }
         }
+
+
+
 
         [Route("Email/UpdateTemplate")]
         [Route("Email/UpdateTemplate/{id?}")]

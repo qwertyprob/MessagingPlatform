@@ -49,6 +49,33 @@ namespace MessagingProject.Controllers.Email
                 return StatusCode(500, new { message = "An error occurred", error = ex.Message });
             }
         }
+
+        //GET
+        [HttpGet]
+        [Route("Template/GetTemplate/{id}")]
+        public async Task<IActionResult> GetTemplate(int id)
+        {
+            try
+            {
+                var token = _userService.GetToken();
+                var response = await _templateService.GetTemplatesById(id);
+                if (response.Id != null)
+                {
+                    return Ok(response);
+                }
+                return BadRequest("No such template!");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Unauthorized(new { message = "Unauthorized" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+            }
+        }
         //DELETE
         [HttpGet]
         [Route("Template/DeleteTemplateList/{id}")]
