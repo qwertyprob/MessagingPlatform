@@ -27,6 +27,7 @@ namespace MessagingProject
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
                 });
 
+            builder.Services.AddSession();
 
             //Validation Container
             builder.Services.AddValditaion();
@@ -55,6 +56,7 @@ namespace MessagingProject
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseSession();
 
             //Globalization
             app.Use(async (context, next) =>

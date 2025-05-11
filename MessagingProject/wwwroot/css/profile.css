@@ -23,6 +23,7 @@ body {
 .btn-success {
     padding: 10px 20px;
     font-size: 1.1em;
+    width:6em !important;
 }
 .settings-menu .nav-link {
     color: #333;
