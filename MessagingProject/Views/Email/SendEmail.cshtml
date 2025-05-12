@@ -1,5 +1,4 @@
-﻿@model TemplateResponseModel
-
+﻿
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Email";
@@ -7,8 +6,7 @@
     var date = DateTime.UtcNow;
     string formattedDate = date.ToString("dd-MM-yyyy");
 
-    // Если шаблон существует, заполняем поля
-    var template = Model;
+
 }
 
 <div class="container-fluid py-0 md-py-0">
@@ -28,24 +26,23 @@
                 <!-- Template Name Dropdown -->
                 <div class="mb-3">
                     <label class="form-label">@MessagingProject.Resources.Resource.Template</label>
-                    <select id="templateName" class="form-select" style="width: 100%;height:auto;">
-                        @foreach (var item in Model.Templates)
-                        {
-                            <option value="@item.Id" id="options">@item.Name</option>
-                        }
+                    <select id="templateName" class="form-select" style="width: 100%;height:auto;">    
                     </select>
                 </div>
 
                 <!-- Template Title -->
                 <div class="mb-3">
                     <label class="form-label">@MessagingProject.Resources.Resource.Subject</label>
-                    <input type="text" class="form-control" id="templateTitle" value="@template.Templates.FirstOrDefault(x => x.Subject != null)?.Subject">
+                    <input type="text" class="form-control" id="templateTitle" value="">
                 </div>
 
                 <!-- Contact List -->
                 <div class="col-12 mb-3">
                     <label for="multi-select">Name of contact list</label>
-                    <select id="multi-select" multiple="multiple" style="width: 100%;"></select>
+                    <select id="multi-select" multiple="multiple" style="width: 100%;">
+                       
+                    </select>
+
                 </div>
 
                 <!-- Checkboxes -->
@@ -98,7 +95,7 @@
         <div class="col-6 bg-white p-4">
             <!-- Контейнер для картинки -->
             <div id="templatePreview" style="margin-top: 15px;">
-                <img id="templateImage" src="@template.Templates.FirstOrDefault(x => x.ImageTemplate != null)?.ImageTemplate" alt="Превью шаблона" style="max-width: 100%;" />
+                <img id="templateImage" src="" alt="Template" style="max-width: 100%;" />
             </div>
         </div>
     </div>

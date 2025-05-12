@@ -83,5 +83,40 @@ namespace MessagingProject.Services
 
             return responseModel;
         }
+        public async Task<CampaignData?> GetCampaignById(string token, string id)
+        {
+            var campaigns = await this.GetCampaigns(token);
+
+            return campaigns.CampaignDataList.FirstOrDefault(c => c.Id == id);
+        }
+
+        //DELETE CAMPAIGNS 
+        public async Task<BaseResponseModel> DeleteCampaignById(string token, string id)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, $"Campaign/Delete?Token={token}&ID={id}");
+
+            var response = await _client.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Bad Response");
+                
+            }
+            var content = await response.Content.ReadAsStringAsync();
+
+            var message = JsonConvert.DeserializeObject<BaseResponseModel>(content);
+
+            if(message.ErrorCode != 0)
+            {
+                Console.WriteLine(message.ErrorMessage);
+            }
+
+
+            return message;
+
+
+
+
+        }
     }
 }

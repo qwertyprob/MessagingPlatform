@@ -1,0 +1,114 @@
+﻿<div id="deleteCampaignModal" class="modal"
+     style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+    <div class="modal-content" style="background:#fff; padding:20px; padding-top:30px; width:90%; max-width:50em; margin:15% auto; border-radius:8px; position:relative; ">
+        <span onclick="closeDeleteCampaignModal()" style="cursor:pointer; position:absolute; top:0px; right:10px; font-size:35px;">&times;</span>
+        <h5 class="py-1">@MessagingProject.Resources.Resource.Elem1 <span class="name-campaign" style="color:gray; font-style:italic; font-weight:bold;"></span> @MessagingProject.Resources.Resource.Elem2</h5>
+        <input type="text" id="myCampaignName" class="form-control" style="margin-top:2em;" />
+        <span id="error-message" class="text-danger" style="display: none; margin-bottom:1em;"></span>
+        <div class="row">
+            <div class="col-6">
+                <label>@MessagingProject.Resources.Resource.Subject</label>
+                <input type="text" id="subjectField" class="form-control" style="margin-bottom:1em;" disabled />
+            </div>
+            <div class="col-6">
+                <label>@MessagingProject.Resources.Resource.Contats</label>
+                <input type="text" id="contactField" class="form-control" style="margin-bottom:1em;" disabled />
+            </div>
+            <div class="col-12">
+                <div class="card-wrapper d-flex align-items-center justify-content-center" style="flex-grow: 1;">
+                    <div class="card mb-2" style="border: none; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+                        <img id="imageField" class="img-fluid" style="max-width: 100%; max-height: 100%; object-fit: contain;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end py-4 ms-2">
+            <button class="btn btn-primary d-flex me-2 align-items-center" onclick="closeDeleteCampaignModal()">
+                <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">@MessagingProject.Resources.Resource.Close
+            </button>
+            <button class="btn btn-danger d-flex me-2 align-items-center" onclick="logicDeleteCampaign()">
+                <img src="~/img/icons/trash.svg" alt="trash Icon" width="22" class="me-1">@MessagingProject.Resources.Resource.Delete
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    let campaignId = 0;
+
+    function deleteCampaign(id) {
+        $.ajax({
+            url: `/Email/DeleteCampaign/${id}`,
+            type: 'GET',
+            success: function (response) {
+                console.log("Campaign deleted:", response);
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.error("Error deleting campaign:", error);
+                alert("Ошибка при удалении кампании");
+            }
+        });
+    }
+
+    function getCampaign(id, callback) {
+        $.ajax({
+            url: '/Email/GetCampaign/' + id,
+            type: 'GET',
+            success: function(response) {
+                console.log('Campaign data retrieved successfully:', response);
+                callback(response);  // Use a callback to handle the data
+            }
+        });
+    }
+
+        function getTemplate(id){
+        $.ajax({
+            url: '/Template/GetTemplate/' + id,
+            type: 'GET',
+            success: function(response) {
+                if (response.ImageTemplate) {
+                    $('#imageField').attr('src', response.ImageTemplate);
+                    console.log('Campaign data retrieved successfully:', response);
+                } else {
+                    console.log('No image URL available in the response.');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching template:', status, error);
+            }
+        });
+    }
+
+
+    function onDeleteRowClick(e) {
+        campaignId = e.row.data.Id;
+
+        getCampaign(campaignId, function(campaignData) {
+            getTemplate(campaignData.Template)
+            $('#deleteCampaignModal').show();
+
+            $('.name-campaign').text(campaignData.Name);
+            $('#subjectField').val(campaignData.Subject);
+            $('#contactField').val(campaignData.ContactListID);
+            
+        });
+    }
+
+    function closeDeleteCampaignModal() {
+        console.log(campaignId);
+        $('#deleteCampaignModal').hide();
+    }
+
+        function logicDeleteCampaign(){
+        if($('#myCampaignName').val().trim() === $('.name-campaign').text()) {
+            deleteCampaign(campaignId);
+            closeDeleteCampaignModal();
+        } else {
+            console.log("Campaign names do not match!");
+        }
+    }
+
+</script>

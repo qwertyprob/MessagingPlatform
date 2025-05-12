@@ -144,3 +144,9 @@ btn-no-bg-black{
 .dx-button-danger:hover {
     background-color: #cc433f !important;
 }
+.dx-button-content:hover {
+    color: white !important;
+}
+.dx-button:hover .dx-icon.dx-icon-refresh {
+    color: white !important;
+}
