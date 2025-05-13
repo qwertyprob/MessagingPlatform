@@ -71,7 +71,7 @@
             editing.AllowDeleting(true);
             editing.AllowUpdating(true);
         })
-        .OnCellPrepared("onCellPreparedHandler")
+        .OnContentReady("onGridContentReady")
         
 )
 <script>
@@ -89,22 +89,41 @@
         dataGrid.option("searchPanel.text", searchValue);
         dataGrid.refresh();
     }
+    //EDIT UI ICONS
+    function onGridContentReady(e) {
+        const dataGrid = e.component;
 
-           function onCellPreparedHandler(e) {
-        if (e.rowType === "data" && e.column.command === "buttons") {
-            const status = e.data.StatusDescription;
-            const isEdit = ["Черновик", "Draft", "Proiect"].includes(status);
+        dataGrid.getVisibleRows().forEach((row, index) => {
+            const status = row.data.StatusDescription?.toLowerCase();
+            const isDraft = ["черновик", "draft", "proiect"].includes(status);
 
-            const buttons = $(e.cellElement).find(".dx-link");
-            const editButton = buttons.eq(0); 
+            const rowElement = dataGrid.getRowElement(index);
+            const buttonCell = $(rowElement).find(".dx-command-edit");
+            const editButton = buttonCell.find("a.dx-link").first();
 
-            editButton.removeClass("dx-icon-edit dx-icon-doc");
+            
+            editButton.removeClass(function (i, className) {
+                return (className.match(/dx-icon-\S+/g) || []).join(" ");
+            });
 
-            editButton.addClass(isEdit ? "dx-icon-edit" : "dx-icon-doc");
+            editButton.addClass(isDraft ? "dx-icon-edit" : "dx-icon-doc");
+            editButton.attr("title", isDraft ? "Редактировать" : "Просмотр");
 
-            editButton.attr("title", isEdit ? "Редактировать" : "Просмотр");
-        }
+        });
     }
+    //INITIALIZE EDIT ICONS
+        $(function () {
+        const grid = $("#MailContainer").dxDataGrid("instance");
+        onGridContentReady({ component: grid });
+    });
+
+
+
+
+
+
+
+
 
     
 

@@ -31,6 +31,7 @@ namespace MessagingProject.Models.Email
         public string Body { get; set; }
         [JsonProperty("status")]
         private int Status { get; set; }
+        [JsonProperty("statusDescription")]
         public string StatusDescription => Status switch
         {
             1 => MessagingProject.Resources.Resource.schelduled,
