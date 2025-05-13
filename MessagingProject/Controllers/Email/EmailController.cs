@@ -96,7 +96,6 @@ namespace MessagingProject.Controllers.Email
  
         //MailList
         //GET 
-
         [HttpGet]
         public async Task<IActionResult> GetCampaignList()
         {
@@ -167,7 +166,7 @@ namespace MessagingProject.Controllers.Email
             }
         }
 
-
+        //MailList
         //DELETE
         [HttpGet]
         [Route("Email/DeleteCampaign/{id?}")]
