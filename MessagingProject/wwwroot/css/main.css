@@ -329,3 +329,12 @@ label {
         filter: none !important;
     }
 
+.select2-container--default .select2-results__option--highlighted[aria-selected="false"] {
+    background-color: lightgray !important;
+    color: black !important;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected="true"] {
+    background-color: lightgray !important;
+    color: black !important;
+}
