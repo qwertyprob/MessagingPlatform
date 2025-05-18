@@ -60,10 +60,14 @@ namespace MessagingProject.Services
 
         public async Task<TemplateDataModel> GetTemplatesById(int? id)
         {
+           
             if (!_templatesCache.TryGetValue(id.Value, out var template))
             {
-                throw new KeyNotFoundException($"Template with id {id} not found.");
+                Console.WriteLine(($"Template with id {id} not found."));
+
+                return null;
             }
+            
 
             return await Task.FromResult(template);
         }

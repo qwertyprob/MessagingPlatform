@@ -126,7 +126,7 @@ function getCampaign(id) {
         url: '/Email/GetCampaign/' + id,
         type: 'GET',
         success: function (response) {
-            console.log('Campaign data retrieved successfully:', response);
+            //console.log('Campaign data retrieved successfully:', response);
             campaign = response; 
             
             let templateId = response.Template;
@@ -135,7 +135,7 @@ function getCampaign(id) {
 
             let selectedContacts = response.ContactListID ? response.ContactListID.split(',') : [];
 
-            console.log('selected:' + selectedContacts);
+            //console.log('selected:' + selectedContacts);
 
             getContact(selectedContacts);
 
@@ -160,13 +160,12 @@ function getContact(selectedContacts = []) {
                     `<option id="${contact.Id}" value="${contact.Name}">${contact.Name}</option>`
                 );
             });
-
+            //Parse Emails input..
             selectedContacts.forEach(function (val) {
                 if ($(`#multi-select option[value="${val.trim()}"]`).length === 0) {
                     $('#multi-select').append(`<option value="${val.trim()}">${val.trim()}</option>`);
                 }
             });
-
             $('#multi-select').val(selectedContacts).trigger('change');
         },
         error: function (xhr, status, error) {
