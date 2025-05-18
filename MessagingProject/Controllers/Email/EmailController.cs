@@ -3,6 +3,8 @@ using MessagingProject.Models.Email;
 using MessagingProject.Models.Email.Template;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace MessagingProject.Controllers.Email
 {
@@ -12,11 +14,13 @@ namespace MessagingProject.Controllers.Email
         private readonly IUserService _userService;
         private IEmailService _emailService;
         private ITemplateService _templateService;
-        public EmailController(IAuthService auth, IUserService userService, IEmailService emailService, ITemplateService templateService) : base(auth)
+        private IContactService _contactService;
+        public EmailController(IAuthService auth, IUserService userService, IEmailService emailService, ITemplateService templateService, IContactService contactService) : base(auth)
         {
             _userService = userService;
             _emailService = emailService;
             _templateService = templateService;
+            _contactService = contactService;
         }
         //Views
         [Route("Email/MailingList")]
@@ -200,7 +204,68 @@ namespace MessagingProject.Controllers.Email
 
         }
 
+        //CREATE UPDATE
+        [HttpPost]
+        [Route("Email/UpsertCampaign")]
+        public async Task<IActionResult> UpsertCampaign([FromBody] CampaignRequestModel request)
+        {
+            try
+            {
+                //Parsing...
+                var contactList = await _contactService.GetEmailsFromContactListAsync(request.Token, request.ContactList);
 
+                var contactListId = this.ExtractEmails(request.ContactListID);
+
+                var finallyMergedContactList = MergeEmailStrings(contactList, contactListId);
+
+                request.ContactList = finallyMergedContactList;
+
+
+                var response = await _emailService.UpsertCampaign(request);
+
+                if(response.ErrorCode == 0)
+                {
+                    return Ok(response.ErrorMessage);
+                }
+                return BadRequest(response.ErrorMessage);
+
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Unauthorized(new { message = "Unauthorized" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+            }
+        }
+
+
+        string ExtractEmails(string input)
+        {
+            var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+
+            var parts = input.Split(',')
+                             .Select(p => p.Trim());
+
+            var emails = parts.Where(p => emailRegex.IsMatch(p));
+
+            return string.Join(", ", emails);
+        }
+        string MergeEmailStrings(string s1, string s2)
+        {
+            var emails1 = s1.Split(',')
+                            .Select(e => e.Trim());
+
+            var emails2 = s2.Split(',')
+                            .Select(e => e.Trim());
+
+            var allEmails = emails1.Union(emails2);
+
+            return string.Join(", ", allEmails);
+        }
 
 
 

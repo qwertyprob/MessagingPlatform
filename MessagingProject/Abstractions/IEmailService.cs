@@ -10,5 +10,6 @@ namespace MessagingProject.Abstractions
         Task<CampaignResponseModel> GetCampaigns(string token);
         Task<CampaignData?> GetCampaignById(string token, string id);
         Task<BaseResponseModel> DeleteCampaignById(string token, string id);
+        Task<BaseResponseModel> UpsertCampaign(CampaignRequestModel request);
     }
 }

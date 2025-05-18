@@ -2,7 +2,9 @@
 let contactList = [];
 let campaignId = getCampaignId();
 let templateId = getTemplateId();
-
+let campaign = {};
+let template = {};
+let contact = {};
 $(function () {
     let campaignId = getCampaignId();
     let templateId = getTemplateId();
@@ -11,17 +13,23 @@ $(function () {
         console.log('updatemode');
         getCampaign(campaignId);
 
+
     }
     else if (templateId != null && templateId != undefined) {
         console.log('templatemode');
+        
         getTemplates();
         getContact();
+
     }
     else {
         console.log('createmode');
         getTemplates();
         getContact();
+
     }
+
+
 });
 //ListIdParam
 function getCampaignId() {
@@ -39,19 +47,20 @@ function getTemplateId() {
 
 }
 
-// GET ONE TEPLATE
+// GET ONE TEMPLATE
 function getTemplate(id) {
     $.ajax({
         url: '/Template/GetTemplate/' + id,
         type: 'GET',
         success: function (response) {
             if (response.ImageTemplate) {
+                
                 $('#imageField').attr('src', response.ImageTemplate);
                 $('#templateName').empty();
                 $('#templateName').append(`<option value="${response.Id}" selected>${response.Name}</option>`);
                 $('#templateSubject').val(response.Name);
 
-                console.log('Template data retrieved successfully:', response);
+                /*console.log('Template data retrieved successfully:', response);*/
             } else {
                 console.log('No image URL available in the response.');
             }
@@ -80,8 +89,9 @@ function getTemplates(selectedTemplateId = null) {
 
                 let idToSelect = selectedTemplateId || getTemplateId() || templatesList[0].Id;
                 $('#templateName').val(idToSelect).trigger('change');
+                
 
-                console.log('Template data retrieved successfully:', response);
+                /*console.log('Template data retrieved successfully:', response);*/
             } else {
                 console.log('No templates in the response.');
             }
@@ -96,7 +106,7 @@ function getTemplates(selectedTemplateId = null) {
 // SELECT HANDLER
 $('#templateName').on('change', function () {
     let selectedId = $(this).val();
-    console.log('Selected template ID:', selectedId);
+    /*console.log('Selected template ID:', selectedId);*/
 
     let selectedTemplate = templatesList.find(t => t.Id.toString() === selectedId.toString());
 
@@ -104,7 +114,9 @@ $('#templateName').on('change', function () {
         $('#templateSubject').val(selectedTemplate.Subject);
         $('#imageField').attr('src', selectedTemplate.ImageTemplate);
     } else {
+
         console.log('Template not found for ID:', selectedId);
+
     }
 });
 
@@ -115,37 +127,87 @@ function getCampaign(id) {
         type: 'GET',
         success: function (response) {
             console.log('Campaign data retrieved successfully:', response);
-
+            campaign = response; 
+            
             let templateId = response.Template;
             getTemplates(templateId);
+            $('#sendName').val(response.Name);
 
+            let selectedContacts = response.ContactListID ? response.ContactListID.split(',') : [];
 
-            let selectedContacts = response.ContactListID.split(',');
+            console.log('selected:' + selectedContacts);
+
             getContact(selectedContacts);
+
+           
         },
         error: function (xhr, status, error) {
             console.error('Error fetching campaign:', status, error);
         }
     });
 }
+
 //GET ALL CONTACTS
 function getContact(selectedContacts = []) {
     $.ajax({
         url: '/Contacts/GetContactLists',
         type: 'GET',
         success: function (response) {
-            console.log('Contact list retrieved:', response);
             $('#multi-select').empty();
 
             response.forEach(function (contact) {
-                let isSelected = selectedContacts.includes(contact.Name);
                 $('#multi-select').append(
-                    `<option value="${contact.Name}" ${isSelected ? 'selected' : ''}>${contact.Name}</option>`
+                    `<option id="${contact.Id}" value="${contact.Name}">${contact.Name}</option>`
                 );
             });
+
+            selectedContacts.forEach(function (val) {
+                if ($(`#multi-select option[value="${val.trim()}"]`).length === 0) {
+                    $('#multi-select').append(`<option value="${val.trim()}">${val.trim()}</option>`);
+                }
+            });
+
+            $('#multi-select').val(selectedContacts).trigger('change');
         },
         error: function (xhr, status, error) {
             console.error('Error fetching contact lists:', status, error);
         }
     });
+}
+
+
+//GET CONTACT BY ID
+function getContactById(id) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: '/Contacts/SingleListQuery/' + id,
+            type: 'GET',
+            success: function (response) {
+                if (response && response.data) {
+                    resolve(response.data); 
+                } else {
+                    console.warn('Empty data for id:', id);
+                    resolve(null); 
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Ошибка при получении ID ' + id + ':', error);
+                resolve(null); 
+            }
+        });
+    });
+}
+
+
+async function getContactsByIds(ids) {
+    const contacts = [];
+
+    for (const id of ids) {
+        const contact = await getContactById(id);
+        if (contact !== null) {
+            contacts.push(contact);
+        }
+    }
+
+    return contacts;
 }

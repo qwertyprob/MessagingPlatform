@@ -14,6 +14,7 @@ namespace MessagingProject.Abstractions
         Task<ContactResponseModel> GetContactLists(string token);
 
         Task<IEnumerable<SingleContactModel>> GetContactHashedData(string token, int id);
+        Task<string> GetEmailsFromContactListAsync(string token, string contactList);
 
         Task<SingleContactResponseModel> GetContactList(string token, int id);
 

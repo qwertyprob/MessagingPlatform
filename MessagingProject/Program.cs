@@ -23,9 +23,11 @@ namespace MessagingProject
                 options.ModelMetadataDetailsProviders.Clear(); 
 
             })
+            
             .AddJsonOptions(options => {
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
                 });
+            
 
             builder.Services.AddSession();
 

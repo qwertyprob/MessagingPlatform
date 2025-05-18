@@ -47,3 +47,5 @@ $(function () {
     $('#enableReplies').on('change', toggleEmailInput);
     $('#scheduleToggle').on('change', toggleScheduledEmail);
 });
+
+

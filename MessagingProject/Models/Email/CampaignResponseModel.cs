@@ -12,10 +12,6 @@ namespace MessagingProject.Models.Email
     {
         [JsonIgnore]
         public string TemplateName { get; set; } = "";
-
-        [JsonProperty("contactList")]
-        public string ContactListData { get; set; } 
-
         //[JsonProperty("token")]
         //public string Token { get; set; } - always null
 
@@ -30,7 +26,7 @@ namespace MessagingProject.Models.Email
         [JsonProperty("body")]
         public string Body { get; set; }
         [JsonProperty("status")]
-        private int Status { get; set; }
+        public int Status { get; set; }
         [JsonProperty("statusDescription")]
         public string StatusDescription => Status switch
         {
@@ -44,7 +40,7 @@ namespace MessagingProject.Models.Email
         public string FormattedCreateParsedDate => Created?.ToString("dd-MM-yyyy HH:mm");
 
         [JsonProperty("scheduled")]
-        private DateTime? Scheduled { get; set; }
+        public DateTime? Scheduled { get; set; }
 
         public string FormattedScheduledParsedDate => Scheduled?.ToString("dd-MM-yyyy HH:mm");
 
@@ -55,8 +51,9 @@ namespace MessagingProject.Models.Email
         [JsonProperty("contactListID")]
         public string ContactListID { get; set; }
 
+        [JsonProperty("contactList")]
+        public string ContactList { get; set; }
 
-    
 
     }
 

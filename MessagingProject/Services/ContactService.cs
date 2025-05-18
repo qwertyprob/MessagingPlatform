@@ -204,6 +204,44 @@ namespace MessagingProject.Services
 
         }
 
+        //FOR SENDEMAIL
+        public async Task<string> GetEmailsFromContactListAsync(string token,string contactList)
+        {
+            if (string.IsNullOrWhiteSpace(contactList))
+                return string.Empty;
+
+            var ids = contactList
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(idStr => int.TryParse(idStr, out var id) ? id : (int?)null)
+                .Where(id => id.HasValue)
+                .Select(id => id.Value)
+                .ToList();
+
+            var allEmails = new List<string>();
+
+            foreach (var id in ids)
+            {
+                var contacts = await GetContactHashedData(token,id);
+
+                if (contacts != null)
+                {
+                    var emails = contacts
+                        .Where(c => !string.IsNullOrWhiteSpace(c.Email))
+                        .Select(c => c.Email);
+
+                    allEmails.AddRange(emails);
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+
+            return string.Join(",", allEmails.Distinct()); 
+        }
+
+
+
 
         //CREATE AND UPDATE(NAME)
         public async Task<ContactResponseModel> CreateContactList(ContactsList request)
