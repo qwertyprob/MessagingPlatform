@@ -135,8 +135,17 @@ function getCampaign(id) {
 
             let selectedContacts = response.ContactListID ? response.ContactListID.split(',') : [];
 
-            //console.log('selected:' + selectedContacts);
+            const emails = response.ContactList.split(',').filter(e => e.trim() !== '');
+            const $counter = $('#email-count');
 
+            $counter.text(emails.length);
+
+            // Добавим визуальный индикатор при превышении лимита
+            if (emails.length > 10000) {
+                $counter.addClass('over-limit');
+            } else {
+                $counter.removeClass('over-limit');
+            }
             getContact(selectedContacts);
 
            
@@ -210,3 +219,5 @@ async function getContactsByIds(ids) {
 
     return contacts;
 }
+
+

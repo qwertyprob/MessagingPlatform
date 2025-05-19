@@ -338,3 +338,27 @@ label {
     background-color: lightgray !important;
     color: black !important;
 }
+
+
+.email-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.email-counter {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: #e0eaff;
+    color: #004085;
+    border-radius: 8px;
+    padding: 2px 6px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+    .email-counter.over-limit {
+        background-color: #f8d7da;
+        color: #721c24;
+    }

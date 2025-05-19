@@ -77,7 +77,7 @@ namespace MessagingProject.Services
                 var template = await _templateService.GetTemplatesById(model.Template);
                 if (template != null)
                 {
-                    model.TemplateName = template.Name;
+                    model.TemplateName = template?.Name;
                 }
             });
 

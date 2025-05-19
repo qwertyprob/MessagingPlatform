@@ -170,6 +170,33 @@ namespace MessagingProject.Controllers.Email
             }
         }
 
+        [HttpGet]
+        [Route("Email/GetEmailsCount")]
+        public async Task<IActionResult> GetEmailsCount(string clientInput, string clientID)
+        {
+            try
+            {
+                var token = _userService.GetToken();
+
+                var contactList = await _contactService.GetEmailsFromContactListAsync(token, clientID) ?? string.Empty;
+
+                var contactListId = this.ExtractEmails(clientInput) ?? string.Empty;
+
+                var finallyMergedContactList = MergeEmailStringsToList(contactList, contactListId);
+
+                int count = finallyMergedContactList?.Count() ?? 0;
+
+                return Ok(count);
+            }
+            catch (Exception)
+            {
+                return Ok(0);
+            }
+        }
+
+
+
+
         //MailList
         //DELETE
         [HttpGet]
@@ -245,6 +272,9 @@ namespace MessagingProject.Controllers.Email
 
         string ExtractEmails(string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+                return string.Empty;
+
             var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
 
             var parts = input.Split(',')
@@ -252,8 +282,12 @@ namespace MessagingProject.Controllers.Email
 
             var emails = parts.Where(p => emailRegex.IsMatch(p));
 
+            if (!emails.Any())
+                return string.Empty;
+
             return string.Join(", ", emails);
         }
+
         string MergeEmailStrings(string s1, string s2)
         {
             var emails1 = s1.Split(',')
@@ -265,6 +299,18 @@ namespace MessagingProject.Controllers.Email
             var allEmails = emails1.Union(emails2);
 
             return string.Join(", ", allEmails);
+        }
+        List<string> MergeEmailStringsToList(string emails1, string emails2)
+        {
+            var list1 = string.IsNullOrWhiteSpace(emails1)
+                ? new List<string>()
+                : emails1.Split(',').Select(e => e.Trim()).Where(e => !string.IsNullOrEmpty(e)).ToList();
+
+            var list2 = string.IsNullOrWhiteSpace(emails2)
+                ? new List<string>()
+                : emails2.Split(',').Select(e => e.Trim()).Where(e => !string.IsNullOrEmpty(e)).ToList();
+
+            return list1.Concat(list2).Distinct().ToList();
         }
 
 

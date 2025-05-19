@@ -1,5 +1,4 @@
-﻿using DevExtreme.AspNet.Mvc;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace MessagingProject.Models.Email.Template
 {
@@ -14,7 +13,7 @@ namespace MessagingProject.Models.Email.Template
         [JsonProperty("id")]
         public int Id { get; set; }
         [JsonProperty("name")]
-        public string Name => string.IsNullOrEmpty(Name) ? "[Удалённый шаблон]" : Name;
+        public string Name { get; set; } 
 
         [JsonProperty("subject")]
         public string Subject { get; set; }

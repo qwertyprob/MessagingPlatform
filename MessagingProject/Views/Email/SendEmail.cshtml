@@ -43,11 +43,15 @@
 
                 <!-- Contact List -->
                 <div class="col-12 mb-3">
-                    <label for="multi-select">Name of contact list</label>
-                    <select id="multi-select" multiple="multiple" style="width: 100%;">
-                    </select>
+                    <label for="multi-select">Название списка контактов</label>
+                    <div class="email-wrapper">
+                        <select id="multi-select" multiple="multiple" style="width: 100%;">
+                        </select>
+                        <span id="email-count" class="email-counter"></span>
+                    </div>
                     <span class="text-danger error-message" id="error-multi-select"></span>
                 </div>
+
 
                 
 
@@ -114,9 +118,12 @@
     <script src="~/js/campaign-get.js"></script>
     <script src="~/js/campaign-save.js"></script>
     <script src="~/js/form-validations.js"></script>
+    <script src="~/js/email-counter.js"></script>
 
     <script>
-       
+
+        
+
     </script>
 }
 
