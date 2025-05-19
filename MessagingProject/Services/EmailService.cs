@@ -3,6 +3,7 @@ using MessagingProject.Models;
 using MessagingProject.Models.Email;
 using Newtonsoft.Json;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using static DevExpress.Data.Helpers.FindSearchRichParser;
 
@@ -117,7 +118,7 @@ namespace MessagingProject.Services
             return message;
 
         }
-
+        //CREATE/UPDATE CAMPAIGNS
         public async Task<BaseResponseModel> UpsertCampaign(CampaignRequestModel request)
         {
             try
@@ -157,6 +158,50 @@ namespace MessagingProject.Services
             }
         }
 
+        //SEND EMAIL
+
+        public async Task<BaseResponseModel> SendEmail(EmailRequest request)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(request);
+                var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+                _client.DefaultRequestHeaders.Accept.Clear();
+                _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await _client.PostAsync("SendMailByToken", requestContent);
+
+                if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.Unauthorized)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Bad request: Status - {response.StatusCode}, Response - {errorContent}");
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+
+                if (string.IsNullOrWhiteSpace(content))
+                {
+                    throw new Exception("Bad response: content is null or empty.");
+                }
+
+                var responseModel = JsonConvert.DeserializeObject<BaseResponseModel>(content);
+                return responseModel ?? throw new Exception("Deserialized response is null.");
+
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new ApplicationException("HTTP request error while updating campaign.", ex);
+            }
+            catch (JsonException ex)
+            {
+                throw new ApplicationException("JSON deserialization error.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Unexpected error during campaign upsert.", ex);
+            }
+        }
 
     }
 }

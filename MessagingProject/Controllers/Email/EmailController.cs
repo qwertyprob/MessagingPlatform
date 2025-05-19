@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using static DevExpress.Data.Helpers.FindSearchRichParser;
 
 namespace MessagingProject.Controllers.Email
 {
@@ -249,9 +250,7 @@ namespace MessagingProject.Controllers.Email
                 var finallyMergedContactList = MergeEmailStrings(contactList, contactListId);
 
                 request.ContactList = finallyMergedContactList;
-                var decodedBody = _decryptor.DecodeHashedData(request.Body);
-
-                Console.WriteLine(JsonConvert.SerializeObject(decodedBody));
+                
 
 
                 var response = await _emailService.UpsertCampaign(request);
@@ -275,6 +274,56 @@ namespace MessagingProject.Controllers.Email
             }
         }
 
+        //SEND EMAIL
+        [HttpPost]
+        [Route("Email/SendEmail")]
+        public async Task<IActionResult> SendEmail([FromBody] CampaignRequestModel request)
+        {
+            try
+            {
+                var token = _userService.GetToken();
+
+                var contactList = await _contactService.GetEmailsFromContactListAsync(request.Token, request.ContactList);
+
+                var contactListId = this.ExtractEmails(request.ContactListID);
+
+                var finallyMergedContactList = MergeEmailStringsToList(contactList, contactListId);
+
+                var emailRequest = new EmailRequest
+                {
+                    Mail = new Mail
+                    {
+                        To = finallyMergedContactList,
+                        Cc = [],
+                        ReplyTo = request.ReplyTo,
+                        NoReply = true,
+                        Subject = request.Subject,
+                        Body = System.Text.Json.JsonSerializer.Serialize(_decryptor.DecodeHashedData(request.Body)),
+                        IsHtmlBody = true,
+                        Attachments = [] 
+                    },
+                    SendEmailOnDate = request.Scheduled,
+                    Token = token
+                };
+
+                //var response = await _emailService.SendEmail(emailRequest);
+                //if (response.ErrorCode == 0)
+                //{
+                    return Ok(emailRequest);
+                //}
+                //return BadRequest(response.ErrorMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Unauthorized(new { message = "Unauthorized" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+            }
+        }
 
         string ExtractEmails(string input)
         {
@@ -310,11 +359,17 @@ namespace MessagingProject.Controllers.Email
         {
             var list1 = string.IsNullOrWhiteSpace(emails1)
                 ? new List<string>()
-                : emails1.Split(',').Select(e => e.Trim()).Where(e => !string.IsNullOrEmpty(e)).ToList();
+                : emails1.Split(',')
+                         .Select(e => e.Trim().ToLower())
+                         .Where(e => !string.IsNullOrEmpty(e))
+                         .ToList();
 
             var list2 = string.IsNullOrWhiteSpace(emails2)
                 ? new List<string>()
-                : emails2.Split(',').Select(e => e.Trim()).Where(e => !string.IsNullOrEmpty(e)).ToList();
+                : emails2.Split(',')
+                         .Select(e => e.Trim().ToLower())
+                         .Where(e => !string.IsNullOrEmpty(e))
+                         .ToList();
 
             return list1.Concat(list2).Distinct().ToList();
         }

@@ -20,7 +20,7 @@
         name: $('#sendName').val(),
         subject: $('#templateSubject').val(),
         body: template || campaign.Body || '',
-        contactList: campaign.ContactList || selectedIds.join(','),
+        contactList: selectedIds.join(',') || campaign.ContactList,
         created: isoDate,
         scheduled: campaign.Scheduled || isoDate,
         status: campaign.Status || 0,

@@ -9,11 +9,6 @@
     let scheduledDate = new Date();
     let isoDate = scheduledDate.toISOString();
 
-    //console.log("Template");
-    //console.log(JSON.stringify(template));
-
-
-
     let request = {
         token: token,
         id: campaignId || null,
@@ -43,19 +38,36 @@
     console.log(JSON.stringify(request));
 
     $.ajax({
-        url: '/Email/UpsertCampaign',
+        url: '/Email/SendEmail',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(request),
         success: function () {
-            console.log('Campaign saved:');
-            window.location.href = "/Email/MailingList";
+            console.log('Email sent');
+
+            $.ajax({
+                url: '/Email/UpsertCampaign',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(request),
+                success: function () {
+                    console.log('Campaign saved');
+                    window.location.href = "/Email/MailingList";
+                },
+                error: function (xhr, status, error) {
+                    console.error("Ошибка при сохранении кампании:", error);
+                    alert("Ошибка при сохранении кампании.");
+                }
+            });
+
         },
         error: function (xhr, status, error) {
-            console.error("Ошибка при сохранении кампании:", error);
+            console.error("Ошибка при отправке сообщения:", error);
+            alert("Ошибка при отправке письма.");
         }
     });
 }
+
 
 async function getToken() {
     try {
