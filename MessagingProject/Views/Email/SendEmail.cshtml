@@ -31,6 +31,7 @@
                     <select id="templateName" class="form-select" style="width: 100%;height:auto;">
                     </select>
                     <span class="text-danger error-message" id="error-templateName"></span>
+                    <input type="hidden" id="templateBody" name="templateBody" />
                 </div>
 
                 <!-- Template Title -->
@@ -93,7 +94,7 @@
             
             <!-- Buttons -->
             <div class="d-flex gap-3 justify-content-between flex-wrap">
-                <button class="btn btn-success d-flex align-items-center justify-content-center btn-responsive gap-2" id="btn-primary">
+                <button class="btn btn-success d-flex align-items-center justify-content-center btn-responsive gap-2" id="btn-primary" onclick="if (validateForm()) sendCampaign();">
                     <img src="~/img/icons/send.svg" alt="Send Icon" width="20">
                     Send
                 </button>
@@ -117,6 +118,7 @@
     <script src="~/js/campaign-ui.js"></script>
     <script src="~/js/campaign-get.js"></script>
     <script src="~/js/campaign-save.js"></script>
+    <script src="~/js/campaign-send.js"></script>
     <script src="~/js/form-validations.js"></script>
     <script src="~/js/email-counter.js"></script>
 

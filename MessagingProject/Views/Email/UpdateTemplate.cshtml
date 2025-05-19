@@ -47,7 +47,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 
 <script>
-    async function getToken() {
+       async function getToken() {
         try {
             const response = await $.ajax({
                 url: '/getuserByClaims',
@@ -70,7 +70,8 @@
         const base64String = '@Html.Raw(Model.BodyJson ?? "")';
         if (base64String) {
             try {
-                const decoded = atob(base64String);
+                // Используем декодер для Unicode
+                const decoded = base64DecodeUnicode(base64String);
                 const design = JSON.parse(decoded);
                 unlayer.loadDesign(design);
             } catch (e) {
@@ -81,21 +82,19 @@
         }
     });
 
-       
-
-        $('#close').on('click', function () {
+    $('#close').on('click', function () {
         window.location.href = "/Email/TemplateList";
     });
-        
-         async function updateTemplate() {
+
+    async function updateTemplate() {
         try {
             unlayer.exportHtml(async function (data) {
                 const jsonString = JSON.stringify(data.design);
-                const bodyJson = btoa(jsonString);
-                const body = btoa(data.html);
-                // const image = await convertToBase64(data.html);
+                // Используем корректное кодирование с Unicode поддержкой
+                const bodyJson = base64EncodeUnicode(jsonString);
+                const body = base64EncodeUnicode(data.html);
 
-                const image = '@Html.Raw(Model.ImageTemplate)'
+                const image = '@Html.Raw(Model.ImageTemplate)';
                 console.log("Base64-encoded design:", bodyJson);
                 console.log("Base64-encoded HTML:", body);
 
@@ -106,7 +105,8 @@
                 } else {
                     console.error("Не удалось получить токен.");
                 }
-                    $.ajax({
+
+                $.ajax({
                     url: '/Template/UpdateTemplateForm',
                     type: 'POST',
                     contentType: 'application/json',
@@ -114,7 +114,7 @@
                         id: $('#hiddenId').val(),
                         name: $('#template').val(),
                         subject: $('#subject').val(),
-                        state:0,
+                        state: 0,
                         imageTemplate: image,
                         bodyJson: bodyJson,
                         body: body,
@@ -124,22 +124,18 @@
                         if (response.errorCode === 0) {
                             alert('Шаблон успешно сохранен!');
                             window.location.href = '/Email/TemplateList';
+                        } else {
+                            window.location.href = '/Email/TemplateList';
                         }
-                        window.location.href = '/Email/TemplateList';
-
                     }
-                    
                 });
-
-                });
-
-            } catch (error) {
-                console.error("Ошибка при обновлении шаблона:", error);
-            }
+            });
+        } catch (error) {
+            console.error("Ошибка при обновлении шаблона:", error);
+        }
     }
 
-
-                function convertToBase64(htmlContent) {
+    function convertToBase64(htmlContent) {
         return new Promise((resolve, reject) => {
             const hiddenDiv = document.createElement('div');
             hiddenDiv.style.position = 'absolute';
@@ -149,13 +145,25 @@
 
             html2canvas(hiddenDiv).then(canvas => {
                 const base64Image = canvas.toDataURL("image/png");
-                document.body.removeChild(hiddenDiv); 
+                document.body.removeChild(hiddenDiv);
                 resolve(base64Image);
             }).catch(error => {
                 document.body.removeChild(hiddenDiv);
                 reject(error);
             });
         });
+    }
+
+    function base64EncodeUnicode(str) {
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+            (match, p1) => String.fromCharCode('0x' + p1)
+        ));
+    }
+
+    function base64DecodeUnicode(str) {
+        return decodeURIComponent(Array.prototype.map.call(atob(str), c =>
+            '%' + c.charCodeAt(0).toString(16).padStart(2, '0')
+        ).join(''));
     }
 
        

@@ -14,6 +14,7 @@ $(function () {
         getCampaign(campaignId);
 
 
+
     }
     else if (templateId != null && templateId != undefined) {
         console.log('templatemode');
@@ -26,6 +27,7 @@ $(function () {
         console.log('createmode');
         getTemplates();
         getContact();
+
 
     }
 
@@ -59,6 +61,7 @@ function getTemplate(id) {
                 $('#templateName').empty();
                 $('#templateName').append(`<option value="${response.Id}" selected>${response.Name}</option>`);
                 $('#templateSubject').val(response.Name);
+                $('#templateBody').val(response.Body);
 
                 /*console.log('Template data retrieved successfully:', response);*/
             } else {
@@ -73,39 +76,45 @@ function getTemplate(id) {
 
 // GET TEMPLATE LIST
 function getTemplates(selectedTemplateId = null) {
-    $.ajax({
-        url: '/Template/TemplateList',
-        type: 'GET',
-        success: function (response) {
-            if (response) {
-                templatesList = response;
-                $('#templateName').empty();
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: '/Template/TemplateList',
+            type: 'GET',
+            success: function (response) {
+                if (response) {
+                    templatesList = response;
+                    $('#templateName').empty();
 
-                templatesList.forEach(function (template) {
-                    $('#templateName').append(
-                        `<option value="${template.Id}">${template.Name}</option>`
-                    );
-                });
+                    templatesList.forEach(function (template) {
+                        $('#templateName').append(
+                            `<option value="${template.Id}">${template.Name}</option>`
+                        );
+                    });
 
-                let idToSelect = selectedTemplateId || getTemplateId() || templatesList[0].Id;
-                $('#templateName').val(idToSelect).trigger('change');
-                
+                    let idToSelect = selectedTemplateId || getTemplateId() || templatesList[0].Id;
 
-                /*console.log('Template data retrieved successfully:', response);*/
-            } else {
-                console.log('No templates in the response.');
+                    $('#templateName').val(idToSelect).trigger('change');
+
+                    resolve(); 
+                } else {
+                    console.log('No templates in the response.');
+                    resolve();
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching templates:', status, error);
+                reject(error);
             }
-        },
-        error: function (xhr, status, error) {
-            console.error('Error fetching templates:', status, error);
-        }
+        });
     });
 }
+
 
 
 // SELECT HANDLER
 $('#templateName').on('change', function () {
     let selectedId = $(this).val();
+    templateId = selectedId;
     /*console.log('Selected template ID:', selectedId);*/
 
     let selectedTemplate = templatesList.find(t => t.Id.toString() === selectedId.toString());
@@ -113,6 +122,9 @@ $('#templateName').on('change', function () {
     if (selectedTemplate) {
         $('#templateSubject').val(selectedTemplate.Subject);
         $('#imageField').attr('src', selectedTemplate.ImageTemplate);
+        $('#templateBody').val(selectedTemplate.Body);
+        console.log(selectedTemplate.Body);
+        
     } else {
 
         console.log('Template not found for ID:', selectedId);
@@ -121,40 +133,37 @@ $('#templateName').on('change', function () {
 });
 
 // CAMPAIGN BY ID
-function getCampaign(id) {
-    $.ajax({
-        url: '/Email/GetCampaign/' + id,
-        type: 'GET',
-        success: function (response) {
-            //console.log('Campaign data retrieved successfully:', response);
-            campaign = response; 
-            
-            let templateId = response.Template;
-            getTemplates(templateId);
-            $('#sendName').val(response.Name);
+async function getCampaign(id) {
+    try {
+        const response = await $.ajax({
+            url: '/Email/GetCampaign/' + id,
+            type: 'GET'
+        });
 
-            let selectedContacts = response.ContactListID ? response.ContactListID.split(',') : [];
+        campaign = response;
 
-            const emails = response.ContactList.split(',').filter(e => e.trim() !== '');
-            const $counter = $('#email-count');
+        let templateId = response.Template;
+        await getTemplates(templateId); 
 
-            $counter.text(emails.length);
+        $('#sendName').val(response.Name);
+        $('#templateSubject').val(response.Subject);
+        $('#templateBody').val(response.Body); 
 
-            // Добавим визуальный индикатор при превышении лимита
-            if (emails.length > 10000) {
-                $counter.addClass('over-limit');
-            } else {
-                $counter.removeClass('over-limit');
-            }
-            getContact(selectedContacts);
+        let selectedContacts = response.ContactListID ? response.ContactListID.split(',') : [];
 
-           
-        },
-        error: function (xhr, status, error) {
-            console.error('Error fetching campaign:', status, error);
-        }
-    });
+        const emails = response.ContactList.split(',').filter(e => e.trim() !== '');
+        const $counter = $('#email-count');
+
+        $counter.text(emails.length);
+        
+
+        getContact(selectedContacts);
+
+    } catch (error) {
+        console.error('Error fetching campaign:', error);
+    }
 }
+
 
 //GET ALL CONTACTS
 function getContact(selectedContacts = []) {

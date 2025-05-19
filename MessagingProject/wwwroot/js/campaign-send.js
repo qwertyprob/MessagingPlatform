@@ -1,4 +1,4 @@
-﻿async function saveCampaign() {
+﻿async function sendCampaign() {
     let token = await getToken();
 
     let template = $('#templateBody').val();
@@ -23,7 +23,7 @@
         contactList: campaign.ContactList || selectedIds.join(','),
         created: isoDate,
         scheduled: campaign.Scheduled || isoDate,
-        status: campaign.Status || 0,
+        status: campaign.Status || 2,
         template: parseInt($('#templateName').val()) || campaign.Template,
         contactListID: ($('#multi-select').val() || []).join(','),
         replyTo: $('#replyEmail').val() || ''
@@ -36,6 +36,7 @@
     if (!$('#scheduleToggle').is(':checked')) {
         let date = $('#scheduledDateTime').dxDateBox('instance').option('value');
         request.scheduled = date.toISOString();
+        request.status = 1;
     }
 
     console.log("Request being sent:");

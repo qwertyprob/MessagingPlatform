@@ -1,6 +1,7 @@
 ﻿using MessagingProject.Abstractions;
 using MessagingProject.Models.Email;
 using MessagingProject.Models.Email.Template;
+using MessagingProject.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -15,13 +16,18 @@ namespace MessagingProject.Controllers.Email
         private IEmailService _emailService;
         private ITemplateService _templateService;
         private IContactService _contactService;
-        public EmailController(IAuthService auth, IUserService userService, IEmailService emailService, ITemplateService templateService, IContactService contactService) : base(auth)
+        private readonly IDecryptor _decryptor;
+        public EmailController(IAuthService auth, IUserService userService, IEmailService emailService, ITemplateService templateService, IContactService contactService, IDecryptor decryptor) : base(auth)
         {
             _userService = userService;
             _emailService = emailService;
             _templateService = templateService;
             _contactService = contactService;
+            _decryptor = decryptor;
         }
+
+
+
         //Views
         [Route("Email/MailingList")]
         public IActionResult MailingList()
@@ -150,21 +156,18 @@ namespace MessagingProject.Controllers.Email
 
                 if (response != null && !string.IsNullOrEmpty(response.Id))
                 {
-                    return Ok(response); // Return the campaign data if found
+                    return Ok(response); 
                 }
 
-                // If no campaign data was found
                 return NotFound(new { message = "Campaign not found." });
             }
             catch (UnauthorizedAccessException ex)
             {
-                // Log the unauthorized access error
                 Console.WriteLine(ex.Message);
                 return Unauthorized(new { message = "Unauthorized" });
             }
             catch (Exception ex)
             {
-                // Log the general error with more detailed information
                 Console.WriteLine($"Error occurred: {ex.Message}\nStack Trace: {ex.StackTrace}");
                 return StatusCode(500, new { message = "An error occurred", error = ex.Message });
             }
@@ -246,11 +249,14 @@ namespace MessagingProject.Controllers.Email
                 var finallyMergedContactList = MergeEmailStrings(contactList, contactListId);
 
                 request.ContactList = finallyMergedContactList;
+                var decodedBody = _decryptor.DecodeHashedData(request.Body);
+
+                Console.WriteLine(JsonConvert.SerializeObject(decodedBody));
 
 
                 var response = await _emailService.UpsertCampaign(request);
 
-                if(response.ErrorCode == 0)
+                if (response.ErrorCode == 0)
                 {
                     return Ok(response.ErrorMessage);
                 }
