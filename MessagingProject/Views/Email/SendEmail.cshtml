@@ -20,8 +20,8 @@
             <form onsubmit="event.preventDefault();">
                 <!-- Newsletter Title -->
                 <div class="mb-3">
-                    <label class="form-label">Newsletter Title</label>
-                    <input type="text" class="form-control" value="Created on @formattedDate" id="sendName">
+                    <label class="form-label">@MessagingProject.Resources.Resource.NewsletterTitle</label>
+                    <input type="text" class="form-control" value="@MessagingProject.Resources.Resource.Createdon @formattedDate" id="sendName">
                     <span class="text-danger error-message" id="error-sendName"></span>
                 </div>
 
@@ -44,7 +44,7 @@
 
                 <!-- Contact List -->
                 <div class="col-12 mb-3">
-                    <label for="multi-select">Название списка контактов</label>
+                    <label for="multi-select">@MessagingProject.Resources.Resource.Contats</label>
                     <div class="email-wrapper">
                         <select id="multi-select" multiple="multiple" style="width: 100%;">
                         </select>
@@ -61,33 +61,36 @@
                 <div class="mb-3 d-flex align-items-center flex-wrap gap-3">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="scheduleToggle" onchange="toggleScheduledEmail()" checked>
-                        <label class="form-check-label" for="sendNow">Send Now</label>
+                        <label class="form-check-label" for="sendNow">@MessagingProject.Resources.Resource.SendNow</label>
                     </div>
 
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="enableReplies" onchange="toggleEmailInput()">
-                        <label class="form-check-label" for="enableReplies">Enable Replies</label>
+                        <label class="form-check-label" for="enableReplies">@MessagingProject.Resources.Resource.EnableReplies</label>
                     </div>
 
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="enableSignature">
-                        <label class="form-check-label" for="enableSignature">Enable Signature</label>
+                        <label class="form-check-label" for="enableSignature">@MessagingProject.Resources.Resource.EnableSignature</label>
                     </div>
                 </div>
 
                 <!-- Note -->
-                <p class="text-danger mb-3">* To receive replies, check "Enable Replies"</p>
-
+                <p class="text-danger mb-3" id="receive" style="display:none;">
+                    *@MessagingProject.Resources.Resource.receive
+                </p>
                 <!-- Scheduled Email -->
                 <div class="emailscheduledWrapper mb-3" id="emailscheduledWrapper" style="display: none;">
-                    <label class="form-label" for="scheduledDateTime">Schedule time</label>
+                    <label class="form-label" for="scheduledDateTime">@MessagingProject.Resources.Resource.schelduled</label>
                     <div class="form-control" id="scheduledDateTime" style=""></div>
+                    <span class="text-danger error-message" id="error-scheduledDateTime"></span>
+
                 </div>
                 
                 <!-- Reply Email -->
                 <div id="emailInputWrapper" class="mb-3" style="display: none;">
-                    <label class="form-label" for="replyEmail">Email</label>
-                    <input type="email" class="form-control" id="replyEmail" placeholder="Enter reply email">
+                    <label class="form-label" for="replyEmail">@MessagingProject.Resources.Resource.Email</label>
+                    <input type="email" class="form-control" id="replyEmail">
                     <span class="text-danger error-message" id="error-replyEmail"></span>
                 </div>
             </form>
@@ -96,11 +99,11 @@
             <div class="d-flex gap-3 justify-content-between flex-wrap">
                 <button class="btn btn-success d-flex align-items-center justify-content-center btn-responsive gap-2" id="btn-primary" onclick="if (validateForm()) sendCampaign();">
                     <img src="~/img/icons/send.svg" alt="Send Icon" width="20">
-                    Send
+                    @MessagingProject.Resources.Resource.Send
                 </button>
                 <button class="btn btn-primary d-flex align-items-center justify-content-center btn-responsive gap-2" id="btn-success" onclick="if (validateForm()) saveCampaign();">
                     <img src="~/img/icons/save.svg" alt="Save Icon" width="20">
-                    Save
+                    @MessagingProject.Resources.Resource.Save
                 </button>
             </div>
             
@@ -115,6 +118,15 @@
 </div>
 
 @section Scripts {
+    <script>
+        const validationTitle = '@MessagingProject.Resources.Resource.ValidationTitle';
+        const validationSubject = '@MessagingProject.Resources.Resource.ValidationSubject';
+        const validationContacts = '@MessagingProject.Resources.Resource.ValidationContacts';
+        const validationEmail = '@MessagingProject.Resources.Resource.ValidationEmail';
+        const validationEmailValid = '@MessagingProject.Resources.Resource.ValidationEmailValid';
+        const validationScheduled = '@MessagingProject.Resources.Resource.ValidationScheduledDate';
+        const validationTemplate = '@MessagingProject.Resources.Resource.ValidationTemplate';
+    </script>
     <script src="~/js/campaign-ui.js"></script>
     <script src="~/js/campaign-get.js"></script>
     <script src="~/js/campaign-save.js"></script>
@@ -122,11 +134,7 @@
     <script src="~/js/form-validations.js"></script>
     <script src="~/js/email-counter.js"></script>
 
-    <script>
-
-        
-
-    </script>
+    
 }
 
 

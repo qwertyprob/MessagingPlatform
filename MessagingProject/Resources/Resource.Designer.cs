@@ -106,6 +106,15 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created on.
+        /// </summary>
+        public static string Createdon {
+            get {
+                return ResourceManager.GetString("Createdon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Email NewsLetter.
         /// </summary>
         public static string CreateEmailNewsLetter {
@@ -214,6 +223,24 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Replies.
+        /// </summary>
+        public static string EnableReplies {
+            get {
+                return ResourceManager.GetString("EnableReplies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable Signature.
+        /// </summary>
+        public static string EnableSignature {
+            get {
+                return ResourceManager.GetString("EnableSignature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string Errror {
@@ -313,6 +340,15 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Newsletter Title.
+        /// </summary>
+        public static string NewsletterTitle {
+            get {
+                return ResourceManager.GetString("NewsletterTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
@@ -345,6 +381,15 @@ namespace MessagingProject.Resources {
         public static string ReadThisMonth {
             get {
                 return ResourceManager.GetString("ReadThisMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To receive replies, check &quot;Enable Replies&quot;.
+        /// </summary>
+        public static string receive {
+            get {
+                return ResourceManager.GetString("receive", resourceCulture);
             }
         }
         
@@ -417,6 +462,15 @@ namespace MessagingProject.Resources {
         public static string Send {
             get {
                 return ResourceManager.GetString("Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send now.
+        /// </summary>
+        public static string SendNow {
+            get {
+                return ResourceManager.GetString("SendNow", resourceCulture);
             }
         }
         
@@ -516,6 +570,69 @@ namespace MessagingProject.Resources {
         public static string Update {
             get {
                 return ResourceManager.GetString("Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select at least one contact..
+        /// </summary>
+        public static string ValidationContacts {
+            get {
+                return ResourceManager.GetString("ValidationContacts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a reply email..
+        /// </summary>
+        public static string ValidationEmail {
+            get {
+                return ResourceManager.GetString("ValidationEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid email address..
+        /// </summary>
+        public static string ValidationEmailValid {
+            get {
+                return ResourceManager.GetString("ValidationEmailValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a scheduled date and time..
+        /// </summary>
+        public static string ValidationScheduledDate {
+            get {
+                return ResourceManager.GetString("ValidationScheduledDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a subject..
+        /// </summary>
+        public static string ValidationSubject {
+            get {
+                return ResourceManager.GetString("ValidationSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a template..
+        /// </summary>
+        public static string ValidationTemplate {
+            get {
+                return ResourceManager.GetString("ValidationTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the newsletter title..
+        /// </summary>
+        public static string ValidationTitle {
+            get {
+                return ResourceManager.GetString("ValidationTitle", resourceCulture);
             }
         }
         

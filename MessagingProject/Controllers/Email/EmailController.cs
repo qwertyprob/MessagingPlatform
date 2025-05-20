@@ -274,7 +274,7 @@ namespace MessagingProject.Controllers.Email
             }
         }
 
-        //SEND EMAIL
+        //SEND EMAIL by Token For Check
         [HttpPost]
         [Route("Email/SendEmail")]
         public async Task<IActionResult> SendEmail([FromBody] CampaignRequestModel request)

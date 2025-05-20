@@ -25,7 +25,7 @@ $(function () {
 
     // Select2 for contact list
     $('#multi-select').select2({
-        placeholder: "Начните вводить...",
+        placeholder: "",
         tags: true,
         tokenSeparators: [',', ' ']
     });
@@ -34,7 +34,7 @@ $(function () {
     $('#scheduledDateTime').dxDateBox({
         type: "datetime",
         displayFormat: "dd-MM-yyyy HH:mm",
-        placeholder: "Выберите дату и время",
+        placeholder: "",
         showClearButton: true,
         width: "100%"
     });
@@ -46,6 +46,15 @@ $(function () {
     // Checkbox bindings
     $('#enableReplies').on('change', toggleEmailInput);
     $('#scheduleToggle').on('change', toggleScheduledEmail);
+
+    //Receive checkbox
+    $('#enableReplies').on('change', function () {
+        if ($(this).is(':checked')) {
+            $('#receive').hide();
+        } else {
+            $('#receive').show();
+        }
+    });
 });
 
 

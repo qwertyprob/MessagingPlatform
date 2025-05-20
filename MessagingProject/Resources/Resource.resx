@@ -276,4 +276,43 @@
   <data name="Subject" xml:space="preserve">
     <value>Subject</value>
   </data>
+  <data name="NewsletterTitle" xml:space="preserve">
+    <value>Newsletter Title</value>
+  </data>
+  <data name="SendNow" xml:space="preserve">
+    <value>Send now</value>
+  </data>
+  <data name="EnableReplies" xml:space="preserve">
+    <value>Enable Replies</value>
+  </data>
+  <data name="EnableSignature" xml:space="preserve">
+    <value>Enable Signature</value>
+  </data>
+  <data name="Createdon" xml:space="preserve">
+    <value>Created on</value>
+  </data>
+  <data name="receive" xml:space="preserve">
+    <value>To receive replies, check "Enable Replies"</value>
+  </data>
+  <data name="ValidationTitle" xml:space="preserve">
+    <value>Please enter the newsletter title.</value>
+  </data>
+  <data name="ValidationTemplate" xml:space="preserve">
+    <value>Please select a template.</value>
+  </data>
+  <data name="ValidationSubject" xml:space="preserve">
+    <value>Please select a subject.</value>
+  </data>
+  <data name="ValidationContacts" xml:space="preserve">
+    <value>Please select at least one contact.</value>
+  </data>
+  <data name="ValidationEmail" xml:space="preserve">
+    <value>Please enter a reply email.</value>
+  </data>
+  <data name="ValidationEmailValid" xml:space="preserve">
+    <value>Please enter a valid email address.</value>
+  </data>
+  <data name="ValidationScheduledDate" xml:space="preserve">
+    <value>Please select a scheduled date and time.</value>
+  </data>
 </root>
