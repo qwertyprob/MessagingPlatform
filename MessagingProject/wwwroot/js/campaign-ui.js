@@ -47,7 +47,7 @@ $(function () {
     $('#enableReplies').on('change', toggleEmailInput);
     $('#scheduleToggle').on('change', toggleScheduledEmail);
 
-    //Receive checkbox
+    //Receive checkboxbtn btn-primary
     $('#enableReplies').on('change', function () {
         if ($(this).is(':checked')) {
             $('#receive').hide();
