@@ -12,6 +12,7 @@ namespace MessagingProject.Models.Email
     {
         [JsonIgnore]
         public string TemplateName { get; set; } = "";
+
         //[JsonProperty("token")]
         //public string Token { get; set; } - always null
 

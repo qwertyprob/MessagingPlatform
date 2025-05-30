@@ -1,4 +1,5 @@
 ﻿using MessagingProject.Models;
+using MessagingProject.Models.SMS;
 
 namespace MessagingProject.Services
 {
@@ -6,5 +7,6 @@ namespace MessagingProject.Services
     {
         Task<GetByMonthInfoResponseModel> GetByMonthInfo(string token);
         Task<GetByWeekInfoResponseModel> GetByWeekInfo(string token);
+        Task<CampaignSmsResponseModel> GetSmsGampaign(string token);
     }
 }

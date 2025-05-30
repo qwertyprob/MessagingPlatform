@@ -56,9 +56,6 @@ namespace MessagingProject.Controllers.Profile
           HttpContext.SignOutAsync();
 
 
-
-
-
             var claims = GetUserClaims();
 
 

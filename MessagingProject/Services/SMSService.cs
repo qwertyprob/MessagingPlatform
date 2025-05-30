@@ -1,4 +1,5 @@
 ﻿using MessagingProject.Models;
+using MessagingProject.Models.SMS;
 using Newtonsoft.Json;
 
 namespace MessagingProject.Services
@@ -10,6 +11,7 @@ namespace MessagingProject.Services
         {
             _client = client;
         }
+        //GET
         public async Task<GetByMonthInfoResponseModel> GetByMonthInfo(string token)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, $"InfoGetByCompany?Token={token}");
@@ -45,6 +47,27 @@ namespace MessagingProject.Services
 
             return responseModel;
 
+        }
+        //GET GAMPAIGN 
+        public async Task<CampaignSmsResponseModel> GetSmsGampaign(string token)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, $"Campaigns?Token={token}");
+
+            var response = await _client.SendAsync(request);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var responseModel = JsonConvert.DeserializeObject<CampaignSmsResponseModel>(content);
+            if (responseModel is null)
+            {
+                throw new NullReferenceException(responseModel?.ErrorMessage);
+            }
+            if (responseModel.ErrorCode != 0)
+            {
+                throw new Exception(responseModel?.ErrorMessage);
+            }
+            
+            return responseModel;
         }
     }
 }

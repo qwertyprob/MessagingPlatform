@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MessagingProject.Controllers
 {
-    [Authorize]
+    
     public class BaseController : Controller
     {
         private readonly IAuthService _authService;
@@ -39,26 +39,36 @@ namespace MessagingProject.Controllers
                 return;
             }
 
-            // try to refresh token
+            //kind a token check with timer
+            //var expiryClaim = user.Claims.FirstOrDefault(c => c.Type == "Token");
+            //if (expiryClaim != null && DateTime.TryParse(expiryClaim.Value, out var expiry))
+            //{
+            //    if (expiry > DateTime.UtcNow.AddMinutes(2))
+            //    {
+            //        await next(); 
+            //        return;
+            //    }
+            //}
+            //try to refresh
             try
             {
                 var newToken = await _authService.RefreshAccessTokenAsync();
                 if (!string.IsNullOrEmpty(newToken))
                 {
-                    // update token claims
-                    var identity = new ClaimsIdentity(user.Claims.Where(c => c.Type != "Token"), "Cookies");
-                    identity.AddClaim(new Claim("Token", newToken));
+                    var claims = user.Claims.Where(c => c.Type != "Token").ToList();
+                    claims.Add(new Claim("Token", newToken));
 
+                    var identity = new ClaimsIdentity(claims, "Cookies");
                     var principal = new ClaimsPrincipal(identity);
                     await HttpContext.SignInAsync("Cookies", principal);
 
-                    // logging for debugging
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.WriteLine("\tRefreshed");
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Token refresh failed: {ex.Message}");
                 await HttpContext.SignOutAsync();
                 context.Result = new RedirectResult("/Login");
                 return;
@@ -66,5 +76,6 @@ namespace MessagingProject.Controllers
 
             await next();
         }
+
     }
 }

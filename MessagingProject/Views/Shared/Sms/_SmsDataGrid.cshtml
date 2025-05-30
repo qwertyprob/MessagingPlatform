@@ -1,0 +1,146 @@
+﻿@(
+    Html.DevExtreme().DataGrid()
+        .ID("SmsContainer")
+        .DataSource(ds => ds.Mvc()
+            .Controller("SMS")
+            .LoadAction("SmsCampaigns")
+        )
+        .Columns(columns =>
+        {
+            columns.Add().DataField("Id").Visible(false);
+            columns.Add().DataField("Name").Caption(MessagingProject.Resources.Resource.Name);
+            columns.Add().DataField("Description").Caption(MessagingProject.Resources.Resource.Template);
+            columns.Add().DataField("FormattedCreateParsedDate").Caption(MessagingProject.Resources.Resource.Date);
+            columns.Add().DataField("FormattedScheduledParsedDate").Caption(MessagingProject.Resources.Resource.Schedule);
+            columns.Add().DataField("StatusDescription").Caption(MessagingProject.Resources.Resource.Status);
+
+            columns.Add().Type(GridCommandColumnType.Buttons)
+            .Buttons(b =>
+            {
+                b.Add()
+                    .Name("customEdit")
+                    .Icon("edit")
+                    .OnClick("onSmsClick");
+
+                b.Add()
+                    .Name("customDelete")
+                    .Icon("trash");
+@*                     .OnClick("onDeleteRowClick"); ;
+ *@            });
+
+        })
+        .SearchPanel(s => s.Visible(true).Width(200))
+        .GroupPanel(g => g.Visible(true))
+        .Sorting(s => s
+            .Mode(GridSortingMode.Multiple)
+            .AscendingText("Created")
+            .DescendingText("Created Descending")
+        )
+        .Toolbar(toolbar =>
+        {
+            toolbar.Items(items =>
+            {
+                items.Add()
+                    .Location(ToolbarItemLocation.Before)
+                    .Widget(w => w.Button()
+                        .Type(ButtonType.Default)
+                        .Icon("add")
+                        .Text(MessagingProject.Resources.Resource.Create)
+                        .OnClick("createSms"));
+
+                items.Add()
+                    .Location(ToolbarItemLocation.After)
+                    .Widget(w => w.Button()
+                        .Type(ButtonType.Normal)
+                        .Icon("refresh")
+                        .OnClick("refreshData"));
+
+                items.Add()
+                    .Location(ToolbarItemLocation.After)
+                    .Widget(w => w.TextBox()
+                        .Placeholder(MessagingProject.Resources.Resource.Search)
+                        .Value("")
+                        .OnValueChanged("onSearchChange")
+                        .Width(200));
+            });
+        })
+        .Editing(editing =>
+        {
+            editing.Mode(GridEditMode.Row);
+            editing.AllowAdding(true);
+            editing.AllowDeleting(true);
+            editing.AllowUpdating(true);
+        })
+        .OnContentReady("onGridContentReady")
+
+)
+<script>
+    function createSms() {
+        window.location.href = "/Sms/CreateSms";
+    }
+
+    function refreshData() {
+        $("#SmsContainer").dxDataGrid("getDataSource").reload();
+    }
+
+    function onSearchChange(e) {
+        const searchValue = e.value;
+        const dataGrid = $('#SmsContainer').dxDataGrid('instance');
+        dataGrid.option("searchPanel.text", searchValue);
+        dataGrid.refresh();
+    }
+    //EDIT UI ICONS
+    function onGridContentReady(e) {
+        const dataGrid = e.component;
+
+        dataGrid.getVisibleRows().forEach((row, index) => {
+            const status = row.data.StatusDescription?.toLowerCase();
+            const isDraft = ["черновик", "draft", "proiect"].includes(status);
+
+            const rowElement = dataGrid.getRowElement(index);
+            const buttonCell = $(rowElement).find(".dx-command-edit");
+            const editButton = buttonCell.find("a.dx-link").first();
+
+
+            editButton.removeClass(function (i, className) {
+                return (className.match(/dx-icon-\S+/g) || []).join(" ");
+            });
+
+            editButton.addClass(isDraft ? "dx-icon-edit" : "dx-icon-doc");
+            editButton.attr("title", isDraft ? "Редактировать" : "Просмотр");
+
+        });
+    }
+    //INITIALIZE EDIT ICONS
+        $(function () {
+        const grid = $("#SmsContainer").dxDataGrid("instance");
+        onGridContentReady({ component: grid });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function onSmsClick(e) {
+        if (e.row && e.row.data) {
+            const id = e.row.data.Id;
+            const status = e.row.data.StatusDescription;
+    const isEdit = status === "Черновик" || status === "Draft" || status === "Proiect";
+                window.location.href = `/Sms/CreateSms`;
+        } else {
+            console.error("Data not found in row!");
+        }
+    }
+
+
+
+
+</script>
