@@ -35,11 +35,11 @@ namespace MessagingProject.Controllers.Email
         {
             return View();
         }
+
         [HttpGet]
         [Route("Email/SendEmail")]
         public async Task<IActionResult> SendEmail(int? id)
         {
-            var token = _userService.GetToken();
 
             try
             {

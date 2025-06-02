@@ -118,23 +118,14 @@
     });
 
 
-
-
-
-
-
-
-
-
-
-
+    
 
     function onSmsClick(e) {
         if (e.row && e.row.data) {
             const id = e.row.data.Id;
             const status = e.row.data.StatusDescription;
     const isEdit = status === "Черновик" || status === "Draft" || status === "Proiect";
-                window.location.href = `/Sms/CreateSms`;
+                window.location.href = `/SMS/CreateSms?ListId=${id}&IsEdit=${isEdit}`;
         } else {
             console.error("Data not found in row!");
         }
