@@ -56,7 +56,6 @@
 
 
 //Characters
-let max = 160;
 let smsCounter = 1;
 
 function countCharacters(text) {
