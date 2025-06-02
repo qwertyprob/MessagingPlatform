@@ -31,9 +31,33 @@
 
                     <!-- Message -->
                     <div class="mb-3">
-                        <label class="form-label">Message</label>
+                        <label for="smsMessage" class="form-label">Message</label>
                         <textarea class="form-control" id="smsMessage" rows="4" style="resize: none; height: 10em; overflow-y: auto;"></textarea>
                     </div>
+
+                    <!-- Counters -->
+                    <div class="row mb-3 text-nowrap">
+                        <!-- Symbols -->
+                        <div class="col-12 col-md-4 d-flex justify-content-between align-items-center">
+                            <span class="label-text">Допустимо символов:</span>
+                            <span id="sms-max" class="sms-counter ms-2">160</span>
+                        </div>
+
+                        <!-- Counter -->
+                        <div class="col-12 col-md-4 d-flex justify-content-between align-items-center">
+                            <span class="label-text">Использовано символов:</span>
+                            <span id="sms-symbols-counter" class="sms-counter">0/160</span>
+                        </div>
+
+                        <!-- SMS -->
+                        <div class="col-12 col-md-4 d-flex justify-content-between align-items-center">
+                            <span class="label-text">Количество СМС:</span>
+                            <span id="sms-count" class="sms-counter">0</span>
+                        </div>
+                    </div>
+
+
+
 
                     <!-- Alias Name Dropdown -->
                     <div class="mb-3">
@@ -50,12 +74,11 @@
                             <select id="multi-select" multiple="multiple" style="width: 100%;"></select>
                         </div>
                         <span class="text-danger error-message" id="error-multi-select"></span>
+
                     </div>
 
-                    <!-- Note -->
-                    <p class="text-danger mb-3" id="enableReplies" style="display:none;">
-                        *@MessagingProject.Resources.Resource.receive
-                    </p>
+
+
 
                     <!-- SMS Schedule -->
                     <div class="mb-3 d-flex align-items-center flex-wrap gap-3">
@@ -98,6 +121,9 @@
 </div>
 
 @section Scripts {
+        
+
+   
     <script src="~/js/campaign-sms-ui.js"></script>
     <script src="~/js/campaign-sms-get.js"></script>
 }

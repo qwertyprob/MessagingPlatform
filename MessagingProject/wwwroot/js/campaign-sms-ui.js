@@ -32,7 +32,7 @@
         $('#scheduleToggle').on('change', toggleScheduledSms);
 
         // Chat preview
-        $('#inputText').on('input', function () {
+        $('#smsMessage').on('input', function () {
             var userInput = $(this).val();
             $('#div1').text(userInput);
 
@@ -54,3 +54,63 @@
         }
 }
 
+
+//Characters
+let max = 160;
+let smsCounter = 1;
+
+function countCharacters(text) {
+    return text.length;
+}
+function isGsm7Bit(text) {
+    const gsm7bitChars =
+        '@£$¥èéùìòÇ\nØø\rÅåΔ_ΦΓΛΩΠΨΣΘΞ\x1BÆæßÉ ' +
+        '!\"#¤%&\'()*+,-./0123456789:;<=>?¡' +
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜ§¿' +
+        'abcdefghijklmnopqrstuvwxyzäöñüà';
+
+    for (let i = 0; i < text.length; i++) {
+        if (!gsm7bitChars.includes(text[i])) {
+            return false; 
+        }
+    }
+    return true; 
+}
+
+
+function updateCharCount() {
+    const text = $('#smsMessage').val();
+    const length = countCharacters(text);
+    let maxSingle, maxPerSegment;
+
+    if (!isGsm7Bit(text)) {
+        maxSingle = 67;
+        maxPerSegment = 67;
+    } else {
+        maxSingle = 160;
+        maxPerSegment = 153;
+    }
+
+    let max = length > maxSingle ? maxPerSegment : maxSingle;
+
+    $('#sms-max').text(max);
+    $('#sms-symbols-counter').text(length + '/' + max);
+
+    let smsCount = 1;
+    if (length > maxSingle) {
+        smsCount = Math.ceil(length / maxPerSegment);
+        $('#sms-count').addClass('over-limit');
+    }
+    else {
+        $('#sms-count').removeClass('over-limit');
+
+    }
+
+    $('#sms-count').text(smsCount);
+}
+
+$('#smsMessage').on('input', updateCharCount);
+
+$(document).ready(function () {
+    updateCharCount();
+});
