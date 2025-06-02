@@ -99,10 +99,14 @@ function updateCharCount() {
     if (length > maxSingle) {
         smsCount = Math.ceil(length / maxPerSegment);
         $('#sms-count').addClass('over-limit');
+
+        $('#smsCountSpan').text(`Превышен лимит одного сообщения — будет отправлено ${smsCount} SMS`);
+        $('#smsCountSpan').show();
+
     }
     else {
         $('#sms-count').removeClass('over-limit');
-
+        $('#smsCountSpan').hide();
     }
 
     $('#sms-count').text(smsCount);
