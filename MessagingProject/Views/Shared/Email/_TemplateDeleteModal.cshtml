@@ -23,7 +23,7 @@
             <button class="btn btn-primary d-flex me-2 align-items-center" onclick="closeDeleteTemplateModal()">
                 <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">@MessagingProject.Resources.Resource.Close
             </button>
-            <button class="btn btn-danger d-flex me-2 align-items-center" onclick="deleteTemplate()">
+                <button class="btn btn-danger d-flex me-2 align-items-center" onclick="logicDeleteCampaign()">
                 <img src="~/img/icons/trash.svg" alt="trash Icon" width="22" class="me-1">@MessagingProject.Resources.Resource.Delete
             </button>
         </div>
@@ -32,6 +32,7 @@
 </div>
 
 <input type="hidden" id="hiddenTemplateId"/>
+<script src="~/js/updatecontact-validation.js"></script>
 
 <script>
     function openDeleteTemplateModal(id,name,subject,img){
@@ -54,9 +55,9 @@
         let nameValue = document.getElementById("nameField").innerText.trim();
 
         if (nameValue === "") {
-            document.getElementById("error-message").innerText = "Имя шаблона не указано.";
-            document.getElementById("error-message").style.display = "block";
-            return false;
+        $('#error-message').text(decodeHtmlEntities("@MessagingProject.Resources.Resource.ValidationName")).show();
+
+            return;
         }
 
         document.getElementById("error-message").style.display = "none";
@@ -78,5 +79,26 @@
 
         return true;
     }
+        function logicDeleteCampaign() {
+        const inputName = $('#templateName').val().trim();
+        const actualName = $('#nameField').text().trim();
+
+        if (inputName === "") {
+            $('#error-message')
+                .text(decodeHtmlEntities("@MessagingProject.Resources.Resource.ValidationName"))
+                .show();
+            return;
+        }
+
+        if (inputName === actualName) {
+            deleteTemplate();
+            closeDeleteTemplateModal();
+        } else {
+            $('#error-message')
+                .text(decodeHtmlEntities("@MessagingProject.Resources.Resource.ValidationNamValid"))
+                .show();
+        }
+    }
+
 
 </script>

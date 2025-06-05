@@ -4,6 +4,9 @@
     <div class="modal-content" style="background:#fff; padding:20px; width:90%; max-width:50em; margin:15% auto; border-radius:8px; position:relative;">
         <span onclick="closeModal()" style="cursor:pointer; position:absolute; top:0px; right:10px; font-size:35px;">&times;</span>
         <input type="text" id="listName" class="form-control" placeholder="@MessagingProject.Resources.Resource.Name" style="margin-top:3em; margin-bottom:1em;" />
+        <span id="error-listName" class="text-danger" style=" margin-bottom:1em; display:none;">
+            @MessagingProject.Resources.Resource.ValidationName
+        </span>
         <input type="file" id="fileUpload" class="form-control" accept=".xlsx" />
         <div class="d-flex justify-content-end py-4 ms-2">
             <button class="btn btn-primary d-flex me-2 align-items-center" onclick="closeModal()">
@@ -36,10 +39,10 @@
   
     function createContactList() {
         getToken().then(function(token) {
+             if (!validateListName()) return; //validation insert
             console.log("Токен внутри createContactList:", token);
 
             if (!token) {
-                alert("Токен не получен");
                 return;
             }
 
@@ -94,4 +97,17 @@
             closeModal();
         }
     };
+
+    //Validation
+            function validateListName() {
+        const name = $('#listName').val().trim();
+        if (!name) {
+            $('#error-listName').show();
+            return false;
+        } else {
+            $('#error-listName').hide();
+            return true;
+        }
+    }
+
 </script>

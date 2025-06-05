@@ -41,6 +41,7 @@
 
     </div>
 </div>
+<script src="~/js/updatecontact-validation.js"></script>
 
 <script>
     let campaignId = 0;
@@ -85,13 +86,26 @@
         });
     }
 
-    function logicDeleteSmsCampaign(){
-        if($('#myCampaignName').val().trim() === $('.name-campaign').text()) {
+        function logicDeleteSmsCampaign() {
+        const inputName = $("#myCampaignName").val().trim();
+        const expectedName = $('.name-campaign').text().trim();
+
+        if (!inputName) {
+            $('#error-message')
+                .text(decodeHtmlEntities("@MessagingProject.Resources.Resource.ValidationName"))
+                .show();
+            return;
+        }
+
+        if (inputName === expectedName) {
             deleteSmsCampaign(campaignId);
             closeDeleteSmsCampaignModal();
         } else {
-            console.log("Campaign names do not match!");
+            $('#error-message')
+                .text(decodeHtmlEntities("@MessagingProject.Resources.Resource.ValidationNamValid"))
+                .show();
         }
     }
+
 
 </script>

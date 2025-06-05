@@ -35,6 +35,7 @@
 
     </div>
 </div>
+<script src="~/js/updatecontact-validation.js"></script>
 
 
 
@@ -51,7 +52,6 @@
             },
             error: function (xhr, status, error) {
                 console.error("Error deleting campaign:", error);
-                alert("Ошибка при удалении кампании");
             }
         });
     }
@@ -106,11 +106,18 @@
     }
 
         function logicDeleteCampaign(){
+        if($('#myCampaignName').val().trim()==""){
+        $('#error-message').text(decodeHtmlEntities("@MessagingProject.Resources.Resource.ValidationName")).show();
+        return;
+
+        }
+
         if($('#myCampaignName').val().trim() === $('.name-campaign').text()) {
             deleteCampaign(campaignId);
             closeDeleteCampaignModal();
         } else {
-            console.log("Campaign names do not match!");
+            $('#error-message').text(decodeHtmlEntities("@MessagingProject.Resources.Resource.ValidationNamValid")).show();
+
         }
     }
 

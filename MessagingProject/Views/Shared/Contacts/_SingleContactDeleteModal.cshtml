@@ -32,6 +32,7 @@
 @* Hidden id's *@
 <input type="hidden" id="hiddenModelId" value="@Model.Id" />
 <input type="hidden" id="contactId" value="" />
+<script src="~/js/updatecontact-validation.js"></script>
 
 <script>
           function openDeleteSingleModal(e) {
@@ -70,9 +71,12 @@
 
         console.log("Entered Name:", enteredName);
         console.log("Expected Name:", expectedName);
-
+        if(enteredName === "") {
+            $('#error-message').text(decodeHtmlEntities("@MessagingProject.Resources.Resource.ValidationName")).show();
+            return;
+        }
         if (enteredName.toLowerCase() !== expectedName.toLowerCase()) {
-            $('#error-message').text("Неверное имя! Убедитесь, что вы ввели правильное название.").show();
+        $('#error-message').text(decodeHtmlEntities("@MessagingProject.Resources.Resource.ValidationNamValid")).show();
             return;
         }
 

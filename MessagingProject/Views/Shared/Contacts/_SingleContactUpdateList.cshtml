@@ -9,28 +9,36 @@
         <input type="hidden" id="hiddenData" value="@Model.ContactsData" />
 
         <label style="margin-top:3em;">@MessagingProject.Resources.Resource.Name</label>
-        <input type="text" id="name-update" class="form-control" style="margin-bottom:1em;" />
-
+        <input type="text" id="name-update" class="form-control" />
+        <span id="error-name-update" class="text-danger" style="margin-bottom:1em;"></span>
         <label>@MessagingProject.Resources.Resource.Email</label>
-        <input type="text" id="email-update" class="form-control" style="margin-bottom:1em;" />
-
+        <input type="text" id="email-update" class="form-control"/>
+        <span id="error-email-update" class="text-danger" style="margin-bottom:1em;"></span>
         <label>@MessagingProject.Resources.Resource.Phone</label>
-        <input type="text" id="phone-update" class="form-control" style="margin-bottom:1em;" />
-
+        <input type="text" id="phone-update" class="form-control" />
+        <span id="error-phone-update" class="text-danger" style="margin-bottom:1em;"></span>
         <div class="d-flex justify-content-end py-4 ms-2">
             <button class="btn btn-primary d-flex me-2 align-items-center " onclick="closeSingleUpdateModal()">
                 <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">@MessagingProject.Resources.Resource.Close
             </button>
-            <button class="btn btn-success d-flex align-items-center" onclick="updateSingleContact()">
+            <button class="btn btn-success d-flex align-items-center" onclick="if(validateUpdateContactForm()) updateSingleContact();">
                 <img src="~/img/icons/save.svg" alt="save Icon" width="22" class="me-2">@MessagingProject.Resources.Resource.Update
             </button>
         </div>
     </div>
 </div>
 
-    
+<script src="~/js/updatecontact-validation.js"></script>
+
     
 <script>
+    //Validation message
+    const validationEmail = '@MessagingProject.Resources.Resource.ValidationEmailIs';
+    const validationEmailValid = '@MessagingProject.Resources.Resource.ValidationEmailValid';
+    const validationName = '@MessagingProject.Resources.Resource.ValidationName';
+    const validationPhone = '@MessagingProject.Resources.Resource.ValidationPhone';
+    const validationPhoneValid = '@MessagingProject.Resources.Resource.ValidationPhoneValid';
+
     function openSingleUpdateModal(e) {
 
         const contactId = e.row.data.Id;
@@ -43,9 +51,9 @@
             success: function(response) {
                 if (response) {
                     $('#hiddenContactId').val(response.Id);
-                    $('#name-update').val(response.Name || 'No name');
-                    $('#email-update').val(response.Email || 'No email');
-                    $('#phone-update').val(response.Phone || 'No phone');
+                    $('#name-update').val(response.Name );
+                    $('#email-update').val(response.Email);
+                    $('#phone-update').val(response.Phone);
                 } else {
                     console.error('Контакт не найден');
                 }

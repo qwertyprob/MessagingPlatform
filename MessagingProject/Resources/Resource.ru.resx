@@ -315,4 +315,22 @@
   <data name="ValidationScheduledDate" xml:space="preserve">
     <value>Пожалуйста, выберите запланированную дату и время.</value>
   </data>
+  <data name="PleaseEnter" xml:space="preserve">
+    <value>Пожалуйства введите</value>
+  </data>
+  <data name="ValidationName" xml:space="preserve">
+    <value>Пожалуйста, введите имя.</value>
+  </data>
+  <data name="ValidationEmailIs" xml:space="preserve">
+    <value>Пожалуйста, введите электронную почту.</value>
+  </data>
+  <data name="ValidationPhone" xml:space="preserve">
+    <value>Пожалуйста, введите телефон.</value>
+  </data>
+  <data name="ValidationPhoneValid" xml:space="preserve">
+    <value>Пожалуйста, введите корректный Молдавский номер.</value>
+  </data>
+  <data name="ValidationNamValid" xml:space="preserve">
+    <value>Пожалуста, введите назначенное имя.</value>
+  </data>
 </root>

@@ -2,52 +2,47 @@
 @{
     ViewData["Title"] = "Email";
     Layout = "_Layout";
-
 }
-
 
 <div class="container py-4">
     <div class="row justify-content-center">
-        <div class="col-10 bg-white p-4" >
+        <div class="col-10 bg-white p-4">
             <form>
-                <input type="hidden" id="hiddenId" value="@Model.Id"/>
+                <input type="hidden" id="hiddenId" value="@Model.Id" />
                 <div class="row align-items-center mb-3">
                     <div class="col-md-6">
                         <label for="template" class="form-label">@MessagingProject.Resources.Resource.Template</label>
                         <input type="text" id="template" class="form-control" value="@Model.Name">
+                        <span class="text-danger" id="error-templateName"></span>
                     </div>
                     <div class="col-md-6">
                         <label for="subject" class="form-label">@MessagingProject.Resources.Resource.Subject</label>
                         <input type="text" id="subject" class="form-control" value="@Model.Subject">
+                        <span class="text-danger" id="error-templateSubject"></span>
                     </div>
                 </div>
-            
-            <div id="editor-container" style="height:45em; flex-grow: 1; overflow: auto;"></div>
+
+                <div id="editor-container" style="height:45em; flex-grow: 1; overflow: auto;"></div>
             </form>
+
             <div class="d-flex justify-content-end py-4 ms-2">
                 <button class="btn btn-primary d-flex me-2 align-items-center" id="close">
-                    <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">@MessagingProject.Resources.Resource.Close
+                    <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">
+                    @MessagingProject.Resources.Resource.Close
                 </button>
                 <button class="btn btn-success d-flex align-items-center" onclick="updateTemplate()">
-                    <img src="~/img/icons/save.svg" alt="save Icon" width="22" class="me-2">@MessagingProject.Resources.Resource.Save
+                    <img src="~/img/icons/save.svg" alt="save Icon" width="22" class="me-2">
+                    @MessagingProject.Resources.Resource.Save
                 </button>
             </div>
-
         </div>
-
-            
-            
-            
-        
-       
-
     </div>
-   
 </div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 
 <script>
-       async function getToken() {
+    async function getToken() {
         try {
             const response = await $.ajax({
                 url: '/getuserByClaims',
@@ -70,7 +65,6 @@
         const base64String = '@Html.Raw(Model.BodyJson ?? "")';
         if (base64String) {
             try {
-                // Используем декодер для Unicode
                 const decoded = base64DecodeUnicode(base64String);
                 const design = JSON.parse(decoded);
                 unlayer.loadDesign(design);
@@ -87,24 +81,33 @@
     });
 
     async function updateTemplate() {
+        const name = $('#template').val().trim();
+        const subject = $('#subject').val().trim();
+        let isValid = true;
+
+        if (name === "") {
+            $('#error-templateName').text(decodeHtmlEntities("@MessagingProject.Resources.Resource.ValidationName"));
+            isValid = false;
+        } else {
+            $('#error-templateName').text('');
+        }
+
+        if (subject === "") {
+            $('#error-templateSubject').text(decodeHtmlEntities("@MessagingProject.Resources.Resource.ValidationSubject"));
+            isValid = false;
+        } else {
+            $('#error-templateSubject').text('');
+        }
+
+        if (!isValid) return;
+
         try {
             unlayer.exportHtml(async function (data) {
                 const jsonString = JSON.stringify(data.design);
-                // Используем корректное кодирование с Unicode поддержкой
                 const bodyJson = base64EncodeUnicode(jsonString);
                 const body = base64EncodeUnicode(data.html);
-
                 const image = '@Html.Raw(Model.ImageTemplate)';
-                console.log("Base64-encoded design:", bodyJson);
-                console.log("Base64-encoded HTML:", body);
-
                 const token = await getToken();
-
-                if (token) {
-                    console.log("Token:", token);
-                } else {
-                    console.error("Не удалось получить токен.");
-                }
 
                 $.ajax({
                     url: '/Template/UpdateTemplateForm',
@@ -112,21 +115,19 @@
                     contentType: 'application/json',
                     data: JSON.stringify({
                         id: $('#hiddenId').val(),
-                        name: $('#template').val(),
-                        subject: $('#subject').val(),
+                        name: name,
+                        subject: subject,
                         state: 0,
                         imageTemplate: image,
                         bodyJson: bodyJson,
                         body: body,
                         token: token
                     }),
-                    success: function(response) {
+                    success: function (response) {
                         if (response.errorCode === 0) {
                             alert('Шаблон успешно сохранен!');
-                            window.location.href = '/Email/TemplateList';
-                        } else {
-                            window.location.href = '/Email/TemplateList';
                         }
+                        window.location.href = '/Email/TemplateList';
                     }
                 });
             });
@@ -166,6 +167,9 @@
         ).join(''));
     }
 
-       
-
+    function decodeHtmlEntities(text) {
+        const textarea = document.createElement("textarea");
+        textarea.innerHTML = text;
+        return textarea.value;
+    }
 </script>

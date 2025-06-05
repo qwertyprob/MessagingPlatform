@@ -315,4 +315,22 @@
   <data name="ValidationScheduledDate" xml:space="preserve">
     <value>Please select a scheduled date and time.</value>
   </data>
+  <data name="PleaseEnter" xml:space="preserve">
+    <value>Please enter</value>
+  </data>
+  <data name="ValidationName" xml:space="preserve">
+    <value>Please enter the required name.</value>
+  </data>
+  <data name="ValidationEmailIs" xml:space="preserve">
+    <value>Please enter a email adress.</value>
+  </data>
+  <data name="ValidationPhone" xml:space="preserve">
+    <value>Please eneter a phone number.</value>
+  </data>
+  <data name="ValidationPhoneValid" xml:space="preserve">
+    <value>Please enter a valid phone number.</value>
+  </data>
+  <data name="ValidationNamValid" xml:space="preserve">
+    <value>Please enter a valid name.</value>
+  </data>
 </root>

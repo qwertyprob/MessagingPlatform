@@ -3,6 +3,10 @@
         <span onclick="closeEditModal()" style="cursor:pointer; position:absolute; top:0px; right:10px; font-size:35px;">&times;</span>
         <label style="margin-top:3em; margin-bottom:1em;">@MessagingProject.Resources.Resource.Name</label>
         <input type="text" id="listName" class="form-control" placeholder="" value="@Model.Name" />
+        <span id="error-listName" class="text-danger" style=" margin-bottom:1em; display:none;">
+            @MessagingProject.Resources.Resource.ValidationName
+        </span>
+
         <input type="hidden" id="Id" name="Id" value="@Model.Id" />
         <input type="hidden" id="hiddenName" value="@Model.Name" />
         <input type="hidden" id="hiddenEmail" value="@Model.Email" />
@@ -44,6 +48,8 @@
 
     function updateContactName() {
         getToken().then(function(token) {
+
+             if (!validateListName()) return; //validation insert
             console.log("Токен внутри updateContactName:", token);
 
             if (!token) {
@@ -122,4 +128,16 @@
             closeEditModal();
         }
     };
+
+     //Validation
+            function validateListName() {
+        const name = $('#listName').val().trim();
+        if (!name) {
+            $('#error-listName').show();
+            return false;
+        } else {
+            $('#error-listName').hide();
+            return true;
+        }
+    }
 </script>

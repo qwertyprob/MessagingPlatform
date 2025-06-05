@@ -315,4 +315,22 @@
   <data name="ValidationScheduledDate" xml:space="preserve">
     <value>Vă rugăm să selectați data și ora programate.</value>
   </data>
+  <data name="PleaseEnter" xml:space="preserve">
+    <value>Vă rugăm să introduceți</value>
+  </data>
+  <data name="ValidationName" xml:space="preserve">
+    <value>Vă rugăm să introduceți numele necesar</value>
+  </data>
+  <data name="ValidationEmailIs" xml:space="preserve">
+    <value>Vă rugăm să introduceți adresa dvs. de e-mail.</value>
+  </data>
+  <data name="ValidationPhone" xml:space="preserve">
+    <value>Introduceți numărul de telefon</value>
+  </data>
+  <data name="ValidationPhoneValid" xml:space="preserve">
+    <value>Vă rugăm să introduceți un număr de telefon valid.</value>
+  </data>
+  <data name="ValidationNamValid" xml:space="preserve">
+    <value>Vă rugăm să introduceți numele scris.</value>
+  </data>
 </root>

@@ -376,6 +376,15 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter.
+        /// </summary>
+        public static string PleaseEnter {
+            get {
+                return ResourceManager.GetString("PleaseEnter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Read This Month.
         /// </summary>
         public static string ReadThisMonth {
@@ -592,11 +601,56 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a email adress..
+        /// </summary>
+        public static string ValidationEmailIs {
+            get {
+                return ResourceManager.GetString("ValidationEmailIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter a valid email address..
         /// </summary>
         public static string ValidationEmailValid {
             get {
                 return ResourceManager.GetString("ValidationEmailValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the required name..
+        /// </summary>
+        public static string ValidationName {
+            get {
+                return ResourceManager.GetString("ValidationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid name..
+        /// </summary>
+        public static string ValidationNamValid {
+            get {
+                return ResourceManager.GetString("ValidationNamValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please eneter a phone number..
+        /// </summary>
+        public static string ValidationPhone {
+            get {
+                return ResourceManager.GetString("ValidationPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid phone number..
+        /// </summary>
+        public static string ValidationPhoneValid {
+            get {
+                return ResourceManager.GetString("ValidationPhoneValid", resourceCulture);
             }
         }
         
