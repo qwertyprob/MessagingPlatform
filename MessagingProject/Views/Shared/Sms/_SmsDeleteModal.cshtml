@@ -1,0 +1,97 @@
+﻿<div id="deleteSmsCampaignModal" class="modal"
+     style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 45%;">
+        <div class="modal-content" style="background:#fff; padding:20px; padding-top:30px; width:90%; max-width:50em; margin:15% auto; border-radius:8px; position:relative; ">
+            <span onclick="closeDeleteSmsCampaignModal()" style="cursor:pointer; position:absolute; top:0px; right:10px; font-size:35px;">&times;</span>
+            <h5 class="py-1">@MessagingProject.Resources.Resource.Elem1 <span class="name-campaign" style="color:gray; font-style:italic; font-weight:bold;"></span> @MessagingProject.Resources.Resource.Elem2</h5>
+            <input type="text" id="myCampaignName" class="form-control" style="margin-top:2em;" />
+            <span id="error-message" class="text-danger" style="display: none; margin-bottom:1em;"></span>
+            <div class="row">
+                <div class="col-12 my-1">
+                    <label>Description</label>
+                    <input type="text" id="descriptionField" class="form-control mb-3" disabled />
+                </div>
+                <div class="col-12">
+                    <label>Message</label>
+                    <textarea type="text" id="messageField" class="form-control mb-3" style="resize: none; height: 4em; overflow-y: auto;" disabled></textarea>
+                </div>
+                <div class="col-12">
+                    <label>Contact List</label>
+                    <input type="text" id="contactListField" class="form-control mb-3" disabled />
+                </div>
+                <div class="col-12">
+                    <label>Create Date</label>
+                    <input type="text" id="createDateField" class="form-control mb-3" disabled />
+                </div>
+                <div class="col-12">
+                    <label>Scheduled Date</label>
+                    <input type="text" id="scheduledDateField" class="form-control mb-3" disabled />
+                </div>
+
+            </div>
+            <div class="d-flex justify-content-end py-4 ms-2">
+                <button class="btn btn-primary d-flex me-2 align-items-center" onclick="closeDeleteSmsCampaignModal()">
+                    <img src="~/img/icons/close.svg" alt="close Icon" width="17" class="me-1">@MessagingProject.Resources.Resource.Close
+                </button>
+                <button class="btn btn-danger d-flex me-2 align-items-center" onclick="logicDeleteSmsCampaign()">
+                    <img src="~/img/icons/trash.svg" alt="trash Icon" width="22" class="me-1">@MessagingProject.Resources.Resource.Delete
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    let campaignId = 0;
+    function closeDeleteSmsCampaignModal() {
+        $('#deleteSmsCampaignModal').hide();
+    }
+
+    function onDeleteRowClick(e) {
+        $('#deleteSmsCampaignModal').show();
+        campaignId = e.row.data.Id;
+        getCampaign(campaignId,function(campaignData){
+             $('.name-campaign').text(campaignData.Name);
+             $('#descriptionField').val(campaignData.Description);
+             $('#messageField').val(campaignData.Message);
+             $('#contactListField').val(campaignData.PhoneList);
+             $('#createDateField').val(campaignData.FormattedCreateParsedDate);
+             $('#scheduledDateField').val(campaignData.FormattedScheduledParsedDate);
+        });
+
+
+    }
+
+    function getCampaign(campaignId, callback) {
+        $.ajax({
+            url: '/Sms/GetSmsCampaign/' + campaignId,
+            type: 'GET',
+            success: function(response) {
+                console.log('Campaign data retrieved successfully:', response);
+                callback(response);
+            }
+        });
+    }
+
+    function deleteSmsCampaign(campgaignId){
+        $.ajax({
+            url: '/Sms/DeleteSmsCampaignById/' + campaignId,
+            type: 'DELETE',
+            success: function(response) {
+                location.reload();
+
+            }
+        });
+    }
+
+    function logicDeleteSmsCampaign(){
+        if($('#myCampaignName').val().trim() === $('.name-campaign').text()) {
+            deleteSmsCampaign(campaignId);
+            closeDeleteSmsCampaignModal();
+        } else {
+            console.log("Campaign names do not match!");
+        }
+    }
+
+</script>

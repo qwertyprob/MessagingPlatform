@@ -19,7 +19,6 @@ namespace MessagingProject.Controllers.SMS
             _userService = userService;
             _smsService = smsService;
         }
-
         [Route("CreateSms")]
         public IActionResult CreateSms()
         {
@@ -31,14 +30,123 @@ namespace MessagingProject.Controllers.SMS
 
             return View();
         }
+        //GET
         [HttpGet]
-        [Route("SmsCampaigns")]
-        public async Task<IActionResult> SmsCampaigns()
+        [Route("GetSmsCampaigns")]
+        public async Task<IActionResult> GetSmsCampaigns()
         {
             var token = _userService.GetToken();
-            var responseInfo = await _smsService.GetSmsGampaign(token);
 
-            return Ok(responseInfo.CampaignList);
+            try
+            {
+                var responseInfo = await _smsService.GetSmsGampaign(token);
+
+                if (responseInfo.ErrorCode == 0)
+                {
+
+                    return Ok(responseInfo.CampaignList);
+                }
+
+                return BadRequest(responseInfo.ErrorMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine($"Unauthorized: {ex.Message}");
+                return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
+        [HttpGet]
+        [Route("GetSmsCampaign/{id}")]
+        public async Task<IActionResult> GetGampaignById(int id)
+        {
+            var token = _userService.GetToken();
+
+            try
+            {
+                var response = await _smsService.GetSmsGampaignById(token, id);
+
+                if(response is not null)
+                {
+                    return Ok(response);
+                }
+                return BadRequest("Object Not found!");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine($"Unauthorized: {ex.Message}");
+                return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+
+        }
+        [HttpGet]
+        [Route("ESMAlias")]
+        public async Task<IActionResult> GetESMAlias()
+        {
+            var token = _userService.GetToken();
+
+            try
+            {
+                var responseInfo = await _smsService.GetESMSettings(token);
+
+                if (responseInfo.ErrorCode == 0)
+                {
+
+                    return Ok(responseInfo.EsmAliasList);
+                }
+
+                return BadRequest(responseInfo.ErrorMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine($"Unauthorized: {ex.Message}");
+                return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+        }
+
+        //DELETE
+        [HttpDelete]
+        [Route("DeleteSmsCampaignById/{id}")]
+        public async Task<IActionResult> DeleteSmsCampaignById(int id)
+        {
+            var token = _userService.GetToken();
+
+            try
+            {
+                var response = await _smsService.DeleteSmsCampaign(token, id);
+
+                if (response.ErrorCode == 0)
+                {
+                    return Ok(response);
+                }
+
+                return BadRequest(response.ErrorMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine($"Unauthorized: {ex.Message}");
+                return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+        }
+
     }
 }

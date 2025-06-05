@@ -3,7 +3,7 @@
         .ID("SmsContainer")
         .DataSource(ds => ds.Mvc()
             .Controller("SMS")
-            .LoadAction("SmsCampaigns")
+            .LoadAction("GetSmsCampaigns")
         )
         .Columns(columns =>
         {
@@ -24,9 +24,9 @@
 
                 b.Add()
                     .Name("customDelete")
-                    .Icon("trash");
-@*                     .OnClick("onDeleteRowClick"); ;
- *@            });
+                    .Icon("trash")
+                    .OnClick("onDeleteRowClick");
+            });
 
         })
         .SearchPanel(s => s.Visible(true).Width(200))
@@ -131,7 +131,7 @@
         }
     }
 
-
+    
 
 
 </script>
