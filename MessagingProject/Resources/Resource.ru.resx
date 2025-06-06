@@ -333,4 +333,37 @@
   <data name="ValidationNamValid" xml:space="preserve">
     <value>Пожалуста, введите назначенное имя.</value>
   </data>
+  <data name="SmsNewsletter " xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Сообщение</value>
+  </data>
+  <data name="CharactersAllowed" xml:space="preserve">
+    <value>Допустимо символов</value>
+  </data>
+  <data name="CharactersUsed" xml:space="preserve">
+    <value>Использовано символов</value>
+  </data>
+  <data name="SmsNumber" xml:space="preserve">
+    <value>Количество смс</value>
+  </data>
+  <data name="ValidationNewsletterName" xml:space="preserve">
+    <value>Введите название рассылки.</value>
+  </data>
+  <data name="ValidationDescription" xml:space="preserve">
+    <value>Введите описание.</value>
+  </data>
+  <data name="ValidationAlias" xml:space="preserve">
+    <value>Выберите Alias</value>
+  </data>
+  <data name="ValidationScheduled" xml:space="preserve">
+    <value>Выберите дату и время отправки</value>
+  </data>
+  <data name="ValidationMessage" xml:space="preserve">
+    <value>Пожалуйста, введите сообщение.</value>
+  </data>
 </root>

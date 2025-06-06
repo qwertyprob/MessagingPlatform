@@ -325,12 +325,45 @@
     <value>Vă rugăm să introduceți adresa dvs. de e-mail.</value>
   </data>
   <data name="ValidationPhone" xml:space="preserve">
-    <value>Introduceți numărul de telefon</value>
+    <value>Introduceți numărul de telefon.</value>
   </data>
   <data name="ValidationPhoneValid" xml:space="preserve">
     <value>Vă rugăm să introduceți un număr de telefon valid.</value>
   </data>
   <data name="ValidationNamValid" xml:space="preserve">
     <value>Vă rugăm să introduceți numele scris.</value>
+  </data>
+  <data name="SmsNewsletter " xml:space="preserve">
+    <value>Nume</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Вescriere</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Mesaj</value>
+  </data>
+  <data name="CharactersAllowed" xml:space="preserve">
+    <value>Caractere permise</value>
+  </data>
+  <data name="CharactersUsed" xml:space="preserve">
+    <value>Caractere utilizate</value>
+  </data>
+  <data name="SmsNumber" xml:space="preserve">
+    <value>Număr de SMS-uri</value>
+  </data>
+  <data name="ValidationNewsletterName" xml:space="preserve">
+    <value>Introduceți numele buletinului informativ.</value>
+  </data>
+  <data name="ValidationDescription" xml:space="preserve">
+    <value>Introduceți descrierea.</value>
+  </data>
+  <data name="ValidationAlias" xml:space="preserve">
+    <value>Selectați un alias</value>
+  </data>
+  <data name="ValidationScheduled" xml:space="preserve">
+    <value>Selectați data și ora trimiterii</value>
+  </data>
+  <data name="ValidationMessage" xml:space="preserve">
+    <value>Vă rugăm să introduceți un mesaj.</value>
   </data>
 </root>

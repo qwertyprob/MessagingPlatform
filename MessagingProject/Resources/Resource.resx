@@ -333,4 +333,37 @@
   <data name="ValidationNamValid" xml:space="preserve">
     <value>Please enter a valid name.</value>
   </data>
+  <data name="SmsNewsletter " xml:space="preserve">
+    <value>SmsNewsletter name</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="CharactersAllowed" xml:space="preserve">
+    <value>Characters allowed</value>
+  </data>
+  <data name="CharactersUsed" xml:space="preserve">
+    <value>Characters used</value>
+  </data>
+  <data name="SmsNumber" xml:space="preserve">
+    <value>Number of SMS</value>
+  </data>
+  <data name="ValidationNewsletterName" xml:space="preserve">
+    <value>Enter the newsletter name.</value>
+  </data>
+  <data name="ValidationDescription" xml:space="preserve">
+    <value>Enter the description.</value>
+  </data>
+  <data name="ValidationAlias" xml:space="preserve">
+    <value>Select an alias</value>
+  </data>
+  <data name="ValidationScheduled" xml:space="preserve">
+    <value>Select the date and time of sending</value>
+  </data>
+  <data name="ValidationMessage" xml:space="preserve">
+    <value>Please enter a message.</value>
+  </data>
 </root>

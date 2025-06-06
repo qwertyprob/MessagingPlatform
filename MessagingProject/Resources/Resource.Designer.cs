@@ -79,6 +79,24 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Characters allowed.
+        /// </summary>
+        public static string CharactersAllowed {
+            get {
+                return ResourceManager.GetString("CharactersAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Characters used.
+        /// </summary>
+        public static string CharactersUsed {
+            get {
+                return ResourceManager.GetString("CharactersUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string Close {
@@ -156,6 +174,15 @@ namespace MessagingProject.Resources {
         public static string Delete {
             get {
                 return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
             }
         }
         
@@ -318,6 +345,15 @@ namespace MessagingProject.Resources {
         public static string Login {
             get {
                 return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message.
+        /// </summary>
+        public static string Message {
+            get {
+                return ResourceManager.GetString("Message", resourceCulture);
             }
         }
         
@@ -538,6 +574,24 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SmsNewsletter name.
+        /// </summary>
+        public static string SmsNewsletter_ {
+            get {
+                return ResourceManager.GetString("SmsNewsletter ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of SMS.
+        /// </summary>
+        public static string SmsNumber {
+            get {
+                return ResourceManager.GetString("SmsNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
         public static string Status {
@@ -583,11 +637,29 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select an alias.
+        /// </summary>
+        public static string ValidationAlias {
+            get {
+                return ResourceManager.GetString("ValidationAlias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select at least one contact..
         /// </summary>
         public static string ValidationContacts {
             get {
                 return ResourceManager.GetString("ValidationContacts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter the description..
+        /// </summary>
+        public static string ValidationDescription {
+            get {
+                return ResourceManager.GetString("ValidationDescription", resourceCulture);
             }
         }
         
@@ -619,6 +691,15 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a message..
+        /// </summary>
+        public static string ValidationMessage {
+            get {
+                return ResourceManager.GetString("ValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter the required name..
         /// </summary>
         public static string ValidationName {
@@ -637,6 +718,15 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter the newsletter name..
+        /// </summary>
+        public static string ValidationNewsletterName {
+            get {
+                return ResourceManager.GetString("ValidationNewsletterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please eneter a phone number..
         /// </summary>
         public static string ValidationPhone {
@@ -651,6 +741,15 @@ namespace MessagingProject.Resources {
         public static string ValidationPhoneValid {
             get {
                 return ResourceManager.GetString("ValidationPhoneValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the date and time of sending.
+        /// </summary>
+        public static string ValidationScheduled {
+            get {
+                return ResourceManager.GetString("ValidationScheduled", resourceCulture);
             }
         }
         
