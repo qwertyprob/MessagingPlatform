@@ -14,10 +14,10 @@ namespace MessagingProject.Models.Email
         public string Subject { get; set; }
 
             [JsonProperty("created")]
-        public DateTime Created { get; set; }
+        public DateTimeOffset Created { get; set; }
 
         [JsonProperty("scheduled")]
-        public DateTime Scheduled { get; set; }
+        public DateTimeOffset Scheduled { get; set; }
 
         [JsonProperty("status")]
         public int Status { get; set; }

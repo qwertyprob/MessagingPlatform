@@ -39,32 +39,16 @@
     console.log(JSON.stringify(request));
 
     $.ajax({
-        url: '/Email/SendEmail',
+        url: '/Email/UpsertCampaign',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(request),
         success: function () {
-            console.log('Email sent');
-
-            $.ajax({
-                url: '/Email/UpsertCampaign',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(request),
-                success: function () {
-                    console.log('Campaign saved');
-                    window.location.href = "/Email/MailingList";
-                },
-                error: function (xhr, status, error) {
-                    console.error("Ошибка при сохранении кампании:", error);
-                    alert("Ошибка при сохранении кампании.");
-                }
-            });
-
+            console.log('Campaign saved:');
+            window.location.href = "/Email/MailingList";
         },
         error: function (xhr, status, error) {
-            console.error("Ошибка при отправке сообщения:", error);
-            alert("Ошибка при отправке письма.");
+            console.error("Ошибка при сохранении кампании:", error);
         }
     });
 }

@@ -5,6 +5,7 @@ using MessagingProject.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Text.RegularExpressions;
 using static DevExpress.Data.Helpers.FindSearchRichParser;
 
@@ -274,56 +275,56 @@ namespace MessagingProject.Controllers.Email
             }
         }
 
-        //SEND EMAIL by Token For Check
-        [HttpPost]
-        [Route("Email/SendEmail")]
-        public async Task<IActionResult> SendEmail([FromBody] CampaignRequestModel request)
-        {
-            try
-            {
-                var token = _userService.GetToken();
+        ////SEND EMAIL by Token For Check
+        //[HttpPost]
+        //[Route("Email/SendEmail")]
+        //public async Task<IActionResult> SendEmail([FromBody] CampaignRequestModel request)
+        //{
+        //    try
+        //    {
+        //        var token = _userService.GetToken();
 
-                var contactList = await _contactService.GetEmailsFromContactListAsync(request.Token, request.ContactList);
+        //        var contactList = await _contactService.GetEmailsFromContactListAsync(request.Token, request.ContactList);
 
-                var contactListId = this.ExtractEmails(request.ContactListID);
+        //        var contactListId = this.ExtractEmails(request.ContactListID);
 
-                var finallyMergedContactList = MergeEmailStringsToList(contactList, contactListId);
+        //        var finallyMergedContactList = MergeEmailStringsToList(contactList, contactListId);
 
-                var emailRequest = new EmailRequest
-                {
-                    Mail = new Mail
-                    {
-                        To = finallyMergedContactList,
-                        Cc = [],
-                        ReplyTo = request.ReplyTo,
-                        NoReply = true,
-                        Subject = request.Subject,
-                        Body = System.Text.Json.JsonSerializer.Serialize(_decryptor.DecodeHashedData(request.Body)),
-                        IsHtmlBody = true,
-                        Attachments = [] 
-                    },
-                    SendEmailOnDate = request.Scheduled,
-                    Token = token
-                };
+        //        var emailRequest = new EmailRequest
+        //        {
+        //            Mail = new Mail
+        //            {
+        //                To = finallyMergedContactList,
+        //                Cc = [],
+        //                ReplyTo = request.ReplyTo,
+        //                NoReply = true,
+        //                Subject = request.Subject,
+        //                Body = System.Text.Json.JsonSerializer.Serialize(_decryptor.DecodeHashedData(request.Body)),
+        //                IsHtmlBody = true,
+        //                Attachments = [] 
+        //            },
+        //            SendEmailOnDate = (DateTimeOffset)request.Scheduled,
+        //            Token = token
+        //        };
 
-                //var response = await _emailService.SendEmail(emailRequest);
-                //if (response.ErrorCode == 0)
-                //{
-                    return Ok(emailRequest);
-                //}
-                //return BadRequest(response.ErrorMessage);
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                Console.WriteLine(ex.Message);
-                return Unauthorized(new { message = "Unauthorized" });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
-            }
-        }
+        //        //var response = await _emailService.SendEmail(emailRequest);
+        //        //if (response.ErrorCode == 0)
+        //        //{
+        //            return Ok(emailRequest);
+        //        //}
+        //        //return BadRequest(response.ErrorMessage);
+        //    }
+        //    catch (UnauthorizedAccessException ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //        return Unauthorized(new { message = "Unauthorized" });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //        return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+        //    }
+        //}
 
         string ExtractEmails(string input)
         {
