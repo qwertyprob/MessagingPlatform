@@ -20,7 +20,9 @@ async function saveCampaign() {
     let localCreated = toLocalIsoStringWithOffset(now);
 
     let scheduledDate = $('#scheduledDateTime').dxDateBox('instance').option('value');
-    let localScheduled = toLocalIsoStringWithOffset(new Date(scheduledDate));
+    let localScheduled = scheduledDate ? toLocalIsoStringWithOffset(new Date(scheduledDate)) : localCreated;
+
+    let isSendNow = $('#scheduleToggle').is(':checked');
 
     let request = {
         token: token,
@@ -30,7 +32,7 @@ async function saveCampaign() {
         body: template || campaign.Body || '',
         contactList: selectedIds.join(',') || campaign.ContactList,
         created: localCreated,
-        scheduled: $('#scheduleToggle').is(':checked') ? localScheduled : localCreated,
+        scheduled: isSendNow ? localCreated : localScheduled,
         status: campaign.Status || 0,
         template: parseInt($('#templateName').val()) || campaign.Template,
         contactListID: ($('#multi-select').val() || []).join(','),
@@ -41,8 +43,8 @@ async function saveCampaign() {
         delete request.id;
     }
 
-    console.log("Request being sent:");
-    console.log(JSON.stringify(request));
+    console.log("Schedule toggle is checked:", isSendNow);
+    console.log("Scheduled value sent:", request.scheduled);
 
     $.ajax({
         url: '/Email/UpsertCampaign',
@@ -58,6 +60,7 @@ async function saveCampaign() {
         }
     });
 }
+
 
 
 

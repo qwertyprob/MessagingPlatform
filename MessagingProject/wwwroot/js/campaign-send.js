@@ -1,4 +1,14 @@
-﻿async function sendCampaign() {
+﻿function toLocalIsoStringWithOffset(date) {
+    const pad = (n) => n.toString().padStart(2, '0');
+    const tzOffset = -date.getTimezoneOffset();
+    const sign = tzOffset >= 0 ? '+' : '-';
+    const offsetHours = pad(Math.floor(Math.abs(tzOffset) / 60));
+    const offsetMinutes = pad(Math.abs(tzOffset) % 60);
+
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:00${sign}${offsetHours}:${offsetMinutes}`;
+}
+
+async function sendCampaign() {
     let token = await getToken();
 
     let template = $('#templateBody').val();
@@ -6,9 +16,13 @@
         return $(this).attr('id');
     }).get();
 
-    let scheduledDate = new Date();
-    let isoDate = scheduledDate.toISOString();
+    let now = new Date();
+    let localCreated = toLocalIsoStringWithOffset(now);
 
+    let scheduledDate = $('#scheduledDateTime').dxDateBox('instance').option('value');
+    let localScheduled = scheduledDate ? toLocalIsoStringWithOffset(new Date(scheduledDate)) : localCreated;
+
+    let isSendNow = $('#scheduleToggle').is(':checked');
     let request = {
         token: token,
         id: campaignId || null,
@@ -16,8 +30,8 @@
         subject: $('#templateSubject').val(),
         body: template || campaign.Body || '',
         contactList: campaign.ContactList || selectedIds.join(','),
-        created: isoDate,
-        scheduled: campaign.Scheduled || isoDate,
+        created: localCreated,
+        scheduled: isSendNow ? localCreated : localScheduled,
         status: campaign.Status || 2,
         template: parseInt($('#templateName').val()) || campaign.Template,
         contactListID: ($('#multi-select').val() || []).join(','),
@@ -29,8 +43,7 @@
     }
 
     if (!$('#scheduleToggle').is(':checked')) {
-        let date = $('#scheduledDateTime').dxDateBox('instance').option('value');
-        request.scheduled = date.toISOString();
+        
         request.status = 1;
     }
     
