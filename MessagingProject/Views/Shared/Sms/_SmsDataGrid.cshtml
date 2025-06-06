@@ -10,8 +10,14 @@
             columns.Add().DataField("Id").Visible(false);
             columns.Add().DataField("Name").Caption(MessagingProject.Resources.Resource.Name);
             columns.Add().DataField("Description").Caption(MessagingProject.Resources.Resource.Template);
-            columns.Add().DataField("FormattedCreateParsedDate").Caption(MessagingProject.Resources.Resource.Date);
-            columns.Add().DataField("FormattedScheduledParsedDate").Caption(MessagingProject.Resources.Resource.Schedule);
+            columns.Add().DataField("CreateDate")
+                .Caption(MessagingProject.Resources.Resource.Date)
+                .DataType(GridColumnDataType.Date)
+                .Format("dd-MM-yyyy HH:mm");
+
+            columns.Add().DataField("ScheduledDate").Caption(MessagingProject.Resources.Resource.Schedule)
+                .DataType(GridColumnDataType.Date)
+                .Format("dd-MM-yyyy HH:mm");
             columns.Add().DataField("StatusDescription").Caption(MessagingProject.Resources.Resource.Status);
 
             columns.Add().Type(GridCommandColumnType.Buttons)
@@ -33,7 +39,7 @@
         .GroupPanel(g => g.Visible(true))
         .Sorting(s => s
             .Mode(GridSortingMode.Multiple)
-            .AscendingText("Created")
+            .AscendingText("FormattedCreateParsedDate")
             .DescendingText("Created Descending")
         )
         .Toolbar(toolbar =>

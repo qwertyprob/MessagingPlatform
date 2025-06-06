@@ -44,6 +44,8 @@ async function getCampaignSms(id) {
 
         $('#smsMessage').trigger('input');
         $('#aliasName').val(response.ShortName);
+
+        //Костыль
         $('#sms-contact').text(response.PhoneList.split(',')
             .filter(p => p.trim() !== '').length);
 
