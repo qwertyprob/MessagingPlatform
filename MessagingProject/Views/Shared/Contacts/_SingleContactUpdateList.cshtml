@@ -113,12 +113,10 @@
                 },
                 error: function(xhr) {
                     let errorMessage = xhr.responseJSON?.message || "Ошибка создания контакта";
-                    alert("Ошибка: " + errorMessage);
                 }
             });
         }).catch(function(error) {
             console.error("Ошибка получения токена:", error);
-            alert("Ошибка: " + error);
         });
     }
 

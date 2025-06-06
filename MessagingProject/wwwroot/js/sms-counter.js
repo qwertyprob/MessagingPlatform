@@ -1,27 +1,29 @@
 ﻿//Counter
-$('#multi-select-sms').on('change', function () {
-    updateEmailCount();
+$('#multi-select').on('change', function () {
+    updateSmsCount();
 });
 
-//Counter method ajax request
-function updateEmailCount() {
-    let selectedValues = $('#multi-select-sms').val() || [];
-    let clientInput = selectedValues.join(',');
-
-    let selectedOptionIds = $('#multi-select-sms option:selected').map(function () {
+function updateSmsCount() {
+    let selectedIds = $('#multi-select option:selected').map(function () {
         return this.id;
     }).get();
-    let clientID = selectedOptionIds.join(',');
+
+    let selectedNames = $('#multi-select option:selected').map(function () {
+        return $(this).val(); 
+    }).get();
+
+    let clientID = selectedIds.join(',');
+    let phoneList = selectedNames.join(',');
 
     $.ajax({
-        url: '/Email/GetEmailsCount',
+        url: '/Sms/NumbersCount',
         type: 'GET',
-        data: { clientInput: clientInput, clientID: clientID },
+        data: { phoneList: phoneList, clientID: clientID },
         success: function (count) {
-            $('#email-count').text(count);
+            $('#sms-contact').text(count);
         },
         error: function () {
-            $('#email-count').text("Error!");
+            $('#sms-contact').text("Error!");
         }
     });
 }

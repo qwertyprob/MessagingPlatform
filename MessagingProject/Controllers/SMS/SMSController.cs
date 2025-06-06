@@ -160,11 +160,12 @@ namespace MessagingProject.Controllers.SMS
             var token = _userService.GetToken();
             try
             {
-                clientId = "493";
-                var contacts = await _contactService.GetNumbersFromContactListAsync(token,clientId);
-                
+                var contactsFromInput = await _contactService.GetNumbersFromContactListAsync(token,clientId) ?? string.Empty;
+                var phoneListId = this.ExtractPhones(phoneList) ?? string.Empty;
+                var finallyMergedContacts = this.MergeNumbersStringsToList(contactsFromInput, phoneListId);
+                int count = finallyMergedContacts?.Count ?? 0;
 
-                return Ok();
+                return Ok(count);
             }
             catch (Exception)
             {
@@ -205,5 +206,23 @@ namespace MessagingProject.Controllers.SMS
             return string.Join(", ", allPhones);
         }
 
+        List<string> MergeNumbersStringsToList(string phones1, string phones2)
+        {
+            var list1 = string.IsNullOrWhiteSpace(phones1)
+                ? new List<string>()
+                : phones1.Split(',')
+                         .Select(e => e.Trim().ToLower())
+                         .Where(e => !string.IsNullOrEmpty(e))
+                         .ToList();
+
+            var list2 = string.IsNullOrWhiteSpace(phones2)
+                ? new List<string>()
+                : phones2.Split(',')
+                         .Select(e => e.Trim().ToLower())
+                         .Where(e => !string.IsNullOrEmpty(e))
+                         .ToList();
+
+            return list1.Concat(list2).Distinct().ToList();
+        }
     }
 }

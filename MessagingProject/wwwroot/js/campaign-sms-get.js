@@ -14,8 +14,12 @@ $(function () {
     let campaignId = getCampaignId();
     if (campaignId != null && campaignId != undefined) {
         console.log('updatemode');
-        getCampaignSms(campaignId);
-        getAlias();
+        let campaign = getCampaignSms(campaignId);
+        //Костыль
+        $('#sms-contact').text(campaign.PhoneList.split(',')
+            .filter(p => p.trim() !== '').length);
+
+        aliasList = getAlias();
 
 
     }
@@ -38,6 +42,7 @@ async function getCampaignSms(id) {
 
         campaign = response;
 
+
         $('#sendName').val(response.Name);
         $('#description').val(response.Description);
         $('#smsMessage').val(response.Message);
@@ -48,6 +53,8 @@ async function getCampaignSms(id) {
         //Костыль
         $('#sms-contact').text(response.PhoneList.split(',')
             .filter(p => p.trim() !== '').length);
+
+        await getAlias(campaign.ShortName);
 
         let selectedContacts = response.ContactListID ? response.ContactListID.split(',') : [];
 
@@ -62,6 +69,8 @@ async function getCampaignSms(id) {
         console.error('Error fetching campaign:', error);
     }
 }
+
+
 
 //GET ALL CONTACTS
 function getContact(selectedContacts = []) {
@@ -91,21 +100,27 @@ function getContact(selectedContacts = []) {
     });
 }
 
-function getAlias() {
+function getAlias(shortName) {
     $.ajax({
         url: '/Sms/ESMAlias',
         type: 'GET',
         success: function (response) {
             $('#aliasName').empty();
+
             response.forEach(function (alias) {
                 $('#aliasName').append(`<option value="${alias}">${alias}</option>`);
             });
+
+            if (shortName && response.includes(shortName)) {
+                $('#aliasName').val(shortName).trigger('change');
+            }
         },
         error: function (xhr, status, error) {
             console.error('Error fetching alias list:', status, error);
         }
     });
 }
+
 
 
 
