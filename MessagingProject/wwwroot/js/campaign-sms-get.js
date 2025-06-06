@@ -59,7 +59,7 @@ async function getCampaignSms(id) {
         let selectedContacts = response.ContactListID ? response.ContactListID.split(',') : [];
 
         const phones = response.PhoneList.split(',').filter(e => e.trim() !== '');
-        const $counter = $('#sms-count');
+        const $counter = $('#sms-contact');
 
         $counter.text(phones.length);
 
