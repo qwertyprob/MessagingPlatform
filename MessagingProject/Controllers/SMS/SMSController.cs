@@ -1,7 +1,9 @@
 ﻿using MessagingProject.Abstractions;
+using MessagingProject.DIContainer;
 using MessagingProject.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 
 namespace MessagingProject.Controllers.SMS
 {
@@ -13,11 +15,13 @@ namespace MessagingProject.Controllers.SMS
         readonly IAuthService _authService;
         readonly IUserService _userService;
         readonly ISMSService _smsService;
-        public SMSController(IAuthService authService, IUserService userService, ISMSService smsService) : base(authService)
+        readonly IContactService _contactService;
+        public SMSController(IAuthService authService, IUserService userService, ISMSService smsService, IContactService contactService) : base(authService)
         {
             _authService = authService;
             _userService = userService;
             _smsService = smsService;
+            _contactService = contactService;
         }
         [Route("CreateSms")]
         public IActionResult CreateSms()
@@ -146,6 +150,59 @@ namespace MessagingProject.Controllers.SMS
                 Console.WriteLine($"Error: {ex.Message}");
                 return StatusCode(500, "An unexpected error occurred.");
             }
+        }
+
+
+        [HttpGet]
+        [Route("NumbersCount")]
+        public async Task<IActionResult> GetNumbersCount(string phoneList, string clientId)
+        {
+            var token = _userService.GetToken();
+            try
+            {
+                clientId = "493";
+                var contacts = await _contactService.GetNumbersFromContactListAsync(token,clientId);
+                
+
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return Ok(0);
+            }
+        }
+
+        string ExtractPhones(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return string.Empty;
+
+            var phoneRegex = new Regex(@"^\+?[\d\s\-\(\)]{5,}$");
+
+            var parts = input.Split(',')
+                             .Select(p => p.Trim());
+
+            var phones = parts.Where(p => phoneRegex.IsMatch(p));
+
+            if (!phones.Any())
+                return string.Empty;
+
+            return string.Join(", ", phones);
+        }
+
+        string MergePhoneStrings(string s1, string s2)
+        {
+            var phones1 = s1.Split(',')
+                            .Select(e => e.Trim())
+                            .Where(e => !string.IsNullOrEmpty(e));
+
+            var phones2 = s2.Split(',')
+                            .Select(e => e.Trim())
+                            .Where(e => !string.IsNullOrEmpty(e));
+
+            var allPhones = phones1.Union(phones2);
+
+            return string.Join(", ", allPhones);
         }
 
     }

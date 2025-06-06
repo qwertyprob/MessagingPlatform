@@ -240,6 +240,42 @@ namespace MessagingProject.Services
             return string.Join(",", allEmails.Distinct()); 
         }
 
+        // FOR CREATESMS
+        public async Task<string> GetNumbersFromContactListAsync(string token, string contactList)
+        {
+            if (string.IsNullOrWhiteSpace(contactList))
+                return string.Empty;
+
+            var ids = contactList
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(idStr => int.TryParse(idStr, out var id) ? id : (int?)null)
+                .Where(id => id.HasValue)
+                .Select(id => id.Value)
+                .ToList();
+
+            var allPhones = new List<string>();
+
+            foreach (var id in ids)
+            {
+                var contacts = await GetContactHashedData(token, id);
+
+                if (contacts != null)
+                {
+                    var phones = contacts
+                        .Where(c => !string.IsNullOrWhiteSpace(c.Phone))
+                        .Select(c => c.Phone);
+
+                    allPhones.AddRange(phones);
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+
+            return string.Join(",", allPhones.Distinct());
+        }
+
 
 
 
