@@ -32,7 +32,7 @@
                     <!-- Message -->
                     <div class="mb-3">
                         <label for="smsMessage" class="form-label">Message</label>
-                        <textarea class="form-control" id="smsMessage" rows="4" style="resize: none; height: 10em; overflow-y: auto;"></textarea>
+                        <textarea class="form-control" id="smsMessage" rows="4" style="resize: none; height: 10em; overflow-y: auto;">ыыыыыыыыыыы</textarea>
                     </div>
 
                     <!-- Counters -->
@@ -72,11 +72,12 @@
                     <!-- Contact List -->
                     <div class="col-12 mb-3">
                         <label for="multi-select">@MessagingProject.Resources.Resource.Contats</label>
-                        <div class="sms-wrapper">
-                            <select id="multi-select" multiple="multiple" style="width: 100%;"></select>
+                        <div class="email-wrapper">
+                            <select id="multi-select" multiple="multiple" style="width: 100%;">
+                            </select>
+                            <span id="sms-contact" class="email-counter">0</span>
                         </div>
                         <span class="text-danger error-message" id="error-multi-select"></span>
-
                     </div>
 
 
@@ -125,7 +126,35 @@
 @section Scripts {
         
 
-   
+    <script>
+        //         //Counter
+        // $('#multi-select').on('change', function () {
+        //     updateEmailCount();
+        // });
+
+        // //Counter method ajax request
+        // function updateEmailCount() {
+        //     let selectedValues = $('#multi-select').val() || [];
+        //     let clientInput = selectedValues.join(',');
+
+        //     let selectedOptionIds = $('#multi-select option:selected').map(function () {
+        //         return this.id;
+        //     }).get();
+        //     let clientID = selectedOptionIds.join(',');
+
+        //     $.ajax({
+        //         url: '/Email/GetEmailsCount',
+        //         type: 'GET',
+        //         data: { clientInput: clientInput, clientID: clientID },
+        //         success: function (count) {
+        //             $('#email-count').text(count);
+        //         },
+        //         error: function () {
+        //             $('#email-count').text("Error!");
+        //         }
+        //     });
+        // }
+    </script>
     <script src="~/js/campaign-sms-ui.js"></script>
     <script src="~/js/campaign-sms-get.js"></script>
 }

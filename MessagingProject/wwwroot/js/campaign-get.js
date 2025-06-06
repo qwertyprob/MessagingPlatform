@@ -12,6 +12,7 @@ $(function () {
     if (campaignId != null && campaignId != undefined) {
         console.log('updatemode');
         getCampaign(campaignId);
+        
 
 
 
