@@ -38,7 +38,7 @@
 
                     <!-- Counters -->
                     <div class="row mb-0 text-nowrap">
-                        <!-- Symbols -->
+                        <!-- Characters -->
                         <div class="col-12 col-md-4 d-flex justify-content-between align-items-center mb-1">
                             <span class="label-text">@MessagingProject.Resources.Resource.CharactersAllowed:</span>
                             <span id="sms-max" class="sms-counter ms-2">160</span>
@@ -53,14 +53,12 @@
                         <!-- SMS -->
                         <div class="col-12 col-md-4 d-flex justify-content-between align-items-center mb-1">
                             <span class="label-text">@MessagingProject.Resources.Resource.SmsNumber:</span>
-                            <span id="sms-count" class="sms-counter">0</span>
+                            <span id="sms-count" class="sms-counter">1</span>
                         </div>
                     </div>
-
+                    <!-- Alert text / Validation text -->
                     <span class="sms-counter over-limit my-0" id="smsCountSpan" style="display:none;"></span>
                     <span class="text-danger error-message" id="error-messageSms"></span>
-
-
 
 
                     <!-- Alias Name Dropdown -->
@@ -77,18 +75,16 @@
                         <div class="email-wrapper">
                             <select id="multi-select" multiple="multiple" style="width: 100%;">
                             </select>
+                            <!-- Counter -->
                             <span id="sms-contact" class="email-counter"></span>
                         </div>
                         <span class="text-danger error-message" id="error-multi-select"></span>
                     </div>
 
-
-
-
-                    <!-- SMS Schedule -->
+                    <!-- SMS Schedule Checkbox -->
                     <div class="mb-3 d-flex align-items-center flex-wrap gap-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="scheduleToggle" onchange="toggleScheduledSms()" checked>
+                            <input class="form-check-input" type="checkbox" id="scheduleToggle" checked>
                             <label class="form-check-label" for="scheduleToggle">@MessagingProject.Resources.Resource.SendNow</label>
                         </div>
                     </div>
@@ -99,6 +95,7 @@
                         <div class="form-control" id="smsScheduledDateTime"></div>
                         <span class="text-danger error-message" id="error-smsScheduledDateTime"></span>
                     </div>
+
                 </form>
 
                 <!-- Buttons -->
@@ -107,27 +104,29 @@
                         <img src="~/img/icons/send.svg" alt="Send Icon" width="20">
                         @MessagingProject.Resources.Resource.Send
                     </button>
-                    <button class="btn btn-primary d-flex align-items-center justify-content-center btn-responsive gap-2" id="btn-success" onclick="if (sendSmsValidate()) console.log('rabotaet')">
+                    <button class="btn btn-primary d-flex align-items-center justify-content-center btn-responsive gap-2" id="btn-success" onclick="if (sendSmsValidate()) saveSmsCampaign();">
                         <img src="~/img/icons/save.svg" alt="Save Icon" width="20">
                         @MessagingProject.Resources.Resource.Save
                     </button>
                 </div>
+
             </div>
 
             <!-- Phone container -->
             <div class="col-12 col-md-6 bg-white d-flex justify-content-center py-4 position-relative">
-                <img src="~/img/src/screen.png" class="img-fluid absolute" alt="Phone Frame" />
+                <img src="~/img/src/screen.png" class="img-fluid fixed-phone" alt="Phone Frame" />
                 <div id="chat-container" class="position-absolute">
                     <div class="bg-light text-dark p-2 rounded shadow-sm" id="div1" style="border-radius: 35px 35px 35px 55px; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; margin-top: 1em;"></div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
 
 @section Scripts {
-        
 
+    <script src="~/js/campaign-sms-ui.js"></script>
     <script>
        
 
@@ -138,14 +137,15 @@
         const validationMessage = "@MessagingProject.Resources.Resource.ValidationMessage";
         const validationContacts = "@MessagingProject.Resources.Resource.ValidationContacts";
         const validationScheduled = "@MessagingProject.Resources.Resource.ValidationScheduled";
-
+        
 
     </script>
-    <script src="~/js/campaign-sms-ui.js"></script>
     <script src="~/js/campaign-sms-get.js"></script>
     <script src="~/js/sms-counter.js"></script>
     <script src="~/js/sendsms-validation.js"></script>
-
+    <script src="~/js/campaign-sms-save.js"></script>
+    <script src="~/js/campaign-sms-send.js"></script>
+ 
 
 
     

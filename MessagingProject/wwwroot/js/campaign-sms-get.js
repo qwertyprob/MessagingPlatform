@@ -1,5 +1,7 @@
 ﻿let contactList = [];
 let aliasList = [];
+let campaignId = getCampaignId();
+let campaign = getCampaignSms(campaignId);
 
 function getCampaignId() {
     let params = new URLSearchParams(window.location.search);
@@ -9,32 +11,24 @@ function getCampaignId() {
 }
 
 //Main
-$(function () {
-
+$(async function () {
     let campaignId = getCampaignId();
     if (campaignId != null && campaignId != undefined) {
         console.log('updatemode');
-        let campaign = getCampaignSms(campaignId);
-        //Костыль
-        $('#sms-contact').text(campaign.PhoneList.split(',')
-            .filter(p => p.trim() !== '').length);
-
-        aliasList = getAlias();
-
-
-    }
-    else {
+        await getCampaignSms(campaignId);
+    } else {
         console.log('createMode');
         getAlias();
         getContact();
-
     }
-
 });
+
 
 // CAMPAIGN BY ID
 async function getCampaignSms(id) {
-    try {
+    if (!id) {
+        return;
+    }
         const response = await $.ajax({
             url: '/Sms/GetSmsCampaign/' + id,
             type: 'GET'
@@ -51,12 +45,13 @@ async function getCampaignSms(id) {
         $('#aliasName').val(response.ShortName);
 
         //Костыль
-        $('#sms-contact').text(response.PhoneList.split(',')
+        $('#sms-contact').text(response.ContactListID.split(',')
             .filter(p => p.trim() !== '').length);
 
         await getAlias(campaign.ShortName);
 
         let selectedContacts = response.ContactListID ? response.ContactListID.split(',') : [];
+        getContact(selectedContacts);
 
         const phones = response.PhoneList.split(',').filter(e => e.trim() !== '');
         const $counter = $('#sms-count');
@@ -65,40 +60,60 @@ async function getCampaignSms(id) {
 
         getContact(selectedContacts);
 
-    } catch (error) {
-        console.error('Error fetching campaign:', error);
-    }
+    
+    
 }
 
 
 
 //GET ALL CONTACTS
-function getContact(selectedContacts = []) {
-    $.ajax({
+async function getContact(selectedContactsRaw = []) {
+    const response = await $.ajax({
         url: '/Contacts/GetContactLists',
-        type: 'GET',
-        success: function (response) {
-            $('#multi-select').empty();
+        type: 'GET'
+    });
 
-            response.forEach(function (contact) {
+    $('#multi-select').empty();
+
+    //Hashmap name,id
+    const nameToIdMap = {};
+    const knownIds = new Set();
+
+    response.forEach(function (contact) {
+        $('#multi-select').append(
+            `<option value="${contact.Id}">${contact.Name}</option>`
+        );
+        nameToIdMap[contact.Name.trim()] = contact.Id;
+        knownIds.add(contact.Id.toString());
+    });
+
+    const selectedContactIds = [];
+
+    selectedContactsRaw.forEach(function (rawValue) {
+        const trimmed = rawValue.trim();
+
+        // if Name, search Id
+        const mappedId = nameToIdMap[trimmed];
+
+        if (mappedId) {
+            selectedContactIds.push(mappedId);
+        } else {
+            //add phonenumber
+            if (!$(`#multi-select option[value="${trimmed}"]`).length) {
                 $('#multi-select').append(
-                    `<option id="${contact.Id}" value="${contact.Name}">${contact.Name}</option>`
+                    `<option value="${trimmed}">${trimmed}</option>`
                 );
-            });
-
-            //Parse Emails input..
-            selectedContacts.forEach(function (val) {
-                if ($(`#multi-select option[value="${val.trim()}"]`).length === 0) {
-                    $('#multi-select').append(`<option value="${val.trim()}">${val.trim()}</option>`);
-                }
-            });
-            $('#multi-select').val(selectedContacts).trigger('change');
-        },
-        error: function (xhr, status, error) {
-            console.error('Error fetching contact lists:', status, error);
+            }
+            selectedContactIds.push(trimmed);
         }
     });
+
+    $('#multi-select').val(selectedContactIds).trigger('change');
 }
+
+
+
+
 
 function getAlias(shortName) {
     $.ajax({

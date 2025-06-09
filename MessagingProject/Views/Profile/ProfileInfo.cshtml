@@ -9,28 +9,28 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-12 col-md-10 p-0 " style="background:none;border:0px;">
-            <h1 style="font-weight:600;">Settings</h1>
+            <h1 style="font-weight:600;">@MessagingProject.Resources.Resource.Settings</h1>
         </div>
         @await Html.PartialAsync("_ProfileNavBar")
 
         <div class="col-md-9 col-12 bg-white p-4">
-            <h3 class="section-title">Edit Profile</h3>
+            <h3 class="section-title">@MessagingProject.Resources.Resource.EditProfile</h3>
             <form>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">First Name</label>
+                        <label class="form-label">@MessagingProject.Resources.Resource.Firstname</label>
                         <input type="text" class="form-control" value="@Model["FirstName"]" disabled>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Last Name</label>
+                        <label class="form-label">@MessagingProject.Resources.Resource.Lastname</label>
                         <input type="text" class="form-control" value="@Model["LastName"]" disabled>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">E-mail</label>
+                        <label class="form-label">@MessagingProject.Resources.Resource.Email</label>
                         <input type="email" class="form-control" value="@Model["Email"]" disabled>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Phone Number</label>
+                        <label class="form-label">@MessagingProject.Resources.Resource.Phone</label>
                         <input type="text" class="form-control" value="@Model["Phone"]" disabled>
                     </div>
                 </div>

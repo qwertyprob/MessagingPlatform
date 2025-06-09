@@ -1,4 +1,5 @@
 ﻿
+//ISO DATE
 function toLocalIsoStringWithOffset(date) {
     const pad = (n) => n.toString().padStart(2, '0');
     const tzOffset = -date.getTimezoneOffset();
@@ -9,61 +10,66 @@ function toLocalIsoStringWithOffset(date) {
     return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:00${sign}${offsetHours}:${offsetMinutes}`;
 }
 
-async function saveCampaign() {
-    let token = await getToken();
 
-    let template = $('#templateBody').val();
+async function saveSmsCampaign() {
+
+    let token = await getToken();
+    //Iso Custom date
+    let now = new Date();
+    let localCreated = toLocalIsoStringWithOffset(now);
+
+    //ID contacts
     let selectedIds = $('#multi-select option:selected').map(function () {
         return $(this).attr('id');
     }).get();
 
-    let now = new Date();
-    let localCreated = toLocalIsoStringWithOffset(now);
-
-    let scheduledDate = $('#scheduledDateTime').dxDateBox('instance').option('value');
+    //Scheduled date
+    let scheduledDate = $('#smsScheduledDateTime').dxDateBox('instance').option('value');
     let localScheduled = scheduledDate ? toLocalIsoStringWithOffset(new Date(scheduledDate)) : localCreated;
 
+    //true if on send now
     let isSendNow = $('#scheduleToggle').is(':checked');
 
     let request = {
         token: token,
         id: campaignId || null,
         name: $('#sendName').val(),
-        subject: $('#templateSubject').val(),
-        body: template || campaign.Body || '',
-        contactList: selectedIds.join(',') || campaign.ContactList,
-        created: campaign.createDate || localCreated,
-        scheduled: isSendNow ? localCreated : localScheduled,
+        description: $("#description").val(),
+        message: $("#smsMessage").val(),
+        shortName: $("#aliasName").val(),
+        phoneList: selectedIds.join(',') || campaign.ContactListId,
+        contactListId: ($('#multi-select').val() || []).join(','),
+        contactListNames: ($('#multi-select option:selected').map(function () {
+            return $(this).text();
+        }).get() || []).join(','),
+        createDate: campaign.createDate || localCreated,
+        scheduledDate: isSendNow ? localCreated : localScheduled,
         status: campaign.Status || 0,
-        template: parseInt($('#templateName').val()) || campaign.Template,
-        contactListID: ($('#multi-select').val() || []).join(','),
-        replyTo: $('#replyEmail').val() || ''
-    };
+        
 
+    }
     if (request.id == null) {
         delete request.id;
     }
 
-    console.log("Schedule toggle is checked:", isSendNow);
-    console.log("Scheduled value sent:", request.scheduled);
+    console.log(request);
 
     $.ajax({
-        url: '/Email/UpsertCampaign',
+        url: '/Sms/UpsertCampgaign',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(request),
         success: function () {
             console.log('Campaign saved:');
-            window.location.href = "/Email/MailingList";
+            window.location.href = "/SMS/SmsNewsLetters";
         },
         error: function (xhr, status, error) {
             console.error("Ошибка при сохранении кампании:", error);
         }
     });
+
+
 }
-
-
-
 
 async function getToken() {
     try {
@@ -77,4 +83,3 @@ async function getToken() {
         return null;
     }
 }
-

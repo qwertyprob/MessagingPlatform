@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 
 namespace MessagingProject.Controllers.Profile
 {
-    [Authorize]
+    [Route("Profile")]
     public class ProfileController : BaseController
     {
         private readonly IAuthService _authService;
@@ -25,17 +25,19 @@ namespace MessagingProject.Controllers.Profile
             _validator = validator;
             _userService = userService;
         }
+        [Authorize]
         [Route("/EmailSignature")]
         public IActionResult EmailSignature()
         {
             return View();
         }
-
+        [Authorize]
         [Route("/ChangePassword")]
         public IActionResult ChangePassword()
         {
             return View();
         }
+        [Authorize]
         [Route("/Profile")]
         public IActionResult ProfileInfo()
         {
@@ -69,111 +71,6 @@ namespace MessagingProject.Controllers.Profile
 
 
             return View();
-
-
-        }
-
-
-
-
-
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("/ScreenLock")]
-        public async Task<IActionResult> LoginUser([FromForm] LoginViewModel model)
-
-
-        {
-
-
-            try
-
-
-            {
-
-
-                var validationResult = await _validator.ValidateAsync(model);
-
-
-                if (validationResult.IsValid)
-
-
-                {
-
-
-                    var authResponse = await _authService.AuthenticateUserAsync(model);
-
-
-                    await _authService.SignInUserAsync(authResponse, model);
-
-
-                    return Redirect("/");
-
-
-
-
-
-                }
-
-
-                ViewBag.Claims = GetUserClaims();
-
-
-                var claims = GetUserClaims();
-
-
-                HttpContext.Session.SetString("Email", claims["Email"]);
-
-
-                validationResult.AddToModelState(ModelState);
-
-
-
-
-
-
-
-
-                return View("ScreenLock", model);
-
-
-
-
-
-
-
-
-            }
-
-
-            catch (UnauthorizedAccessException)
-
-
-            {
-
-
-                var errorMessage = $"* {Resources.ValidateResource.Invalid}";
-
-
-                ViewData.ModelState.AddModelError("Email", errorMessage);
-
-
-                return View("Index", model);
-
-
-            }
-
-
-            catch (Exception ex)
-
-
-            {
-
-
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-
-
-            }
 
 
         }

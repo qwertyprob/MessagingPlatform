@@ -150,8 +150,7 @@ async function getCampaign(id) {
         $('#templateSubject').val(response.Subject);
         $('#templateBody').val(response.Body); 
 
-        let selectedContacts = response.ContactListID ? response.ContactListID.split(',') : [];
-
+ 
         const emails = response.ContactList.split(',').filter(e => e.trim() !== '');
         const $counter = $('#email-count');
 

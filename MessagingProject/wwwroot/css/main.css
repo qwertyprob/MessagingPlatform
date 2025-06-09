@@ -108,14 +108,21 @@ a, li, ul {
 }
 
 #chat-container {
-    position: absolute;
+    position: fixed; 
     top: 15%;
     left: 34%;
     width: 25%;
     height: 70%;
     overflow-y: auto;
-    
+    z-index: 10;
 }
+.chat-wrapper {
+    position: relative;
+    height: 600px; 
+    overflow: hidden;
+}
+
+
 
 /*Pencil*/
 .btn-transparent:hover {

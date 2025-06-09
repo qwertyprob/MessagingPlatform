@@ -257,6 +257,9 @@ namespace MessagingProject.Services
 
             foreach (var id in ids)
             {
+                if (id > 1_000_000 && id < 100_000_000) //check if not phone
+                    continue;
+
                 var contacts = await GetContactHashedData(token, id);
 
                 if (contacts != null)

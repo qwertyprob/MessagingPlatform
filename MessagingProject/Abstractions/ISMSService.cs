@@ -11,5 +11,6 @@ namespace MessagingProject.Services
         Task<ESMSettingsResponseModel> GetESMSettings(string token);
         Task<BaseResponseModel> DeleteSmsCampaign(string token, int id);
         Task<CampaignModel?> GetSmsGampaignById(string token, int id);
+        Task<BaseResponseModel> UpsertSmsCampaign(UpsertCampaignRequestModel request);
     }
 }

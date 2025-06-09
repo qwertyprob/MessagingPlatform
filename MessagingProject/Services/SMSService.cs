@@ -2,6 +2,8 @@
 using MessagingProject.Models;
 using MessagingProject.Models.SMS;
 using Newtonsoft.Json;
+using System.Net;
+using System.Text;
 
 namespace MessagingProject.Services
 {
@@ -58,7 +60,7 @@ namespace MessagingProject.Services
 
             if (!response.IsSuccessStatusCode)
             {
-                
+
                 throw new HttpRequestException($"Bad request:{response.StatusCode}");
             }
 
@@ -73,7 +75,7 @@ namespace MessagingProject.Services
             {
                 throw new Exception(responseModel?.ErrorMessage);
             }
-            
+
             return responseModel;
         }
 
@@ -85,7 +87,7 @@ namespace MessagingProject.Services
 
             if (campaign == null)
             {
-                return null; 
+                return null;
             }
 
             return campaign;
@@ -152,7 +154,51 @@ namespace MessagingProject.Services
 
         }
 
-       
+        //CREATE&UPDATE CAMPAIGN
+        public async Task<BaseResponseModel> UpsertSmsCampaign(UpsertCampaignRequestModel request)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(request);
 
+                var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _client.PostAsync("CampaignUpdate", requestContent);
+
+                if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.Unauthorized)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Bad request: Status - {response.StatusCode}, Response - {errorContent}");
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+
+                if (string.IsNullOrWhiteSpace(content))
+                {
+                    throw new Exception("Bad response: content is null or empty.");
+                }
+
+                var responseModel = JsonConvert.DeserializeObject<BaseResponseModel>(content);
+                return responseModel ?? throw new Exception("Deserialized response is null.");
+
+
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new ApplicationException("HTTP request error while updating campaign.", ex);
+            }
+            catch (JsonException ex)
+            {
+                throw new ApplicationException("JSON deserialization error.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Unexpected error during campaign upsert.", ex);
+            }
+
+
+
+
+        }
     }
 }

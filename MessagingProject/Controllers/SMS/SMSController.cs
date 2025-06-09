@@ -1,9 +1,13 @@
 ﻿using MessagingProject.Abstractions;
 using MessagingProject.DIContainer;
+using MessagingProject.Models.SMS;
 using MessagingProject.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text.Json;
 using System.Text.RegularExpressions;
+using static DevExpress.Data.Helpers.FindSearchRichParser;
 
 namespace MessagingProject.Controllers.SMS
 {
@@ -151,18 +155,57 @@ namespace MessagingProject.Controllers.SMS
                 return StatusCode(500, "An unexpected error occurred.");
             }
         }
+        //UPDATE
+        [HttpPost]
+        [Route("UpsertCampgaign")]
+        public async Task<IActionResult> UpsertCampaign([FromBody] UpsertCampaignRequestModel request)
+        {
+            
+            request.Token = _userService.GetToken();
+            try
+            {
+                //PARSING CONTACTS 
+                var contactsFromInput = await _contactService.GetNumbersFromContactListAsync(request.Token, request.ContactListID) ?? string.Empty;
+                //Extract from UI input
+                request.PhoneList = ExtractPhones(request.ContactListID) ?? string.Empty;
 
+                request.PhoneList = MergePhoneStrings(contactsFromInput, request.PhoneList);
+                request.ContactListID = request.ContactListNames;
 
+                Console.WriteLine(JsonConvert.SerializeObject(request));
+
+                //Заглушка
+                var response = await _smsService.UpsertSmsCampaign(request);
+
+                if (response.ErrorCode == 0)
+                {
+                    return Ok(response);
+                }
+                return BadRequest(response.ErrorMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine($"Unauthorized: {ex.Message}");
+                return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+        }
+
+        //COUNTER & CONTACTLIST PARSING
         [HttpGet]
         [Route("NumbersCount")]
-        public async Task<IActionResult> GetNumbersCount(string phoneList, string clientId)
+        public async Task<IActionResult> GetNumbersCount(string phoneList, string clientID)
         {
             var token = _userService.GetToken();
             try
             {
-                var contactsFromInput = await _contactService.GetNumbersFromContactListAsync(token,clientId) ?? string.Empty;
-                var phoneListId = this.ExtractPhones(phoneList) ?? string.Empty;
-                var finallyMergedContacts = this.MergeNumbersStringsToList(contactsFromInput, phoneListId);
+                var contactsFromInput = await _contactService.GetNumbersFromContactListAsync(token, clientID) ?? string.Empty;
+                var phoneListNumbers = this.ExtractPhones(phoneList) ?? string.Empty;
+                var finallyMergedContacts = this.MergeNumbersStringsToList(contactsFromInput, phoneListNumbers);
                 int count = finallyMergedContacts?.Count ?? 0;
 
                 return Ok(count);
@@ -172,7 +215,6 @@ namespace MessagingProject.Controllers.SMS
                 return Ok(0);
             }
         }
-
         string ExtractPhones(string input)
         {
             if (string.IsNullOrWhiteSpace(input))

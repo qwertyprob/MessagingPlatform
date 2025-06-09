@@ -11,9 +11,11 @@
             columns.Add().DataField("Name").Caption(MessagingProject.Resources.Resource.Name);
             columns.Add().DataField("Description").Caption(MessagingProject.Resources.Resource.Description);
             columns.Add().DataField("CreateDate")
-                .Caption(MessagingProject.Resources.Resource.Date)
-                .DataType(GridColumnDataType.Date)
-                .Format("dd-MM-yyyy HH:mm");
+                         .Caption(MessagingProject.Resources.Resource.Date)
+                         .DataType(GridColumnDataType.Date)
+                         .Format("dd-MM-yyyy HH:mm")
+                         .SortOrder(SortOrder.Desc);
+
 
             columns.Add().DataField("ScheduledDate").Caption(MessagingProject.Resources.Resource.Schedule)
                 .DataType(GridColumnDataType.Date)
@@ -41,6 +43,7 @@
             .Mode(GridSortingMode.Multiple)
             .AscendingText("FormattedCreateParsedDate")
             .DescendingText("Created Descending")
+
         )
         .Toolbar(toolbar =>
         {

@@ -7,9 +7,7 @@
         $('form input, form select, form textarea, form button').attr('disabled', true);
         $('#btn-success').prop('disabled', true);
         $('#btn-primary').prop('disabled', true);
-        
-    } 
- 
+    }
 
     // Select2 for contacts
     $('#multi-select').select2({
@@ -52,9 +50,6 @@
             $('#chat-container').show();
         }
     }
-
-    $('#smsMessage').on('input', updateChatPreview);
-    updateChatPreview(); 
 
     // Character counter logic
     function countCharacters(text) {
@@ -106,13 +101,17 @@
 
         if (isEdit && isEdit.toLowerCase() === 'false') {
             $('#smsCountSpan').hide();
-
-
         }
 
         $('#sms-count').text(smsCount);
     }
 
-    $('#smsMessage').on('input', updateCharCount);
+    $('#smsMessage').on('input', function () {
+        updateCharCount();
+        updateChatPreview();
+    });
+
+    // init 
     updateCharCount();
+    updateChatPreview();
 });

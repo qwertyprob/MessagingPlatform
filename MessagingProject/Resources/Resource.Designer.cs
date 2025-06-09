@@ -79,6 +79,15 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Password.
+        /// </summary>
+        public static string ChangePassword {
+            get {
+                return ResourceManager.GetString("ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Characters allowed.
         /// </summary>
         public static string CharactersAllowed {
@@ -196,6 +205,15 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Profile.
+        /// </summary>
+        public static string EditProfile {
+            get {
+                return ResourceManager.GetString("EditProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete this item? Please enter.
         /// </summary>
         public static string Elem1 {
@@ -237,6 +255,15 @@ namespace MessagingProject.Resources {
         public static string EmailRequset {
             get {
                 return ResourceManager.GetString("EmailRequset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email Signature.
+        /// </summary>
+        public static string EmailSignature {
+            get {
+                return ResourceManager.GetString("EmailSignature", resourceCulture);
             }
         }
         
@@ -295,6 +322,15 @@ namespace MessagingProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Firstname.
+        /// </summary>
+        public static string Firstname {
+            get {
+                return ResourceManager.GetString("Firstname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forgot password?.
         /// </summary>
         public static string Forgot {
@@ -327,6 +363,15 @@ namespace MessagingProject.Resources {
         public static string instant {
             get {
                 return ResourceManager.GetString("instant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lastname.
+        /// </summary>
+        public static string Lastname {
+            get {
+                return ResourceManager.GetString("Lastname", resourceCulture);
             }
         }
         

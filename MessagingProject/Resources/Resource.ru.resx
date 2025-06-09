@@ -366,4 +366,19 @@
   <data name="ValidationMessage" xml:space="preserve">
     <value>Пожалуйста, введите сообщение.</value>
   </data>
+  <data name="Firstname" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="Lastname" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="EditProfile" xml:space="preserve">
+    <value>Изменить профиль</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Изменить пароль</value>
+  </data>
+  <data name="EmailSignature" xml:space="preserve">
+    <value>Эмейл подпись</value>
+  </data>
 </root>
