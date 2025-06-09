@@ -12,14 +12,14 @@ $(function () {
     if (campaignId != null && campaignId != undefined) {
         console.log('updatemode');
         getCampaign(campaignId);
-        
+
 
 
 
     }
     else if (templateId != null && templateId != undefined) {
         console.log('templatemode');
-        
+
         getTemplates();
         getContact();
 
@@ -57,7 +57,7 @@ function getTemplate(id) {
         type: 'GET',
         success: function (response) {
             if (response.ImageTemplate) {
-                
+
                 $('#imageField').attr('src', response.ImageTemplate);
                 $('#templateName').empty();
                 $('#templateName').append(`<option value="${response.Id}" selected>${response.Name}</option>`);
@@ -96,7 +96,7 @@ function getTemplates(selectedTemplateId = null) {
 
                     $('#templateName').val(idToSelect).trigger('change');
 
-                    resolve(); 
+                    resolve();
                 } else {
                     console.log('No templates in the response.');
                     resolve();
@@ -125,7 +125,7 @@ $('#templateName').on('change', function () {
         $('#imageField').attr('src', selectedTemplate.ImageTemplate);
         $('#templateBody').val(selectedTemplate.Body);
         console.log(selectedTemplate.Body);
-        
+
     } else {
 
         console.log('Template not found for ID:', selectedId);
@@ -144,18 +144,19 @@ async function getCampaign(id) {
         campaign = response;
 
         let templateId = response.Template;
-        await getTemplates(templateId); 
+        await getTemplates(templateId);
 
         $('#sendName').val(response.Name);
         $('#templateSubject').val(response.Subject);
-        $('#templateBody').val(response.Body); 
+        $('#templateBody').val(response.Body);
 
- 
+        let selectedContacts = response.ContactListID ? response.ContactListID.split(',') : [];
+
         const emails = response.ContactList.split(',').filter(e => e.trim() !== '');
         const $counter = $('#email-count');
 
         $counter.text(emails.length);
-        
+
 
         getContact(selectedContacts);
 
@@ -201,15 +202,15 @@ function getContactById(id) {
             type: 'GET',
             success: function (response) {
                 if (response && response.data) {
-                    resolve(response.data); 
+                    resolve(response.data);
                 } else {
                     console.warn('Empty data for id:', id);
-                    resolve(null); 
+                    resolve(null);
                 }
             },
             error: function (xhr, status, error) {
                 console.error('Ошибка при получении ID ' + id + ':', error);
-                resolve(null); 
+                resolve(null);
             }
         });
     });
@@ -228,5 +229,4 @@ async function getContactsByIds(ids) {
 
     return contacts;
 }
-
 
